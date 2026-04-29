@@ -1,0 +1,25 @@
+.header-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1.5rem;
+    height: 10vh;
+    background-image: linear-gradient(to left top, #9ba0a5, #b4b7bb, #cdced1, #e6e6e8, #ffffff);
+}
+.text-container{
+    color: #fff;
+    font-style: bold;
+}
+.text-container h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-shadow: 1px 1px 2px #000;
+}
+@media (max-height: 720px) {
+    .header-container {
+        height: 15vh;
+    }
+    .img-container{
+        display: none;
+    }
+}

@@ -1,0 +1,24 @@
+.card {
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 12px;
+    padding: 1.25rem;
+    transition: border-color 0.15s ease;
+    height: 40vh;
+    width: 20%;
+    background-color: beige;
+    margin: 0 2rem;
+    transition: all 0.5s ease;
+    cursor: pointer;
+}
+.card:hover {
+  border-color: rgba(0, 0, 0, 0.25);
+  height: 42vh;
+  width: 22%;
+}
+.title-container h6 {
+    text-align: center;
+    border-bottom: 1px ridge rgba(0, 0, 0, 0.5);
+    padding-bottom: 1.20rem;
+    color: #000;
+    font-size: 1.5rem;
+}
