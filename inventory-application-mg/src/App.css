@@ -1,5 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
-*,::after,::before{
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap");
+*,
+::after,
+::before {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -9,4 +11,16 @@
   font-weight: 400;
   font-style: normal;
   inherits: true;
+}
+
+.sticky-header {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  z-index: 1000;
+}
+.content-container {
+  position: relative;
+  height: 85vh;
+  width: 100%;
 }

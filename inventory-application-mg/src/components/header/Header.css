@@ -6,6 +6,9 @@
     height: 10vh;
     background-image: linear-gradient(to left top, #9ba0a5, #b4b7bb, #cdced1, #e6e6e8, #ffffff);
 }
+.img-container {
+    cursor: pointer;
+}
 .text-container{
     color: #fff;
     font-style: bold;

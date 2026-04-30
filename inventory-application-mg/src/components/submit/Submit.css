@@ -1,0 +1,22 @@
+#company-name,
+#purchase-order-number,
+#count,
+#weight,
+#entry-date {
+  width: 70%;
+  border-radius: 5px;
+  margin: 0.25rem;
+}
+.form-container form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.form-container {
+  border: 1px ridge rgba(195, 195, 195, 0.2);
+  border-radius: 15px;
+  box-shadow: 4px 4px 10px #676666;
+  height: 85vh;
+  width: 80%;
+  margin: 0.25 0;
+}
