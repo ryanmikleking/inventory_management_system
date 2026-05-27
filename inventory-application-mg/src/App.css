@@ -20,6 +20,9 @@
   z-index: 1000;
 }
 .content-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
   height: 85vh;
   width: 100%;

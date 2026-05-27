@@ -1,6 +1,6 @@
 //import React from 'react'
 import "./Header.css";
-const Header = ({ setView }) => {
+const Header = () => {
   return (
     <header>
       <div className="header-container">
@@ -10,7 +10,6 @@ const Header = ({ setView }) => {
             alt="Monnig Global Logo"
             height={100}
             width={100}
-            onClick={setView("home")}
           />
         </div>
         <div className="text-container">

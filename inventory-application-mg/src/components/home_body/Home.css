@@ -4,10 +4,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url("/Monnig\ Painting.png");
-  opacity: 0.5;
+  background-image: url("/MG_Logo.png");
+
   background-size: cover;
   background-position: center;
+}
+a {
+  width: 20%;
+  text-decoration: none;
 }
 .card-holder {
   width: 100%;
