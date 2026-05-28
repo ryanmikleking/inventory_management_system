@@ -1,16 +1,48 @@
 #company-name,
 #purchase-order-number,
 #count,
+#product,
 #weight,
 #entry-date {
-  width: 70%;
+  width: 100%;
   border-radius: 5px;
   margin: 0.25rem;
 }
-.form-container form {
+#company-name,
+#purchase-order-number,
+#count,
+#weight,
+#entry-date,
+label {
+  margin: 0.5rem;
+}
+.form-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
+  margin-top: 2rem;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+}
+label {
+  width: 100%;
+  font-size: 1.2rem;
+  background-image: linear-gradient(
+    to left top,
+    #9ba0a5,
+    #b4b7bb,
+    #cdced1,
+    #e6e6e8
+  );
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
 }
 .form-container {
   border: 1px ridge rgba(195, 195, 195, 0.2);
@@ -19,4 +51,42 @@
   height: 85vh;
   width: 80%;
   margin: 0.25 0;
+}
+.img-preview-container {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+.img-container {
+  position: relative;
+}
+img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+.remove-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: red;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+.submit-btn {
+  background-image: linear-gradient(
+    to left top,
+    #9ba0a5,
+    #b4b7bb,
+    #cdced1,
+    #e6e6e8
+  );
+  color: #fff;
+  width: 100%;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
 }
