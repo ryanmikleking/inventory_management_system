@@ -8,6 +8,7 @@ const Card = ({ cardObj }) => {
       <div className="title-container">
         <h6>{cardObj.name}</h6>
       </div>
+      <div className={cardObj.name}></div>
     </div>
   );
 };

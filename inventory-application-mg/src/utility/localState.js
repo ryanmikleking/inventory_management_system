@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 
-export default function useLocalStorage(value) {
-  const [value, setValue] = useState([]);
-}
+// export default function useLocalStorage(value) {
+//   const [value, setValue] = useState([]);
+// }

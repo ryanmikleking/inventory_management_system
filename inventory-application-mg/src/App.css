@@ -26,4 +26,9 @@
   position: relative;
   height: 85vh;
   width: 100%;
+  background-image: url("/MG_Logo.png");
+
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
 }

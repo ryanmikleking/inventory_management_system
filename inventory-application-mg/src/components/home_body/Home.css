@@ -4,10 +4,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url("/MG_Logo.png");
 
-  background-size: cover;
-  background-position: center;
+  z-index: 10;
 }
 a {
   width: 20%;

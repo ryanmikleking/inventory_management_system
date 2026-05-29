@@ -23,3 +23,17 @@
   color: #000;
   font-size: 1.5rem;
 }
+.Submit {
+  background-image: url("/Submit.png");
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 80%;
+}
+.List {
+  background-image: url("/List.png");
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 80%;
+}

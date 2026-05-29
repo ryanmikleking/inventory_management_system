@@ -51,6 +51,8 @@ label {
   height: 85vh;
   width: 80%;
   margin: 0.25 0;
+  z-index: 10;
+  background-color: #fff;
 }
 .img-preview-container {
   display: flex;

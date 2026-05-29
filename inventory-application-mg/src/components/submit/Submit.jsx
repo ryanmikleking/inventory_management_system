@@ -4,7 +4,7 @@ import "./Submit.css";
 
 const Submit = () => {
   const [images, setImages] = useState([]);
-  //const [val, setVal] = useState(["1"]);
+  //const [values, setValues] = useState({});
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
@@ -43,7 +43,7 @@ const Submit = () => {
           </div>
         ))}
       </div>
-      <form>
+      <form onSubmit={handleSubmit}>
         <label>Input Images</label>
         <input
           type="file"
@@ -87,7 +87,7 @@ const Submit = () => {
           name="count"
           maxLength="10"
           placeholder="piece count"
-          rerquired
+          required
         />
         <input
           type="text"
