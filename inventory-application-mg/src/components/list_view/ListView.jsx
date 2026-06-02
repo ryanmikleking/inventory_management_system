@@ -67,9 +67,23 @@ const tableData = [
     weight: "10000",
     date: "9/7/2024",
   },
+  {
+    key: 9,
+    name: "Wabash",
+    po: "678",
+    count: "98",
+    weight: "1500",
+  },
+  {
+    key: 10,
+    name: "Wabash",
+    po: "678",
+    count: "98",
+    weight: "1500",
+  },
 ];
 
-const ListView = () => {
+const ListView = ({ setView }) => {
   const data = tableData;
 
   return (
@@ -94,7 +108,7 @@ const ListView = () => {
               <td>{item.name}</td>
               <td>{item.date}</td>
               <td className="edit-icon">
-                <FaEdit />
+                <FaEdit onClick={setView} />
               </td>
             </tr>
           ))}

@@ -29,6 +29,7 @@ form {
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
+  width: 50%;
 }
 label {
   width: 100%;
@@ -69,7 +70,7 @@ img {
   object-fit: cover;
   border-radius: 4px;
 }
-.remove-btn {
+.remove-image {
   position: absolute;
   top: 0;
   right: 0;
@@ -78,7 +79,12 @@ img {
   border: none;
   cursor: pointer;
 }
-.submit-btn {
+.remove-product {
+  background-color: red;
+  color: white;
+  cursor: pointer;
+}
+.btn {
   background-image: linear-gradient(
     to left top,
     #9ba0a5,
@@ -88,7 +94,14 @@ img {
   );
   color: #fff;
   width: 100%;
+  margin: 0.25rem;
   text-align: center;
   border-radius: 5px;
   cursor: pointer;
+}
+.dynamic-item {
+  margin: 0.15rem;
+  border-radius: 5px;
+  width: 15.2rem;
+  text-align: center;
 }

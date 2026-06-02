@@ -1,0 +1,8 @@
+.close {
+  color: red;
+}
+.container {
+  height: 85vh;
+  width: 100%;
+  z-index: 10;
+}

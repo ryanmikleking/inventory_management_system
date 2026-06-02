@@ -13,7 +13,7 @@ const Home = () => {
   return (
     <div className="body-container">
       {cards?.map((card) => (
-        <Link to={card.path}>
+        <Link to={card.path} key={card.key}>
           <Card cardObj={card} key={card.key} />
         </Link>
       ))}

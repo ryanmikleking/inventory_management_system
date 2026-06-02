@@ -1,10 +1,33 @@
 import { useState } from "react";
 import { IoClose } from "react-icons/io5";
+//import imagePreview from "../../utility/imagePreview";
 import "./Submit.css";
 
 const Submit = () => {
   const [images, setImages] = useState([]);
-  //const [values, setValues] = useState({});
+  const [inputFields, setInputFields] = useState([]);
+  // const [formData, setFormData] = useState([
+  //   {
+  //     images: [],
+  //     purchaseOrder: [],
+  //     poNo: "",
+  //     companyName: "",
+  //     date: "",
+  //     product:
+  //       {
+  //         productName: "",
+  //         quanity: "",
+  //         weight: "",
+  //       }[],
+
+  //   },
+  // ]);
+
+  // const [formData, setFormData] = useState([
+  //   {
+  //     name: "",
+  //   },
+  // ]);
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
@@ -24,36 +47,72 @@ const Submit = () => {
     );
   };
 
+  const addInputField = (e) => {
+    e.preventDefault();
+    const newId = inputFields.length + 1;
+    setInputFields([...inputFields, { id: newId }]);
+    console.log(inputFields.length);
+  };
+
+  const handleRemoveProduct = (indexToRemove) => {
+    setInputFields((prevInputFields) =>
+      prevInputFields.filter((_, index) => index !== indexToRemove),
+    );
+  };
+
+  // const handleChange = () => {
+  //   //handleImageChange(e);
+  //   console.log(formData);
+  // };
+  // const handleInputChange = (index, event) => {
+  //   const updatedFields = [...inputFields];
+  //   updatedFields[index][event.target.value] = event.target.value;
+  //   console.log(updatedFields);
+  //   setInputFields(updatedFields);
+  // };
+
+  //const handleChange = (e) => {};
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    // const [images, purchaseOrder, poNo, companyName, date] = e.target;
+    // setFormData(...formData, {
+    //   images,
+    //   purchaseOrder,
+    //   poNo,
+    //   companyName,
+    //   date,
+    //   product,
+    // });
+    // console.log(formData);
   };
 
   return (
     <div className="form-container">
-      <div className="img-preview-container">
-        {images.map((imgObj, index) => (
-          <div key={index} className="img-container">
-            <img src={imgObj.preview} alt="preview" />
-            <IoClose
-              onClick={() => handleRemoveImage(index)}
-              className="remove-btn"
-            >
-              Remove
-            </IoClose>
-          </div>
-        ))}
-      </div>
       <form onSubmit={handleSubmit}>
-        <label>Input Images</label>
+        <div className="img-preview-container">
+          {images.map((imgObj, index) => (
+            <div key={index} className="img-container">
+              <img src={imgObj.preview} alt="preview" />
+              <IoClose
+                onClick={() => handleRemoveImage(index)}
+                className="remove-image"
+              >
+                Remove
+              </IoClose>
+            </div>
+          ))}
+        </div>
+        <label htmlFor="image-input">Input Images</label>
         <input
           type="file"
           accept="image/*"
-          id=""
+          id="image-input"
           multiple
           onChange={handleImageChange}
         />
-        <label>Input PO</label>
-        <input type="file" accept=".pdf" />
+        <label htmlFor="po-input">Input PO</label>
+        <input type="file" accept=".pdf" name="po-input" id="po-input" />
         <input
           type="text"
           id="purchase-order-number"
@@ -72,32 +131,36 @@ const Submit = () => {
           required
         />
         <input type="date" id="entry-date" name="entry-date" />
-
-        <input
-          type="text"
-          id="product"
-          name="product"
-          maxLength="25"
-          placeholder="product"
-          required
-        />
-        <input
-          type="text"
-          id="count"
-          name="count"
-          maxLength="10"
-          placeholder="piece count"
-          required
-        />
-        <input
-          type="text"
-          id="weight"
-          name="weight"
-          maxLength="100"
-          placeholder="weight"
-          required
-        />
-        <div className="submit-btn" onClick={handleSubmit}>
+        {inputFields.map((item, index) => (
+          <div className="dynamic-container" key={item.id}>
+            <input
+              type="text"
+              name={`#${item.id}_product`}
+              placeholder="product"
+              className="dynamic-item"
+            />
+            <input
+              type="text"
+              name={`#${item.id}_quanity`}
+              placeholder="quanity"
+              className="dynamic-item"
+            />
+            <input
+              type="text"
+              name={`#${item.id}_weight`}
+              placeholder="weight"
+              className="dynamic-item"
+            />
+            <IoClose
+              className="remove-product"
+              onClick={() => handleRemoveProduct(index)}
+            ></IoClose>
+          </div>
+        ))}
+        <div className="btn add_product_btn" onClick={addInputField}>
+          + Add Product
+        </div>
+        <div className="btn submit-btn" onClick={handleSubmit}>
           Submit
         </div>
       </form>

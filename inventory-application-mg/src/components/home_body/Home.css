@@ -4,13 +4,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
   z-index: 10;
 }
 a {
   width: 20%;
   text-decoration: none;
-}
-.card-holder {
-  width: 100%;
 }
