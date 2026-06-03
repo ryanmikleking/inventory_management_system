@@ -1,0 +1,14 @@
+label {
+  width: 100%;
+  font-size: 1.2rem;
+  background-image: linear-gradient(
+    to left top,
+    #9ba0a5,
+    #b4b7bb,
+    #cdced1,
+    #e6e6e8
+  );
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+}
