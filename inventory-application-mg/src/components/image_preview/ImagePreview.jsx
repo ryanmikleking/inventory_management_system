@@ -3,7 +3,7 @@ import { IoClose } from "react-icons/io5";
 import Label from "../label/Label";
 import { useImageUploader } from "../../utility/imagePreview";
 
-const ImagePreview = ({ setFormImages, formImages }) => {
+const ImagePreview = ({ setFormImages, formImages, value }) => {
   const { images, handleImageChange, handleRemoveImage } = useImageUploader();
 
   const handleChanges = (e) => {
@@ -25,11 +25,13 @@ const ImagePreview = ({ setFormImages, formImages }) => {
           </IoClose>
         </div>
       ))}
-      <Label isFor={"image-input"} name={"Input Images"} />
+      <Label isFor={"imageInput"} name={"Input Images"} />
       <input
         type="file"
         accept="image/*"
-        id="image-input"
+        id="imageInput"
+        name="imageInput"
+        value={value}
         multiple
         onChange={handleImageChange}
       />

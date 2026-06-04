@@ -1,8 +1,68 @@
 .close {
   color: red;
+  font-size: 2.25rem;
+  float: right;
+  cursor: pointer;
 }
-.container {
-  height: 85vh;
+.close-btn {
   width: 100%;
+  display: flow-root;
+  padding: 0.5rem 0 0 0.5rem;
+}
+.edit {
+  color: green;
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+#companyName,
+#purchaseOrder,
+#count,
+#product,
+#weight,
+#entryDate {
+  width: 100%;
+  border-radius: 5px;
+  margin: 0.25rem;
+}
+#companyName,
+#purchaseOrder,
+#count,
+#weight,
+#entryDate,
+#poInput {
+  margin: 0.5rem;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-top: 2rem;
+  border: 1px ridge rgba(195, 195, 195, 0.2);
+  border-radius: 15px;
+  box-shadow: 4px 4px 10px #676666;
+  width: 80%;
+  margin: 0.25 0;
   z-index: 10;
+  background-color: #fff;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  width: 50%;
+}
+.remove-product {
+  background-color: red;
+  color: white;
+  cursor: pointer;
+}
+.dynamic-item {
+  margin: 0.15rem;
+  border-radius: 5px;
+  width: 15.2rem;
+  text-align: center;
 }

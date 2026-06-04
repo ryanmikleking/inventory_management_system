@@ -3,7 +3,8 @@
 #count,
 #product,
 #weight,
-#entryDate {
+#entryDate,
+.notesInput {
   width: 100%;
   border-radius: 5px;
   margin: 0.25rem;
@@ -15,6 +16,22 @@
 #entryDate,
 #poInput {
   margin: 0.5rem;
+}
+.notesInput {
+  height: 5rem;
+  resize: none;
+  border: solid 2px #000;
+}
+
+.radio-input .radioLabel {
+  background-image: none;
+  color: #000;
+}
+.radio-input {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 }
 
 .form-container {
@@ -50,4 +67,10 @@ form {
   border-radius: 5px;
   width: 15.2rem;
   text-align: center;
+}
+.button-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }

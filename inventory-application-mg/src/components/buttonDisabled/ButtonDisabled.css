@@ -1,0 +1,20 @@
+.btn-disabled {
+  background-image: linear-gradient(
+    to left top,
+    #9ba0a5,
+    #b4b7bb,
+    #cdced1,
+    #e6e6e8
+  );
+  opacity: 0.6;
+  display: inline-block;
+  color: #fff;
+  height: 2rem;
+  width: 10rem;
+  margin: 0.25rem;
+  text-align: center;
+  border-radius: 5px;
+  cursor: not-allowed;
+
+  margin: 0.5rem;
+}
