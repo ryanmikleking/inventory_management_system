@@ -2,90 +2,97 @@
 import "./ListView.css";
 import { FaEdit } from "react-icons/fa";
 import { getLocalSubmissions } from "../../utility/localStorage";
+import { DataFormater } from "../../utility/dataFormater";
 
 // const tableData = [
 //   {
-//     key: 1,
-//     name: "Hubbel",
-//     po: "784",
-//     count: "78",
-//     weight: "10000",
-//     date: "9/7/2024",
+//     id: 1,
+//     companyName: "Hubbel",
+//     inputPo: "784",
+//     productQuanity: "78",
+//     productWeight: "10000",
+//     entryDate: "9/7/2024",
 //   },
 //   {
-//     key: 2,
-//     name: "Hubbel",
-//     po: "784",
-//     count: "78",
-//     weight: "10000",
-//     date: "9/7/2024",
+//     id: 2,
+//     companyName: "Hubbel",
+//     inputPo: "784",
+//     productQuanity: "78",
+//     productWeight: "10000",
+//     entryDate: "9/7/2024",
 //   },
 //   {
-//     key: 3,
-//     name: "Hubbel",
-//     po: "784",
-//     count: "78",
-//     weight: "10000",
-//     date: "9/7/2024",
+//     id: 3,
+//     companyName: "Hubbel",
+//     inputPo: "784",
+//     productQuanity: "78",
+//     productWeight: "10000",
+//     entryDate: "9/7/2024",
 //   },
 //   {
-//     key: 4,
-//     name: "Hubbel",
-//     po: "784",
-//     count: "78",
-//     weight: "10000",
-//     date: "9/7/2024",
+//     id: 4,
+//     companyName: "Hubbel",
+//     inputPo: "784",
+//     productQuanity: "78",
+//     productWeight: "10000",
+//     entryDate: "9/7/2024",
 //   },
 //   {
-//     key: 5,
-//     name: "Hubbel",
-//     po: "784",
-//     count: "78",
-//     weight: "10000",
-//     date: "9/7/2024",
+//     id: 5,
+//     companyName: "Hubbel",
+//     inputPo: "784",
+//     productQuanity: "78",
+//     productWeight: "10000",
+//     entryDate: "9/7/2024",
 //   },
 //   {
-//     key: 6,
-//     name: "Hubbel",
-//     po: "784",
-//     count: "78",
-//     weight: "10000",
-//     date: "9/7/2024",
+//     id: 6,
+//     companyName: "Hubbel",
+//     inputPo: "784",
+//     productQuanity: "78",
+//     productWeight: "10000",
+//     entryDate: "9/7/2024",
 //   },
 //   {
-//     key: 7,
-//     name: "Hubbel",
-//     po: "784",
-//     count: "78",
-//     weight: "10000",
-//     date: "9/7/2024",
+//     id: 7,
+//     companyName: "Hubbel",
+//     inputPo: "784",
+//     productQuanity: "78",
+//     productWeight: "10000",
+//     entryDate: "9/7/2024",
 //   },
 //   {
-//     key: 8,
-//     name: "Hubbel",
-//     po: "784",
-//     count: "78",
-//     weight: "10000",
-//     date: "9/7/2024",
+//     id: 8,
+//     companyName: "Hubbel",
+//     inputPo: "784",
+//     productQuanity: "78",
+//     productWeight: "10000",
+//     entryDate: "9/7/2024",
 //   },
 //   {
-//     key: 9,
-//     name: "Wabash",
-//     po: "678",
-//     count: "98",
-//     weight: "1500",
+//     id: 9,
+//     companyName: "Wabash",
+//     inputPo: "678",
+//     productQuanity: "98",
+//     productWeight: "150entrD",
+//     entryDate: "10/1/2026",
 //   },
 //   {
-//     key: 10,
-//     name: "Wabash",
-//     po: "678",
-//     count: "98",
-//     weight: "1500",
+//     id: 10,
+//     companyName: "Wabash",
+//     inputPo: "678",
+//     productQuanity: "98",
+//     productWeight: "150entryD",
+//     entryDate: "10/1/2026",
 //   },
 // ];
 
 const ListView = ({ setView }) => {
-  const dataStore = getLocalSubmissions();
+  console.log(typeof tableData);
+  const localData = getLocalSubmissions();
+
+  const [dataObj, images, products] = DataFormater(localData);
+  console.log(images, products);
   return (
     <div className="list-container">
       <h2>History</h2>
@@ -101,10 +108,10 @@ const ListView = ({ setView }) => {
         </thead>
 
         <tbody>
-          {dataStore.map((item) => (
+          {dataObj.map((item) => (
             <tr key={item.id}>
               <td>{item.id}</td>
-              <td>{item.purchaseOrder}</td>
+              <td>{item.poInput}</td>
               <td>{item.companyName}</td>
               <td>{item.entryDate}</td>
               <td className="edit-icon">

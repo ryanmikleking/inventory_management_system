@@ -4,7 +4,7 @@ const Button = ({ btnName, funClick, btnType }) => {
   return (
     <div className="">
       {!btnType ? (
-        <div className="btn hello" onSubmit={funClick}>
+        <div className="btn" onSubmit={funClick}>
           {btnName}
         </div>
       ) : (

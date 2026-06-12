@@ -6,10 +6,7 @@ import Label from "../label/Label";
 import getFileFromPath from "../../utility/fileobjectcreator";
 import generateRandomString from "../../utility/stringCreator";
 import Button from "../button/Button";
-import {
-  LocalDataStore,
-  LocalDataStoreClear,
-} from "../../utility/localStorage";
+import { LocalDataStore } from "../../utility/localStorage";
 import "./Submit.css";
 
 const Submit = () => {
@@ -63,7 +60,6 @@ const Submit = () => {
       userNotes: "",
       qualityCheck: "",
     });
-    LocalDataStoreClear();
   };
 
   const handleSubmit = (e) => {

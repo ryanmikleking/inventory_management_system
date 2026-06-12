@@ -39,7 +39,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: relative;
   margin-top: 2rem;
   border: 1px ridge rgba(195, 195, 195, 0.2);
   border-radius: 15px;
@@ -71,6 +70,11 @@ form {
 .button-container {
   width: 100%;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
+}
+@media (max-width: 1365px) {
+  .dynamic-item {
+    width: 7rem;
+  }
 }
