@@ -1,0 +1,52 @@
+.card {
+  border: 1px ridge rgba(195, 195, 195, 0.2);
+  border-radius: 15px;
+  box-shadow: 4px 4px 10px #676666;
+  padding: 1.25rem;
+  transition: border-color 0.15s ease;
+  margin: 0 1rem;
+  height: 40vh;
+  width: 80%;
+  background-color: #fff;
+  margin: 0 2rem;
+  transition: all 0.5s ease;
+  cursor: pointer;
+}
+.card:hover {
+  border-color: rgba(0, 0, 0, 0.25);
+  height: 41vh;
+  width: 85%;
+}
+.title-container h6 {
+  text-align: center;
+  border-bottom: 1px ridge rgba(0, 0, 0, 0.5);
+  padding-bottom: 1.2rem;
+  color: #000;
+  font-size: 1.5rem;
+}
+.Submit {
+  background-image: url("/Submit.png");
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 80%;
+}
+.List {
+  background-image: url("/List.png");
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 80%;
+}
+/* @media (max-width: 1100px) {
+  .Submit {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .List {
+    position: absolute;
+
+  }
+} */
