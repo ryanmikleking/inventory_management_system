@@ -11,9 +11,9 @@ const Home = () => {
   const cards = cardSelectors;
 
   return (
-    <div className="body-container">
+    <div className="home__body-container">
       {cards?.map((card) => (
-        <Link to={card.path} key={card.key}>
+        <Link className="home__card" to={card.path} key={card.key}>
           <Card cardObj={card} key={card.key} />
         </Link>
       ))}

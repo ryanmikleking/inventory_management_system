@@ -1,4 +1,4 @@
-.header-container {
+.header__container {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -13,23 +13,23 @@
     #ffffff
   );
 }
-.img-container {
+.header__img-container {
   cursor: pointer;
 }
-.text-container {
+.header__text-container {
   color: #fff;
   font-style: bold;
 }
-.text-container h3 {
+.header__text-container h3 {
   font-size: 1.5rem;
   font-weight: 600;
   text-shadow: 1px 1px 2px #000;
 }
 @media (max-height: 720px) {
-  .header-container {
+  .header__container {
     height: 15vh;
   }
-  .text-container {
+  .header__text-container {
     display: none;
   }
 }

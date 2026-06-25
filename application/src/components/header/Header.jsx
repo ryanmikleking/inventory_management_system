@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 const Header = () => {
   return (
     <header>
-      <div className="header-container">
-        <div className="img-container">
+      <div className="header__container">
+        <div className="header__img-container">
           <Link to="/">
             <img
               src="/monnig_logo_small.png"
@@ -15,7 +15,7 @@ const Header = () => {
             />
           </Link>
         </div>
-        <div className="text-container">
+        <div className="header__text-container">
           <h3>Inventory Management System</h3>
         </div>
       </div>

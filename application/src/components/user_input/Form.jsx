@@ -1,37 +1,4 @@
-import { IoClose } from "react-icons/io5";
-import { useState } from "react";
-import { useDynamicInputs } from "../../utility/dynamicInput";
-import ImagePreview from "../image_preview/ImagePreview";
-import Label from "../label/Label";
-import Button from "../button/Button";
-import "./Submit.css";
-
-const Submit = () => {
-  const { inputFields, addInputField, handleRemoveField } = useDynamicInputs();
-  const [imagesForSubmit, setImagesForSubmit] = useState([]);
-  const [products, setProducts] = useState([
-    {
-      productName: "",
-      productQuanity: "",
-      productWeight: "",
-    },
-  ]);
-  const [inputData, setInputData] = useState({
-    poInput: "",
-    purchaseOrder: "",
-    companyName: "",
-    entryDate: "",
-    userNotes: "",
-    qualityCheck: "",
-  });
-
-  const handleProductChange = (e, index) => {
-    const { name, value } = e.target;
-    const updatedProducts = [...products];
-    updatedProducts[index] = { ...updatedProducts[index], [name]: value };
-    setProducts(updatedProducts);
-  };
-
+const Form = () => {
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
     setInputData((prevData) => ({
@@ -39,13 +6,8 @@ const Submit = () => {
       [name]: files ? files[0]?.name : value,
     }));
   };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log(`Submit has been handled ${e}`);
-  };
-
   return (
-    <div className="submit__form-container">
+    <div className="form__container">
       <form onSubmit={handleSubmit}>
         <ImagePreview
           setFormImages={setImagesForSubmit}
@@ -79,13 +41,6 @@ const Submit = () => {
           value={inputData.companyName}
           onChange={handleInputChange}
           required
-        />
-        <input
-          type="date"
-          id="entryDate"
-          name="entryDate"
-          value={inputData.entryDate}
-          onChange={handleInputChange}
         />
         {inputFields.map((item, index) => (
           <div
@@ -171,4 +126,4 @@ const Submit = () => {
   );
 };
 
-export default Submit;
+export default Form;
