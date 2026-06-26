@@ -1,5 +1,6 @@
 import Header from "../components/header/Header";
-import Submit from "../components/submit/Submit";
+//import Submit from "../components/submit/Submit";
+import Form from "../components/user_input/Form";
 
 const SubmitLayout = () => {
   return (
@@ -8,7 +9,8 @@ const SubmitLayout = () => {
         <Header />
       </div>
       <div className="content-container">
-        <Submit />
+        {/* <Submit /> */}
+        <Form />
       </div>
     </div>
   );

@@ -1,109 +1,13 @@
 //import React from 'react'
 import "./ListView.css";
-import { FaEdit } from "react-icons/fa";
-import { getLocalSubmissions } from "../../utility/localStorage";
-//import { DataFormater } from "../../utility/dataFormater";
-
-// const tableData = [
-//   {
-//     id: 1,
-//     companyName: "Hubbel",
-//     inputPo: "784",
-//     productQuanity: "78",
-//     productWeight: "10000",
-//     entryDate: "9/7/2024",
-//   },
-//   {
-//     id: 2,
-//     companyName: "Hubbel",
-//     inputPo: "784",
-//     productQuanity: "78",
-//     productWeight: "10000",
-//     entryDate: "9/7/2024",
-//   },
-//   {
-//     id: 3,
-//     companyName: "Hubbel",
-//     inputPo: "784",
-//     productQuanity: "78",
-//     productWeight: "10000",
-//     entryDate: "9/7/2024",
-//   },
-//   {
-//     id: 4,
-//     companyName: "Hubbel",
-//     inputPo: "784",
-//     productQuanity: "78",
-//     productWeight: "10000",
-//     entryDate: "9/7/2024",
-//   },
-//   {
-//     id: 5,
-//     companyName: "Hubbel",
-//     inputPo: "784",
-//     productQuanity: "78",
-//     productWeight: "10000",
-//     entryDate: "9/7/2024",
-//   },
-//   {
-//     id: 6,
-//     companyName: "Hubbel",
-//     inputPo: "784",
-//     productQuanity: "78",
-//     productWeight: "10000",
-//     entryDate: "9/7/2024",
-//   },
-//   {
-//     id: 7,
-//     companyName: "Hubbel",
-//     inputPo: "784",
-//     productQuanity: "78",
-//     productWeight: "10000",
-//     entryDate: "9/7/2024",
-//   },
-//   {
-//     id: 8,
-//     companyName: "Hubbel",
-//     inputPo: "784",
-//     productQuanity: "78",
-//     productWeight: "10000",
-//     entryDate: "9/7/2024",
-//   },
-//   {
-//     id: 9,
-//     companyName: "Wabash",
-//     inputPo: "678",
-//     productQuanity: "98",
-//     productWeight: "150entrD",
-//     entryDate: "10/1/2026",
-//   },
-//   {
-//     id: 10,
-//     companyName: "Wabash",
-//     inputPo: "678",
-//     productQuanity: "98",
-//     productWeight: "150entryD",
-//     entryDate: "10/1/2026",
-//   },
-// ];
+//import { FaEdit } from "react-icons/fa";
 
 const ListView = ({ setView, setKeyValue }) => {
-  const localData = [];
-  let block = 0;
-  const getDataBlocks = () => {
-    const allData = getLocalSubmissions();
-    if (block === 0) {
-      for (let i = 0; i < 30; i++) {
-        localData.push(allData[i]);
-      }
-    }
-  };
-  getDataBlocks();
-
   const listActions = (index) => {
     setKeyValue(index);
     setView();
   };
+  listActions();
   return (
     <div className="list-container">
       <h2 id="history-title">History</h2>
@@ -120,7 +24,7 @@ const ListView = ({ setView, setKeyValue }) => {
         </thead>
 
         <tbody>
-          {localData.map((item, index) => (
+          {/* {localData.map((item, index) => (
             <tr key={item.id}>
               <td>{index + 1}</td>
               <td>{item.purchaseOrder}</td>
@@ -130,7 +34,7 @@ const ListView = ({ setView, setKeyValue }) => {
                 <FaEdit onClick={() => listActions(index)} />
               </td>
             </tr>
-          ))}
+          ))} */}
         </tbody>
       </table>
     </div>

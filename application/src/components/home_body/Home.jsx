@@ -3,7 +3,12 @@ import "./Home.css";
 import Card from "../card/Card";
 import { Link } from "react-router-dom";
 const cardSelectors = [
-  { key: 1, name: "Submit", path: "/SubmitNew", url: "/Submit.png" },
+  {
+    key: 1,
+    name: "Submit",
+    path: "/NewPurchaseOrderLayout",
+    url: "/Submit.png",
+  },
   { key: 2, name: "List", path: "/List", url: "/List.png" },
 ];
 

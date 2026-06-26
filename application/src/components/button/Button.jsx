@@ -1,17 +1,18 @@
 import "./Button.css";
 
-const Button = ({ btnName, funClick, btnType }) => {
+const Button = ({ btnName, actionEvent }) => {
   return (
-    <div className="">
-      {!btnType ? (
-        <div className="btn" onSubmit={funClick}>
+    <div className="btn" onClick={actionEvent}>
+      {btnName}
+      {/* {!btnType ? (
+        <div className="btn" onClick={actionEvent}>
           {btnName}
         </div>
       ) : (
-        <div className="btn" onClick={funClick}>
+        <div className="btn" onClick={actionEvent}>
           {btnName}
         </div>
-      )}
+      )} */}
     </div>
   );
 };

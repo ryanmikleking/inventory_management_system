@@ -1,0 +1,15 @@
+.product__dynamic-item {
+  width: 33%;
+  border-radius: 5px;
+  margin: 0.25rem;
+}
+.remove-product {
+  background-color: red;
+  color: white;
+  cursor: pointer;
+}
+.product__dynamic-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}

@@ -1,0 +1,24 @@
+.radio-input .radioLabel {
+  background-image: none;
+  color: #000;
+}
+.radio-input {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.radioLabel {
+  margin: 0.5rem 2rem;
+}
+.notesInput {
+  height: 5rem;
+  resize: none;
+  border: solid 2px #000;
+  width: 100%;
+  border-radius: 5px;
+  margin: 0.25rem;
+}
+.UserInputBottom__container {
+  width: 100%;
+}
