@@ -2,17 +2,12 @@
 import "./ListView.css";
 //import { FaEdit } from "react-icons/fa";
 
-const ListView = ({ setView, setKeyValue }) => {
-  const listActions = (index) => {
-    setKeyValue(index);
-    setView();
-  };
-  listActions();
+const ListView = () => {
   return (
     <div className="list-container">
       <h2 id="history-title">History</h2>
-
-      <table>
+      <h1>this will be a table full of shit</h1>
+      {/* <table>
         <thead>
           <tr>
             <th>Entry No.</th>
@@ -24,7 +19,8 @@ const ListView = ({ setView, setKeyValue }) => {
         </thead>
 
         <tbody>
-          {/* {localData.map((item, index) => (
+          this will be some table shit
+          {localData.map((item, index) => (
             <tr key={item.id}>
               <td>{index + 1}</td>
               <td>{item.purchaseOrder}</td>
@@ -34,9 +30,9 @@ const ListView = ({ setView, setKeyValue }) => {
                 <FaEdit onClick={() => listActions(index)} />
               </td>
             </tr>
-          ))} */}
+          ))}
         </tbody>
-      </table>
+      </table> */}
     </div>
   );
 };

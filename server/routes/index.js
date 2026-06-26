@@ -1,8 +1,9 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
 
-const productRoutes = require("./product.routes");
+import purchaseOrderRoutes from "./purchaseOrderRoutes.js";
 
-router.use("/products", productRoutes);
+// mount feature routes here
+router.use("/purchase-orders", purchaseOrderRoutes);
 
-module.exports = router;
+export default router;

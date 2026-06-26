@@ -1,6 +1,9 @@
-const { Pool } = require("pg");
+import pg from "pg";
+import dotenv from "dotenv";
 
-const pool = new Pool({
+dotenv.config();
+
+export const pool = new pg.Pool({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
   database: process.env.DB_NAME,
@@ -9,9 +12,3 @@ const pool = new Pool({
   max: 10, // connection pool size
   idleTimeoutMillis: 30000,
 });
-
-pool.on("connect", () => {
-  console.log("PostgreSQL connected");
-});
-
-module.exports = pool;
