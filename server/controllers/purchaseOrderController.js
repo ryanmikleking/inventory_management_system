@@ -70,3 +70,26 @@ export const getPurchaseOrderById = async (req, res) => {
     });
   }
 };
+export const updatePurchaseOrder = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await getPurchaseOrderByIdService(id);
+
+    return res.status(201).json({
+      success: true,
+      purchase_order: result,
+    });
+  } catch (err) {
+    if (err instanceof AppError) {
+      return res.status(err.statusCode).json({
+        success: false,
+        error: err.message,
+      });
+    }
+    console.error(err);
+    return res.status(500).json({
+      success: false,
+      error: err.message,
+    });
+  }
+};
