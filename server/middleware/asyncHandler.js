@@ -1,9 +1,7 @@
-export async function getPurchaseOrders(req, res, next) {
-  try {
-    const data = await service();
+const asyncHandler = (fn) => {
+  return (req, res, next) => {
+    Promise.resolve(fn(req, res, next)).catch(next);
+  };
+};
 
-    res.json({ success: true, data });
-  } catch (err) {
-    next(err);
-  }
-}
+export default asyncHandler;

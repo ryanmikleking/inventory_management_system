@@ -1,0 +1,8 @@
+.ImageUpload__container {
+  position: absolute;
+  width: 50%;
+  transform: translate(0%, -10%);
+  border: 0.5px ridge #b4b7bb;
+  border-radius: 10px;
+  box-shadow: 5px 5px 15px #b4b7bb;
+}

@@ -1,15 +1,14 @@
 import Label from "../../../label/Label";
 import "./UserInputTop.css";
-const user_input_top = ({ inputData, handleInputChange }) => {
+const user_input_top = ({ inputData, handleInputChange, handleFileUpload }) => {
   return (
     <div className="UserInputTop__container">
       <Label isFor={"poInput"} name={"PO Input"} />
       <input
         type="file"
         accept=".pdf, application/pdf"
-        name="poInput"
         id="poInput"
-        onChange={handleInputChange}
+        onChange={handleFileUpload}
       />
       <input
         type="text"

@@ -1,13 +1,23 @@
 //import React from 'react'
 import "./ListView.css";
-//import { FaEdit } from "react-icons/fa";
+import { FaRegFilePdf } from "react-icons/fa6";
+import { LuImagePlus } from "react-icons/lu";
+import { IoImageOutline } from "react-icons/io5";
+import { usePurchaseOrdersService } from "../../utility/api_services/purchaseOrdersService";
+import { dateFormatter } from "../../utility/dateFormatter";
+import { GrPrevious, GrNext  } from "react-icons/gr";
 
-const ListView = () => {
+const ListView = ({ setView, setPoId }) => {
+  const purchaseOrders = usePurchaseOrdersService();
+  const safeOrders = Array.isArray(purchaseOrders) ? purchaseOrders : [];
+  const onClickHandler = (poId, view) => {
+    console.log(poId);
+    setPoId(poId);
+    setView(view);
+  };
   return (
     <div className="list-container">
-      <h2 id="history-title">History</h2>
-      <h1>this will be a table full of shit</h1>
-      {/* <table>
+      <table>
         <thead>
           <tr>
             <th>Entry No.</th>
@@ -19,20 +29,39 @@ const ListView = () => {
         </thead>
 
         <tbody>
-          this will be some table shit
-          {localData.map((item, index) => (
-            <tr key={item.id}>
+          {safeOrders.map((item, index) => (
+            <tr key={index}>
               <td>{index + 1}</td>
-              <td>{item.purchaseOrder}</td>
-              <td>{item.companyName}</td>
-              <td>{item.entryDate}</td>
+              <td>{item.purchase_order_number}</td>
+              <td>{item.company_name}</td>
+              <td>{dateFormatter(item.created_at)}</td>
               <td className="edit-icon">
-                <FaEdit onClick={() => listActions(index)} />
+                <div
+                  className="listView__pdfIcon"
+                  onClick={() => {
+                    onClickHandler(item.po_id, "pdf-edit");
+                  }}
+                >
+                  <FaRegFilePdf />
+                </div>
+                <div
+                  className="listView__addImgIcon"
+                  onClick={() => setView("img-upload")}
+                >
+                  <LuImagePlus />
+                </div>
+                <div
+                  className="listView__imgIcon"
+                  onClick={() => setView("show-img")}
+                >
+                  <IoImageOutline />
+                </div>
               </td>
             </tr>
           ))}
+          <tr className="buttons-table-row"><td colSpan={5}><GrPrevious className="prev"/><GrNext className="next"/></td></tr>
         </tbody>
-      </table> */}
+      </table>
     </div>
   );
 };

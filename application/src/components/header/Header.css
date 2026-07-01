@@ -12,6 +12,7 @@
     #e6e6e8,
     #ffffff
   );
+  border-bottom: 1px ridge #9ba0a5;
 }
 .header__img-container {
   cursor: pointer;

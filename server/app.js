@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import routes from "./routes/index.js";
+import purchaseOrderRoutes from "./routes/purchaseOrderRoutes.js";
 // import helmet from "helmet";
 // import morgan from "morgan";
 
@@ -15,7 +16,11 @@ app.use(express.urlencoded({ extended: true }));
 // Logging (dev only usually)
 // app.use(morgan("dev"));
 
+// app.use("/api/images", imageRoutes);
+// app.use("/api/files", uploadRoutes);
+
 // Routes
+app.use("/api/purchase-orders", purchaseOrderRoutes);
 app.use("/api", routes);
 
 // Health check

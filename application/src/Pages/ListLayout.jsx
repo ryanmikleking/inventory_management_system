@@ -2,15 +2,27 @@
 import { useState } from "react";
 import Header from "../components/header/Header";
 import ListView from "../components/list_view/ListView";
-import ItemPreview from "../components/item_preview/ItemPreview";
+import ImageUpload from "../components/image_upload/ImageUpload";
+import { PdfEdit } from "../components/pdf-edit/PdfEdit";
+import { ShowImages } from "../components/show_po_images/ShowImages";
 
 const ListLayout = () => {
-  const [view, setView] = useState(false);
-  const [keyValue, setKeyValue] = useState(0);
+  const [view, setView] = useState("table");
+  const [poId, setPoId] = useState();
 
   const viewChange = () => {
-    if (!view) setView(true);
-    else setView(false);
+    switch (view) {
+      case "img-upload":
+        return <ImageUpload setView={setView} poId={poId} />;
+      case "pdf-edit":
+        return <PdfEdit setView={setView} poId={poId} />;
+      case "table":
+        return <ListView setView={setView} setPoId={setPoId} />;
+      case "show-img":
+        return <ShowImages setView={setView} poId={poId} />;
+      default:
+        return <ListView setView={setView} setPoId={setPoId} />;
+    }
   };
 
   return (
@@ -18,13 +30,7 @@ const ListLayout = () => {
       <div className="sticky-container">
         <Header />
       </div>
-      <div className="content-container">
-        {view ? (
-          <ItemPreview setView={viewChange} keyValue={keyValue} />
-        ) : (
-          <ListView setView={viewChange} setKeyValue={setKeyValue} />
-        )}
-      </div>
+      <div className="content-container">{viewChange()}</div>
     </div>
   );
 };

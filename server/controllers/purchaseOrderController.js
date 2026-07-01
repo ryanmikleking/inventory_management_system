@@ -2,6 +2,8 @@ import { createPurchaseOrderService } from "../services/createPurchaseOrderServi
 import { getPurchaseOrdersService } from "../services/getPurchaseOrdersService.js";
 import { getPurchaseOrderByIdService } from "../services/getPurchaseOrderByIdService.js";
 import { AppError } from "../middleware/errors/AppError.js";
+import asyncHandler from "../middleware/asyncHandler.js";
+import { parsePurchaseOrder } from "../services/purchaseOrder/purchaseOrderParser.js";
 
 export const createPurchaseOrder = async (req, res) => {
   try {
@@ -93,3 +95,15 @@ export const updatePurchaseOrder = async (req, res) => {
     });
   }
 };
+export const extractPurchaseOrder = asyncHandler(async (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({
+      success: false,
+      message: "Purchase order file is required.",
+    });
+  }
+  console.log("This is from Controller: ", req.file);
+  const purchaseOrder = await parsePurchaseOrder(req.file.buffer);
+
+  res.status(200).json({ status: "success", data: purchaseOrder });
+});

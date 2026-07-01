@@ -3,17 +3,17 @@ import { IoClose } from "react-icons/io5";
 import Label from "../label/Label";
 import { useImageUploader } from "../../utility/imagePreview";
 
-const ImagePreview = ({ setFormImages, formImages }) => {
+const ImagePreview = () => {
   const { images, handleImageChange, handleRemoveImage } = useImageUploader();
 
-  const handleChanges = (e) => {
-    setFormImages(() => [...formImages, e.target.files]);
+  // const handleChanges = (e) => {
+  //   setFormImages(() => [...formImages, e.target.files]);
 
-    // console.log(formImages);
-  };
+  //   // console.log(formImages);
+  // };
 
   return (
-    <div className="img-preview-container" onChange={handleChanges}>
+    <div className="img-preview-container">
       {images.map((imgObj, index) => (
         <div key={index} className="img-container">
           <img src={imgObj.preview} alt="preview" />

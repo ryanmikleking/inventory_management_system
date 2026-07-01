@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 3001;
 
 async function startServer() {
   try {
+    console.log("✅ Correct Server Instance");
     // 🧠 test DB connection before starting server
     const result = await pool.query("SELECT NOW()");
     console.log("✅ PostgreSQL connected:", result.rows[0]);

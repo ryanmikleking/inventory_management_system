@@ -25,3 +25,6 @@ img {
   border: none;
   cursor: pointer;
 }
+#imageInput {
+  width: 100%;
+}

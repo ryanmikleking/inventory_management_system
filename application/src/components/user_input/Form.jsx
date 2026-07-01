@@ -4,6 +4,8 @@ import ImagePreview from "../image_preview/ImagePreview";
 import UserInputTop from "./user_input_sections/Top/UserInputTop";
 import UserInputBottom from "./user_input_sections/Bottom/UserInputBottom";
 import ProductForm from "./product_form/ProductForm";
+import { extractImageText } from "../../utility/ocrTextExtractor";
+import { regexHandler } from "../../utility/regexHandler";
 import "./Form.css";
 const Form = () => {
   const [inputData, setInputData] = useState();
@@ -16,6 +18,23 @@ const Form = () => {
       productWeight: "",
     },
   ]);
+  const [purchaseOrder, setPurchaseOrder] = useState({
+    purchaseOrder: "",
+    companyName: "",
+    products: [],
+    userNotes: "",
+    qualityCheck: false,
+  });
+  const handleFileUpload = async (e) => {
+    const file = e.target.files[0];
+
+    if (!file) return;
+    const text = await extractImageText(file);
+    const value = await regexHandler(text);
+    setPurchaseOrder();
+    console.log(value);
+    console.log("‼️Disregard 🚫", purchaseOrder);
+  };
   const addProduct = () => {
     setProducts((prev) => [
       ...prev,
@@ -48,7 +67,6 @@ const Form = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(`Submit has been handled ${e}`);
   };
   return (
     <div className="form__container">
@@ -61,6 +79,7 @@ const Form = () => {
         <UserInputTop
           inputData={inputData}
           handleInputChange={handleInputChange}
+          handleFileUpload={handleFileUpload}
         />
         {products.map((item) => (
           <ProductForm
@@ -76,7 +95,7 @@ const Form = () => {
         />
         <div className="form__button-container">
           <Button btnName={"Add Product"} actionEvent={addProduct} />
-          <Button btnName={"Submit"} />
+          <Button btnName={"Submit"} actionEvent={handleSubmit} />
         </div>
       </form>
     </div>

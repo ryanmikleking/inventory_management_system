@@ -1,0 +1,143 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap");
+.PdfEdit__container {
+  width: 100%;
+}
+.PdfEdit__outer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 2rem;
+}
+.PdfEdit__page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  width: 40%;
+  border: 1px solid #000;
+  background-color: #fff;
+
+  font-family: "Source Sans 3", sans-serif;
+  padding: 2rem;
+  font-weight: 400;
+  font-style: normal;
+}
+.PdfEdit__img {
+  width: 14rem;
+  height: 10rem;
+}
+.PdfEdit__Btn {
+  width: 5rem;
+  text-align: center;
+  border-radius: 15px;
+  cursor: pointer;
+}
+.PdfEdit__Btn-Submit {
+  background-color: #16a34a;
+  color: #fff;
+}
+.PdfEdit__Btn-Cancel {
+  background-color: #b42323;
+  color: #fff;
+}
+.PdfEdit__ .PdfEdit__Btn-container {
+  width: 20rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.PdfEdit__data-return {
+  width: 100%;
+}
+.PdfEdit__data-return p {
+  margin-top: 2rem;
+  margin-left: 3rem;
+}
+.PdfEdit__page-container .PdfEdit__page-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.PdfEdit__action-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  height: 4vh;
+  width: 100%;
+  background-image: linear-gradient(
+    to right top,
+    #9ba0a5,
+    #b4b7bb,
+    #cdced1,
+    #e6e6e8,
+    #ffffff
+  );
+  border-bottom: 1px ridge #9ba0a5;
+  opacity: 95%;
+}
+.PdfEdit__action-bar h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-shadow: 1px 1px 2px #000;
+  color: #fff;
+  margin-left: 2rem;
+}
+.PdfEdit__action-bar .PdfEdit__icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 10rem;
+}
+.PdfEdit__action-bar .PdfEdit__icon-container .print-icon {
+  color: #6b7280;
+  cursor: pointer;
+}
+.PdfEdit__action-bar .PdfEdit__icon-container .download-icon {
+  color: #2563eb;
+  cursor: pointer;
+}
+.PdfEdit__action-bar .PdfEdit__icon-container .edit-icon {
+  cursor: pointer;
+  color: #16a34a;
+}
+.PdfEdit__product-containers {
+  display: grid;
+  gap: 12px;
+}
+
+.PdfEdit__product {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+
+  padding: 1rem;
+  border-bottom: 1px solid #ccc;
+}
+.PdfEdit__page-container .PdfEdit__Approved {
+  color: #16a34a;
+  margin-top: 1rem;
+}
+.PdfEdit__page-container .PdfEdit__Discrepancy {
+  color: #b42323;
+  margin-top: 1rem;
+}
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .PdfEdit__page-container,
+  .PdfEdit__page-container * {
+    visibility: visible;
+  }
+
+  .PdfEdit__page-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+}
