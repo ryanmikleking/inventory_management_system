@@ -102,7 +102,7 @@ export const extractPurchaseOrder = asyncHandler(async (req, res) => {
       message: "Purchase order file is required.",
     });
   }
-  console.log("This is from Controller: ", req.file);
+  console.log("This is from Controller: ", typeof req.file, req.file);
   const purchaseOrder = await parsePurchaseOrder(req.file.buffer);
 
   res.status(200).json({ status: "success", data: purchaseOrder });

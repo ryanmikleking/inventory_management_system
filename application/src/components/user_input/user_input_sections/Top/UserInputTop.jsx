@@ -1,6 +1,25 @@
 import Label from "../../../label/Label";
+import { useState } from "react";
 import "./UserInputTop.css";
-const user_input_top = ({ inputData, handleInputChange, handleFileUpload }) => {
+
+import { useExtractPurchaseOrder } from "../../../../utility/api_services/purchaseOrdersService";
+
+const UserInputTop = ({ inputData, handleInputChange }) => {
+  const [fileInput, setFileInput] = useState(null);
+  const { automatedInput, error, uploadPurchaseOrder } =
+    useExtractPurchaseOrder();
+  const handleFileChange = async (e) => {
+    console.log(e.target.files[0]);
+    setFileInput(e.target.files[0]);
+    await uploadPurchaseOrder(fileInput);
+    // console.log(loading);
+    // if (loading)
+    //   return (
+    //     <Loading message={"Waiting for server to respond with data ...."} />
+    //   );
+    console.log(automatedInput, error);
+  };
+  console.log(typeof setFileInput);
   return (
     <div className="UserInputTop__container">
       <Label isFor={"poInput"} name={"PO Input"} />
@@ -8,7 +27,7 @@ const user_input_top = ({ inputData, handleInputChange, handleFileUpload }) => {
         type="file"
         accept=".pdf, application/pdf"
         id="poInput"
-        onChange={handleFileUpload}
+        onChange={(e) => handleFileChange(e)}
       />
       <input
         type="text"
@@ -34,4 +53,4 @@ const user_input_top = ({ inputData, handleInputChange, handleFileUpload }) => {
   );
 };
 
-export default user_input_top;
+export default UserInputTop;

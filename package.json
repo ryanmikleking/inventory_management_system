@@ -1,5 +1,6 @@
 {
 	"dependencies": {
+		"fuzzysort": "^3.1.0",
 		"multer": "^2.2.0"
 	}
 }

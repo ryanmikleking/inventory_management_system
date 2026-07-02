@@ -1,16 +1,23 @@
 import { purchaseOrderRegex } from "./regex/purchaseOrder.js";
-import { companyRegex } from "./regex/company.js";
-import { productsRegex } from "./regex/products.js";
+import { findCompanyMatch } from "./regex/company.js";
+import { parseProducts } from "./regex/products.js";
 import { extractText } from "../textExtraction/textExtractor.js";
 
 export const parsePurchaseOrder = async (file) => {
   const text = await extractText(file);
-  console.log("OCR TEXT:", text.text);
-  console.log("TYPE:", typeof text.text);
-  console.log("IS STRING:", typeof text.text === "string");
+  const companyMatch = findCompanyMatch(text.text, "Hubbell Power Systems Inc");
+  const finalName = companyMatch
+    .map((obj) => obj.company)
+    .join("")
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .trim();
+  const finalNameScore =
+    companyMatch.map((obj) => obj.confidence).reduce((a, b) => a + b, 0) /
+    companyMatch.length;
+
   return {
     purchaseOrder: purchaseOrderRegex(text.text),
-    companyName: companyRegex(text.text),
-    products: productsRegex(text.text),
+    companyName: { "Company Name": finalName, Confidence: finalNameScore },
+    products: parseProducts(text.text),
   };
 };

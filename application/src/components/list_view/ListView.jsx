@@ -5,7 +5,7 @@ import { LuImagePlus } from "react-icons/lu";
 import { IoImageOutline } from "react-icons/io5";
 import { usePurchaseOrdersService } from "../../utility/api_services/purchaseOrdersService";
 import { dateFormatter } from "../../utility/dateFormatter";
-import { GrPrevious, GrNext  } from "react-icons/gr";
+import { GrPrevious, GrNext } from "react-icons/gr";
 
 const ListView = ({ setView, setPoId }) => {
   const purchaseOrders = usePurchaseOrdersService();
@@ -59,7 +59,12 @@ const ListView = ({ setView, setPoId }) => {
               </td>
             </tr>
           ))}
-          <tr className="buttons-table-row"><td colSpan={5}><GrPrevious className="prev"/><GrNext className="next"/></td></tr>
+          <tr className="buttons-table-row">
+            <td colSpan={5}>
+              <GrPrevious className="prev" />
+              <GrNext className="next" />
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>

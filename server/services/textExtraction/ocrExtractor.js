@@ -37,7 +37,7 @@ export const extractImageText = async (pdfBuffer) => {
     let fullText = "";
 
     for (let page = 1; page <= pageCount; page++) {
-      console.log(`Processing page ${page} of ${pageCount}`);
+      //log(`Processing page ${page} of ${pageCount}`);
 
       const image = await converter(page);
 
