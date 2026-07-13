@@ -1,8 +1,17 @@
 .ImageUpload__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   width: 50%;
   transform: translate(0%, -10%);
   border: 0.5px ridge #b4b7bb;
   border-radius: 10px;
   box-shadow: 5px 5px 15px #b4b7bb;
+  padding: 2rem;
+}
+.ImageUpload__btn-container {
+  display: flex;
+  justify-content: space-around;
 }

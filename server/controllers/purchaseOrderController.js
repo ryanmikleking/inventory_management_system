@@ -7,7 +7,7 @@ import { parsePurchaseOrder } from "../services/purchaseOrder/purchaseOrderParse
 
 export const createPurchaseOrder = async (req, res) => {
   try {
-    const result = await createPurchaseOrderService(req.body);
+    const result = await createPurchaseOrderService(req.body, req.files);
 
     return res.status(201).json({
       success: true,
@@ -102,8 +102,6 @@ export const extractPurchaseOrder = asyncHandler(async (req, res) => {
       message: "Purchase order file is required.",
     });
   }
-  console.log("This is from Controller: ", typeof req.file, req.file);
   const purchaseOrder = await parsePurchaseOrder(req.file.buffer);
-
   res.status(200).json({ status: "success", data: purchaseOrder });
 });

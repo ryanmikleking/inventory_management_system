@@ -3,9 +3,44 @@ import {
   getPurchaseOrders,
   getSinglePurchaseOrder,
   extractPurchaseOrder,
+  createPurchaseOrder,
+  updatePurchaseOrderImages,
 } from "../../api/axiosPurchaseOrderServices";
 
-export const usePurchaseOrdersService = () => {
+export const useUpdatePurchaseOrdersService = () => {
+  const [updateLoading, setUpdateLoading] = useState(false);
+  const updateImages = async (data) => {
+    setUpdateLoading(true);
+    try {
+      const res = await updatePurchaseOrderImages(data);
+      console.log(res);
+      return res;
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setUpdateLoading(false);
+    }
+  };
+
+  return { updateLoading, updateImages };
+};
+export const useCreatePurchaseOrderService = () => {
+  const [createLoading, setCreateLoading] = useState(false);
+  const createOrder = async (formData) => {
+    setCreateLoading(true);
+    try {
+      const res = await createPurchaseOrder(formData);
+      console.log(res);
+      return res;
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setCreateLoading(false);
+    }
+  };
+  return { createLoading, createOrder };
+};
+export const useGetPurchaseOrdersService = () => {
   const [purchaseOrders, setPurchaseOrders] = useState([]);
 
   useEffect(() => {
@@ -39,39 +74,37 @@ export const useSinglePurchaseOrderService = (poId) => {
   return purchaseOrder;
 };
 export const useExtractPurchaseOrder = () => {
-  const [automatedInput, setAutomatedInput] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [extractLoading, setExtractLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const uploadPurchaseOrder = async (file) => {
-    setLoading(true);
+    setExtractLoading(true);
     setError(null);
-    console.log(file instanceof File);
-
+    console.log(
+      "File passed to uploadPurchaseOrder: " + file,
+      file instanceof File,
+    );
     try {
       const formData = new FormData();
       formData.append("purchaseOrderFile", file);
-      console.log(typeof formData, formData);
-      const [success, data] = await extractPurchaseOrder(formData);
+      const { status, data } = await extractPurchaseOrder(formData);
+      // console.log(status, data);
 
-      if (success) {
-        setAutomatedInput(data);
-      } else {
-        setAutomatedInput(null);
-        setError("Purchase Order Submit Failed!");
+      if (status !== 200) {
+        throw new Error("Purchase Order Submit Failed");
       }
+      console.log("this is hook data: " + data.data);
+      return data;
     } catch (err) {
       setError(err.message);
-      setAutomatedInput(null);
     } finally {
-      setLoading(false);
+      setExtractLoading(false);
     }
   };
 
   return {
-    automatedInput,
-    loading,
-    error,
     uploadPurchaseOrder,
+    error,
+    extractLoading,
   };
 };

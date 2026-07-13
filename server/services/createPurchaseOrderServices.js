@@ -1,17 +1,14 @@
 import { pool } from "../config/db.js";
 import { AppError } from "../middleware/errors/AppError.js";
-export const createPurchaseOrderService = async (data) => {
-  console.log(data);
+import { attachmentRepository } from "./attachmentRepository.js";
+import { uploadFile } from "./minioService.js";
+export const createPurchaseOrderService = async (data, files) => {
   const client = await pool.connect();
 
   try {
-    const {
-      company_name,
-      purchase_order_number,
-      notes,
-      quality_check,
-      products,
-    } = data;
+    const { company_name, purchase_order_number, notes, quality_check } = data;
+    const products = JSON.parse(data.products);
+
     if (!company_name || !purchase_order_number) {
       throw new AppError("Missing rrequired fields", 400);
     }
@@ -67,14 +64,31 @@ export const createPurchaseOrderService = async (data) => {
     for (const p of products) {
       const productResult = await client.query(
         `INSERT INTO purchase_order_products
-        (po_id, product_name, quantity, weight)
+        (po_id, product_name, quantity, measurement)
         VALUES ($1, $2, $3, $4)
         RETURNING *`,
         [po.po_id, p.product_name, p.quantity, p.weight],
       );
       insertedProducts.push(poResult.rows[0]);
     }
+    const uploadedFiles = [];
 
+    for (const file of files) {
+      const file_path = await uploadFile(file, po.po_id);
+
+      if (!file_path) return;
+
+      uploadedFiles.push({
+        po_id: po.po_id,
+        bucket: "po-attachments",
+        file_path,
+        file_name: file.originalname,
+        file_type: file.mimeType,
+        file_size: file.size,
+      });
+    }
+
+    uploadedFiles.forEach(async (file) => await attachmentRepository(file));
     await client.query("COMMIT");
     return {
       ...po,

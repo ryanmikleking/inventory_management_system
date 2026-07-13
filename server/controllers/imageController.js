@@ -1,12 +1,17 @@
-import { uploadImage } from "../services/imageService.js";
+import { updateImagesService } from "../services/updateImagesService.js";
 import { AppError } from "../middleware/errors/AppError.js";
+import { attachmentRepository } from "../services/attachmentRepository.js";
 
 export const uploadPOImage = async (req, res) => {
   try {
-    const { poId } = req.body;
-    const file = req.file;
+    const { poId, purchase_order_number } = req.body;
+    const files = req.files;
 
-    const filePath = await uploadImage(file, poId);
+    const filePath = await updateImagesService(
+      poId,
+      purchase_order_number,
+      files,
+    );
 
     res.json({
       success: true,
@@ -20,4 +25,14 @@ export const uploadPOImage = async (req, res) => {
       });
     }
   }
+};
+export const uploadTestImage = async (req, res) => {
+  try {
+    const response = await attachmentRepository(req.body);
+    console.log(req.body);
+    res.json({
+      success: true,
+      response,
+    });
+  } catch (error) {}
 };

@@ -25,10 +25,29 @@ export const getSinglePurchaseOrder = async (id) => {
 export const extractPurchaseOrder = async (formData) => {
   try {
     const response = await api.post("/purchase-orders/extract", formData);
-    console.log("Data Posted!");
-    return response;
+    return { status: response.status, data: response.data };
   } catch (error) {
     console.error("Error processing pdf input", error);
     return "";
+  }
+};
+export const createPurchaseOrder = async (data) => {
+  // const formData = new FormData();
+  // formData.append("po-data", data);
+  try {
+    const response = await api.post("/purchase-orders", data);
+    console.log(response);
+    if (response) return response;
+    else return "Purchase Order Failed!";
+  } catch (error) {
+    console.error("Error processing purchase order submission", error);
+  }
+};
+export const updatePurchaseOrderImages = async (data) => {
+  try {
+    const response = await api.post("/file-upload", data);
+    return response;
+  } catch (error) {
+    console.error("Error processing update images", error);
   }
 };

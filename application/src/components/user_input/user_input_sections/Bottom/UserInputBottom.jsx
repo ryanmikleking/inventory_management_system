@@ -4,18 +4,18 @@ const UserInputBottom = ({ inputData, handleInputChange }) => {
     <div className="UserInputBottom__container">
       <textarea
         className="notesInput"
-        name="userNotes"
+        name="notes"
         placeholder="Enter notes here..."
         onChange={handleInputChange}
-        // value={inputData.userNotes}
+        value={inputData.notes || ""}
       />
       <div className="radio-input">
         <label className="radioLabel">
           <input
             type="radio"
-            className="radio"
-            name="qualityCheck"
-            value={inputData?.qualityCheck}
+            className="radio true"
+            name="quality_check"
+            value={true}
             onChange={handleInputChange}
           />
           Approved
@@ -23,9 +23,9 @@ const UserInputBottom = ({ inputData, handleInputChange }) => {
         <label className="radioLabel">
           <input
             type="radio"
-            className="radio"
-            name="qualityCheck"
-            value={inputData?.qualityCheck}
+            className="radio false"
+            name="quality_check"
+            value={false}
             onChange={handleInputChange}
           />
           Discrepency

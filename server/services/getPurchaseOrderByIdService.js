@@ -34,7 +34,7 @@ export const getPurchaseOrderByIdService = async (poId) => {
         product_id,
         product_name,
         quantity,
-        weight
+        measurement
       FROM purchase_order_products
       WHERE po_id = $1
       ORDER BY product_id

@@ -1,0 +1,42 @@
+services:
+  frontend:
+    build:
+      context: ./application
+    container_name: inventory_frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - server
+
+  server:
+    build:
+      context: ./server
+    container_name: inventory_server
+
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+    ports:
+      - "3001:3001"
+
+    env_file:
+      - ./server/.env
+
+    depends_on:
+      - minio
+
+  minio:
+    image: minio/minio
+    container_name: inventory_minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: password123
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+
+volumes:
+  minio_data:

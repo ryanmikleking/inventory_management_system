@@ -13,13 +13,9 @@ const router = express.Router();
 router.post(
   "/extract",
   upload.single("purchaseOrderFile"),
-  (req, res, next) => {
-    console.log("posting to server ...");
-    next();
-  },
   extractPurchaseOrder,
 );
-router.post("/", createPurchaseOrder);
+router.post("/", upload.array("files"), createPurchaseOrder);
 router.get("/", getPurchaseOrders);
 router.get("/:id", getPurchaseOrderById);
 router.put("/:id", updatePurchaseOrder);

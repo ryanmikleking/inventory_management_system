@@ -2,7 +2,7 @@ import Header from "../components/header/Header";
 //import Submit from "../components/submit/Submit";
 import Form from "../components/user_input/Form";
 
-const SubmitLayout = () => {
+const NewPurchaseOrderLayout = () => {
   return (
     <div className="main-container">
       <div className="stick-header">
@@ -16,4 +16,4 @@ const SubmitLayout = () => {
   );
 };
 
-export default SubmitLayout;
+export default NewPurchaseOrderLayout;

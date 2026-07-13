@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
+import { ensureBucket } from "./services/minioService.js";
 
 import app from "./app.js";
 import { pool } from "./config/db.js";
@@ -10,11 +11,22 @@ async function startServer() {
   try {
     console.log("✅ Correct Server Instance");
     // 🧠 test DB connection before starting server
+    console.log("DB CONFIG", {
+      host: process.env.DB_HOST,
+      user: process.env.DB_USER,
+      database: process.env.DB_NAME,
+    });
     const result = await pool.query("SELECT NOW()");
-    console.log("✅ PostgreSQL connected:", result.rows[0]);
+    const minIOresult = await ensureBucket();
+    console.log(
+      "✅ PostgreSQL connected:",
+      result.rows[0],
+      "\n✅ MinIO Bucket :",
+      minIOresult,
+    );
 
     // start Express only if DB is OK
-    app.listen(PORT, () => {
+    app.listen(PORT, "0.0.0.0", () => {
       console.log(`🚀 Server running on port ${PORT}`);
     });
   } catch (err) {

@@ -8,12 +8,15 @@ import { ShowImages } from "../components/show_po_images/ShowImages";
 
 const ListLayout = () => {
   const [view, setView] = useState("table");
-  const [poId, setPoId] = useState();
+  const [poId, setPoId] = useState({
+    poId: "",
+    purchase_order_number: "",
+  });
 
   const viewChange = () => {
     switch (view) {
       case "img-upload":
-        return <ImageUpload setView={setView} poId={poId} />;
+        return <ImageUpload setView={setView} poId={poId} setPoId={setPoId} />;
       case "pdf-edit":
         return <PdfEdit setView={setView} poId={poId} />;
       case "table":

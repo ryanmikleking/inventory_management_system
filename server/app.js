@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import routes from "./routes/index.js";
 import purchaseOrderRoutes from "./routes/purchaseOrderRoutes.js";
+import fileRoutes from "./routes/fileRoutes.js";
 // import helmet from "helmet";
 // import morgan from "morgan";
 
@@ -21,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use("/api/purchase-orders", purchaseOrderRoutes);
+app.use("/api/file-upload", fileRoutes);
 app.use("/api", routes);
 
 // Health check

@@ -1,25 +1,7 @@
 import Label from "../../../label/Label";
-import { useState } from "react";
 import "./UserInputTop.css";
 
-import { useExtractPurchaseOrder } from "../../../../utility/api_services/purchaseOrdersService";
-
-const UserInputTop = ({ inputData, handleInputChange }) => {
-  const [fileInput, setFileInput] = useState(null);
-  const { automatedInput, error, uploadPurchaseOrder } =
-    useExtractPurchaseOrder();
-  const handleFileChange = async (e) => {
-    console.log(e.target.files[0]);
-    setFileInput(e.target.files[0]);
-    await uploadPurchaseOrder(fileInput);
-    // console.log(loading);
-    // if (loading)
-    //   return (
-    //     <Loading message={"Waiting for server to respond with data ...."} />
-    //   );
-    console.log(automatedInput, error);
-  };
-  console.log(typeof setFileInput);
+const UserInputTop = ({ inputData, handleInputChange, handleFileChange }) => {
   return (
     <div className="UserInputTop__container">
       <Label isFor={"poInput"} name={"PO Input"} />
@@ -27,7 +9,8 @@ const UserInputTop = ({ inputData, handleInputChange }) => {
         type="file"
         accept=".pdf, application/pdf"
         id="poInput"
-        onChange={(e) => handleFileChange(e)}
+        name="files"
+        onChange={(e) => handleFileChange(e.target.files[0])}
       />
       <input
         type="text"
@@ -35,7 +18,7 @@ const UserInputTop = ({ inputData, handleInputChange }) => {
         name="purchaseOrder"
         maxLength="30"
         placeholder="purchase order #"
-        value={inputData?.purchaseOrder || ""}
+        value={inputData.purchase_order}
         onChange={handleInputChange}
         required
       />
@@ -45,7 +28,7 @@ const UserInputTop = ({ inputData, handleInputChange }) => {
         name="companyName"
         maxLength="100"
         placeholder="company name"
-        value={inputData?.companyName}
+        value={inputData.company_name}
         onChange={handleInputChange}
         required
       />

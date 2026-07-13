@@ -2,7 +2,7 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
@@ -16,6 +16,8 @@
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "fastest-levenshtein": "^1.0.16",
+    "fuzzysort": "^3.1.0",
     "helmet": "^8.2.0",
     "minio": "^8.0.7",
     "morgan": "^1.11.0",
@@ -28,5 +30,9 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
+  },
+  "allowScripts": {
+    "tesseract.js@7.0.0": true,
+    "fsevents@2.3.3": true
   }
 }

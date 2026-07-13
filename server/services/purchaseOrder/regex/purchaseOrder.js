@@ -1,4 +1,5 @@
 export const purchaseOrderRegex = (text) => {
+  // console.log("PO Regex Begin ...");
   const patterns = [
     {
       regex: /purchase\s*order\s*[:#-]?\s*(\d{6,20})/i,
@@ -21,12 +22,13 @@ export const purchaseOrderRegex = (text) => {
   for (const { regex, confidence } of patterns) {
     const match = text.match(regex);
     if (match) {
+      // console.log("Found Match, Exit PO Regex.");
       return {
         purchaseOrder: match[1],
         confidence,
       };
     }
   }
-
+  console.log("Did not find match, Exit PO Regex");
   return "";
 };

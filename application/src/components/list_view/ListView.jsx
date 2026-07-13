@@ -3,12 +3,12 @@ import "./ListView.css";
 import { FaRegFilePdf } from "react-icons/fa6";
 import { LuImagePlus } from "react-icons/lu";
 import { IoImageOutline } from "react-icons/io5";
-import { usePurchaseOrdersService } from "../../utility/api_services/purchaseOrdersService";
+import { useGetPurchaseOrdersService } from "../../utility/api_services/purchaseOrdersService";
 import { dateFormatter } from "../../utility/dateFormatter";
 import { GrPrevious, GrNext } from "react-icons/gr";
 
 const ListView = ({ setView, setPoId }) => {
-  const purchaseOrders = usePurchaseOrdersService();
+  const purchaseOrders = useGetPurchaseOrdersService();
   const safeOrders = Array.isArray(purchaseOrders) ? purchaseOrders : [];
   const onClickHandler = (poId, view) => {
     console.log(poId);
@@ -46,13 +46,21 @@ const ListView = ({ setView, setPoId }) => {
                 </div>
                 <div
                   className="listView__addImgIcon"
-                  onClick={() => setView("img-upload")}
+                  onClick={() =>
+                    onClickHandler(
+                      {
+                        poId: item.po_id,
+                        purchase_order_number: item.purchase_order_number,
+                      },
+                      "img-upload",
+                    )
+                  }
                 >
                   <LuImagePlus />
                 </div>
                 <div
                   className="listView__imgIcon"
-                  onClick={() => setView("show-img")}
+                  onClick={() => onClickHandler(item.po_id, "show-img")}
                 >
                   <IoImageOutline />
                 </div>

@@ -8,7 +8,7 @@ const ProductForm = ({ product, updateProduct, removeProduct }) => {
         name="productName"
         placeholder="product"
         className="product__dynamic-item"
-        value={product.productName || ""}
+        value={product.product_name || ""}
         onChange={(e) =>
           updateProduct(product.id, "productName", e.target.value)
         }
@@ -18,7 +18,7 @@ const ProductForm = ({ product, updateProduct, removeProduct }) => {
         name="productQuantity"
         placeholder="quantity"
         className="product__dynamic-item"
-        value={product.productQuantity || ""}
+        value={product.quantity}
         onChange={(e) =>
           updateProduct(product.id, "productQuantity", e.target.value)
         }
@@ -28,7 +28,7 @@ const ProductForm = ({ product, updateProduct, removeProduct }) => {
         name="productWeight"
         placeholder="weight"
         className="product__dynamic-item"
-        value={product.productWeight || ""}
+        value={product.weight || "EA"}
         onChange={(e) =>
           updateProduct(product.id, "productWeight", e.target.value)
         }

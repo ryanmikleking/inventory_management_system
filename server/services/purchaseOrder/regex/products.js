@@ -1,3 +1,4 @@
+import { distance } from "fastest-levenshtein";
 const normalizeOCR = (text = "") => {
   return text
     .toUpperCase()
@@ -5,6 +6,7 @@ const normalizeOCR = (text = "") => {
     .replace(/I/g, "1") // OCR fix
     .replace(/\s+/g, " ");
 };
+
 const scorePartNumber = (part) => {
   if (!part) return 0;
 
@@ -100,24 +102,62 @@ export const parseProducts = (text) => {
     const confidence = Math.round(
       partScore * 0.5 + qtyScore * 0.3 + unitScore * 0.2,
     );
-    if (confidence > 30) {
-      results.push({
-        partNumber: {
-          value: part,
-          confidence: partScore,
-        },
-        quantity: {
-          value: quantity,
-          confidence: qtyScore,
-        },
-        unit: {
-          value: unit,
-          confidence: unitScore,
-        },
-        confidence,
-      });
-    }
-  }
 
-  return results;
+    results.push({
+      partNumber: {
+        value: part,
+        confidence: partScore,
+      },
+      quantity: {
+        value: quantity,
+        confidence: qtyScore,
+      },
+      unit: {
+        value: unit,
+        confidence: unitScore,
+      },
+      confidence,
+    });
+  }
+  const partsLibrary = [
+    "P1100672",
+    "P1100036",
+    "451303",
+    "PS451303X",
+    "PSC1500160X1",
+    "PSC1500160X",
+  ];
+
+  const cleanedResults = results
+    .map((result) => {
+      const value = String(result.partNumber.value);
+
+      let bestMatch = null;
+      let bestDistance = Infinity;
+
+      for (const part of partsLibrary) {
+        const d = distance(value, part);
+
+        if (d < bestDistance) {
+          bestDistance = d;
+          bestMatch = part;
+        }
+      }
+
+      if (bestDistance > 2) return null;
+
+      return {
+        ...result,
+        partNumber: {
+          ...result.partNumber,
+          value: bestMatch,
+        },
+      };
+    })
+    .filter(Boolean);
+
+  console.log(cleanedResults);
+
+  // console.log("Exit Products Regex");
+  return cleanedResults;
 };
