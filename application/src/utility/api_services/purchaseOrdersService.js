@@ -6,8 +6,9 @@ import {
   createPurchaseOrder,
   updatePurchaseOrderImages,
 } from "../../api/axiosPurchaseOrderServices";
+import { purchaseOrderFiles } from "../../api/axiosPurchaseOrderServices";
 
-export const useUpdatePurchaseOrdersService = () => {
+export const useUpdatePurchaseOrderImageService = () => {
   const [updateLoading, setUpdateLoading] = useState(false);
   const updateImages = async (data) => {
     setUpdateLoading(true);
@@ -107,4 +108,21 @@ export const useExtractPurchaseOrder = () => {
     error,
     extractLoading,
   };
+};
+export const useGetPurchaseOrderFiles = (poId) => {
+  const [files, setFiles] = useState([]);
+
+  useEffect(() => {
+    const getFilesFromRepo = async () => {
+      if (!poId) return;
+      const response = await purchaseOrderFiles(poId);
+
+      if (response) {
+        setFiles(response.data);
+      }
+    };
+    getFilesFromRepo();
+  }, [poId]);
+
+  return files;
 };

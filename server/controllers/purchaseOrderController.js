@@ -96,12 +96,19 @@ export const updatePurchaseOrder = async (req, res) => {
   }
 };
 export const extractPurchaseOrder = asyncHandler(async (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({
-      success: false,
-      message: "Purchase order file is required.",
-    });
-  }
-  const purchaseOrder = await parsePurchaseOrder(req.file.buffer);
+  console.log("=== REQUEST ===");
+  console.log("Headers:", req.headers["content-type"]);
+  console.log("Body:", req.body);
+  console.log("File:", req.file);
+  console.log("Files:", req.files);
+  console.log(req.files[0].buffer);
+  // if (!req.files) {
+  //   return res.status(400).json({
+  //     success: false,
+  //     message: "Purchase order file is required.",
+  //   });
+  console.log(req.files[0].name, req.files[0].mimetype);
+
+  const purchaseOrder = await parsePurchaseOrder(req.files[0]);
   res.status(200).json({ status: "success", data: purchaseOrder });
 });

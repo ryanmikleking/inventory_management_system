@@ -45,9 +45,19 @@ export const createPurchaseOrder = async (data) => {
 };
 export const updatePurchaseOrderImages = async (data) => {
   try {
-    const response = await api.post("/file-upload", data);
+    const response = await api.post("/file", data);
     return response;
   } catch (error) {
     console.error("Error processing update images", error);
+  }
+};
+
+export const purchaseOrderFiles = async (data) => {
+  try {
+    const response = await api.get(`/file/${data}`);
+
+    return response;
+  } catch (error) {
+    console.error("Error processing image retrieval...", error);
   }
 };

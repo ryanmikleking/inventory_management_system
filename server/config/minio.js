@@ -1,9 +1,14 @@
 import { Client } from "minio";
+import dotenv from "dotenv";
+dotenv.config({
+  path:
+    process.env.NODE_ENV === "production" ? ".env.docker" : ".env.development",
+});
 
 export const minioClient = new Client({
-  endPoint: "host.docker.internal",
-  port: 9000,
+  endPoint: process.env.MINIO_ENDPOINT,
+  port: process.env.MINIO_PORT,
   useSSL: false,
-  accessKey: "admin",
-  secretKey: "password123",
+  accessKey: process.env.MINIO_ACCESS_KEY,
+  secretKey: process.env.MINIO_SECRET_KEY,
 });

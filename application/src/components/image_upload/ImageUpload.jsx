@@ -4,10 +4,10 @@ import { useImageUploader } from "../../utility/imagePreview";
 import "./ImageUpload.css";
 import { Loading } from "../loading/Loading";
 
-import { useUpdatePurchaseOrdersService } from "../../utility/api_services/purchaseOrdersService";
+import { useUpdatePurchaseOrderImageService } from "../../utility/api_services/purchaseOrdersService";
 export const ImageUpload = ({ setView, poId, setPoId }) => {
   const { images, handleImageChange, handleRemoveImage } = useImageUploader();
-  const { updateLoading, updateImages } = useUpdatePurchaseOrdersService();
+  const { updateLoading, updateImages } = useUpdatePurchaseOrderImageService();
 
   const submitHandler = async () => {
     let count = 0;

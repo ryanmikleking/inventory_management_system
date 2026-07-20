@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.post(
   "/extract",
-  upload.single("purchaseOrderFile"),
+  upload.array("purchaseOrderFile"),
   extractPurchaseOrder,
 );
 router.post("/", upload.array("files"), createPurchaseOrder);

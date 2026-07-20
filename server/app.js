@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use("/api/purchase-orders", purchaseOrderRoutes);
-app.use("/api/file-upload", fileRoutes);
+app.use("/api/file", fileRoutes);
 app.use("/api", routes);
 
 // Health check

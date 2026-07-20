@@ -31,3 +31,22 @@ export const attachmentRepository = async ({
     return;
   }
 };
+export async function findByPurchaseOrderId(poId) {
+  console.log(poId);
+  const { rows } = await pool.query(
+    `
+      SELECT
+        attachment_id,
+        file_name,
+        file_type,
+        file_path
+      FROM purchase_order_attachments
+      WHERE po_id = $1
+      ORDER BY attachment_id;
+    `,
+    [poId],
+  );
+  console.log(rows);
+
+  return rows;
+}

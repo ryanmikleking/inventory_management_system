@@ -1,5 +1,8 @@
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.config({
+  path:
+    process.env.DB_HOST === "production" ? ".env.docker" : ".env.development",
+});
 import { ensureBucket } from "./services/minioService.js";
 
 import app from "./app.js";
@@ -11,10 +14,11 @@ async function startServer() {
   try {
     console.log("✅ Correct Server Instance");
     // 🧠 test DB connection before starting server
-    console.log("DB CONFIG", {
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      database: process.env.DB_NAME,
+    console.log({
+      NODE_ENV: process.env.NODE_ENV,
+      DB_HOST: process.env.DB_HOST,
+      DB_PORT: process.env.DB_PORT,
+      MINIO_ENDPOINT: process.env.MINIO_ENDPOINT,
     });
     const result = await pool.query("SELECT NOW()");
     const minIOresult = await ensureBucket();

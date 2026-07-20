@@ -34,6 +34,7 @@ const Form = () => {
   ]);
 
   const handleFileChange = async (file) => {
+    console.log(file.size);
     const data = await uploadPurchaseOrder(file);
     console.log(data.data);
     if (!data) return;

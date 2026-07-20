@@ -11,7 +11,6 @@ const ListView = ({ setView, setPoId }) => {
   const purchaseOrders = useGetPurchaseOrdersService();
   const safeOrders = Array.isArray(purchaseOrders) ? purchaseOrders : [];
   const onClickHandler = (poId, view) => {
-    console.log(poId);
     setPoId(poId);
     setView(view);
   };
@@ -60,7 +59,15 @@ const ListView = ({ setView, setPoId }) => {
                 </div>
                 <div
                   className="listView__imgIcon"
-                  onClick={() => onClickHandler(item.po_id, "show-img")}
+                  onClick={() =>
+                    onClickHandler(
+                      {
+                        poId: item.po_id,
+                        purchase_order_number: item.purchase_order_number,
+                      },
+                      "show-img",
+                    )
+                  }
                 >
                   <IoImageOutline />
                 </div>

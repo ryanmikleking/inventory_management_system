@@ -1,26 +1,34 @@
 import { extractImageText } from "./ocrExtractor.js";
 import { extractPdfText } from "./pdfExtractor.js";
-export const extractText = async (buffer) => {
-    if (!buffer) throw new Error("No file buffer provided");
+import { imageToPdf } from "./img2pdf.js";
+export const extractText = async (file) => {
+  let buffer;
+  if (file.mimetype !== "application/pdf") {
+    const pdfImage = await imageToPdf(file.buffer, file.mimetype);
+    buffer = Buffer.from(pdfImage.buffer);
+  } else {
+    buffer = file.buffer;
+  }
+  if (!buffer) throw new Error("No file buffer provided");
 
-    // STEP 1: use your existing PDF extractor
-    const pdfResult = await extractPdfText(buffer);
+  // STEP 1: use your existing PDF extractor
+  const pdfResult = await extractPdfText(buffer);
 
-    const text = pdfResult?.text?.trim() || "";
+  const text = pdfResult?.text?.trim() || "";
 
-    // STEP 2: decide if OCR is needed
-    if (text.length > 20) {
-        return {
-            source: "pdf-extractor",
-            text
-        };
-    }
-
-    // STEP 3: fallback OCR
-    const ocrText = await extractImageText(buffer);
-
+  // STEP 2: decide if OCR is needed
+  if (text.length > 20) {
     return {
-        source: "ocr",
-        text: ocrText
+      source: "pdf-extractor",
+      text,
     };
+  }
+
+  // STEP 3: fallback OCR
+  const ocrText = await extractImageText(buffer);
+
+  return {
+    source: "ocr",
+    text: ocrText,
+  };
 };

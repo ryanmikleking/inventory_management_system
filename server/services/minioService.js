@@ -1,15 +1,22 @@
+import dotenv from "dotenv";
+dotenv.config({
+  path:
+    process.env.DB_HOST === "production" ? ".env.docker" : ".env.development",
+});
 import { minioClient } from "../config/minio.js";
-
-const bucketName = "po-attachments";
+import {
+  attachmentRepository,
+  findByPurchaseOrderId,
+} from "../services/attachmentRepository.js";
 
 export const ensureBucket = async () => {
-  const exists = await minioClient.bucketExists(bucketName);
+  const exists = await minioClient.bucketExists(process.env.MINIO_BUCKET);
 
   if (!exists) {
-    await minioClient.makeBucket(bucketName);
-    return `${bucketName} created ${Date.now()}`;
+    await minioClient.makeBucket(process.env.MINIO_BUCKET);
+    return `${process.env.MINIO_BUCKET} created ${Date.now()}`;
   }
-  return `${bucketName} already created! 🎸`;
+  return `${process.env.MINIO_BUCKET} already created! 🎸`;
 };
 
 export const uploadFile = async (file, poId) => {
@@ -24,10 +31,29 @@ export const uploadFile = async (file, poId) => {
       fileName = `po/${poId}/${Date.now()}-${fileName}`;
     }
     console.log(file.buffer);
-    await minioClient.putObject(bucketName, fileName, file.buffer, file.size);
+    await minioClient.putObject(
+      process.env.MINIO_BUCKET,
+      fileName,
+      file.buffer,
+      file.size,
+    );
 
     return fileName;
   } catch (error) {
     console.error("MinIO upload failed: ", error);
   }
+};
+
+export const getPurchaseOrderSignedUrls = async (poId) => {
+  const bucket = process.env.MINIO_BUCKET;
+
+  const attachments = await findByPurchaseOrderId(poId);
+
+  await Promise.all(
+    attachments.map((file) => minioClient.getObject(bucket, file.file_path)),
+  );
+
+  res.setHeader("Content-Type", file.fileType || "image/jpeg");
+
+  stream.pipe(res);
 };

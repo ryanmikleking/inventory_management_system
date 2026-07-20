@@ -14,11 +14,12 @@ export const extractImageText = async (pdfBuffer) => {
 
   try {
     // Save uploaded PDF
+    console.log(pdfBuffer instanceof Buffer);
     await fs.writeFile(tempPdfPath, pdfBuffer);
 
     // Determine number of pages
     const pdfData = await pdfParse(pdfBuffer);
-    const pageCount = pdfData.numpages;
+    const pageCount = pdfData.numpages || 1;
 
     console.log(`PDF contains ${pageCount} page(s)`);
 
@@ -40,6 +41,10 @@ export const extractImageText = async (pdfBuffer) => {
       //log(`Processing page ${page} of ${pageCount}`);
 
       const image = await converter(page);
+
+      if (!image.path) {
+        throw new Error(`Failed converting page ${page}`);
+      }
 
       const {
         data: { text },
