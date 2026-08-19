@@ -1,24 +1,34 @@
-import { fromPath } from "pdf2pic";
-import Tesseract from "tesseract.js";
-import pdfParse from "pdf-parse";
 import path from "path";
 import fs from "fs/promises";
+import crypto from "crypto";
+import pdfParse from "pdf-parse";
+import { fromPath } from "pdf2pic";
+import Tesseract from "tesseract.js";
 
 export const extractImageText = async (pdfBuffer) => {
-  const tempDir = path.join(process.cwd(), "temp");
-  await fs.mkdir(tempDir, { recursive: true });
+  // Create a UNIQUE directory for this PDF
+  const jobId = crypto.randomUUID();
 
-  const tempPdfPath = path.join(tempDir, `${Date.now()}.pdf`);
+  const tempDir = path.join(process.cwd(), "temp", jobId);
+
+  await fs.mkdir(tempDir, {
+    recursive: true,
+  });
+
+  const tempPdfPath = path.join(tempDir, "input.pdf");
 
   let worker;
 
   try {
-    // Save uploaded PDF
-    console.log(pdfBuffer instanceof Buffer);
+    console.log("OCR JOB:", jobId);
+
+    console.log("PDF BUFFER:", pdfBuffer instanceof Buffer);
+
     await fs.writeFile(tempPdfPath, pdfBuffer);
 
     // Determine number of pages
     const pdfData = await pdfParse(pdfBuffer);
+
     const pageCount = pdfData.numpages || 1;
 
     console.log(`PDF contains ${pageCount} page(s)`);
@@ -38,9 +48,11 @@ export const extractImageText = async (pdfBuffer) => {
     let fullText = "";
 
     for (let page = 1; page <= pageCount; page++) {
-      //log(`Processing page ${page} of ${pageCount}`);
+      console.log(`OCR ${jobId}: processing page ${page}`);
 
       const image = await converter(page);
+
+      console.log("Generated image:", image.path);
 
       if (!image.path) {
         throw new Error(`Failed converting page ${page}`);
@@ -52,23 +64,27 @@ export const extractImageText = async (pdfBuffer) => {
 
       fullText += text + "\n";
 
-      // Optional: remove generated image after OCR
+      // Remove this page's image
       await fs.unlink(image.path).catch(() => {});
     }
-    // console.log("typeof fullText:", typeof fullText);
-    // console.log("fullText instanceof String:", fullText instanceof String);
 
-    const trimmed = fullText.trim();
-
-    // console.log("typeof trimmed:", typeof trimmed);
-    // console.log(trimmed);
-
-    return trimmed;
+    return fullText.trim();
   } finally {
     if (worker) {
       await worker.terminate();
     }
 
+    // Remove the PDF
     await fs.unlink(tempPdfPath).catch(() => {});
+
+    // Remove the unique directory
+    await fs
+      .rm(tempDir, {
+        recursive: true,
+        force: true,
+      })
+      .catch(() => {});
+
+    console.log("OCR JOB CLEANED:", jobId);
   }
 };

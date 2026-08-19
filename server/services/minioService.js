@@ -30,7 +30,6 @@ export const uploadFile = async (file, poId) => {
     } else {
       fileName = `po/${poId}/${Date.now()}-${fileName}`;
     }
-    console.log(file.buffer);
     await minioClient.putObject(
       process.env.MINIO_BUCKET,
       fileName,
@@ -44,16 +43,13 @@ export const uploadFile = async (file, poId) => {
   }
 };
 
-export const getPurchaseOrderSignedUrls = async (poId) => {
-  const bucket = process.env.MINIO_BUCKET;
+export const getFileStream = async (filePath) => {
+  return minioClient.getObject(process.env.MINIO_BUCKET, filePath);
+};
 
-  const attachments = await findByPurchaseOrderId(poId);
-
-  await Promise.all(
-    attachments.map((file) => minioClient.getObject(bucket, file.file_path)),
-  );
-
-  res.setHeader("Content-Type", file.fileType || "image/jpeg");
-
-  stream.pipe(res);
+export const deleteFile = async (filePath) => {
+  return minioClient.removeObject(process.env.MINIO_BUCKET, filePath);
+};
+export const downloadFile = async (filePath) => {
+  return await minioClient.getObject(process.env.MINIO_BUCKET, filePath);
 };

@@ -1,163 +1,238 @@
 import { distance } from "fastest-levenshtein";
-const normalizeOCR = (text = "") => {
-  return text
+
+const normalize = (value = "") => {
+  return String(value)
     .toUpperCase()
-    .replace(/O/g, "0") // OCR fix
-    .replace(/I/g, "1") // OCR fix
-    .replace(/\s+/g, " ");
+    .replace(/[^A-Z0-9]/g, "");
 };
 
-const scorePartNumber = (part) => {
-  if (!part) return 0;
+const quantityUnitRegex =
+  /\b(\d+(?:,\d{3})?(?:\.\d+)?)\s*(EA|EACH|PCS|PC|LB|LBS|FT|IN|YD|RL|BOX|BX|PK|SET|KG|M|MM|CM)\b/i;
 
-  const p = normalizeOCR(part);
+const findPart = (line, parts) => {
+  const normalizedLine = normalize(line);
 
-  let score = 0;
+  for (const dbPart of parts) {
+    const normalizedDBPart = normalize(dbPart);
 
-  const validShape = /^[A-Z0-9]{6,12}$/;
-  const hasLetter = /[A-Z]/.test(p);
-  const hasNumber = /\d/.test(p);
+    if (normalizedDBPart && normalizedLine.includes(normalizedDBPart)) {
+      return {
+        original: dbPart,
+        distance: 0,
+      };
+    }
+  }
 
-  if (!(hasLetter && hasNumber)) return 10;
+  const words = line.match(/[A-Z0-9\-\/]+/gi) || [];
 
-  score += 40;
+  let bestPart = null;
+  let bestDistance = Infinity;
 
-  if (validShape.test(p)) score += 30;
+  for (const word of words) {
+    const normalizedWord = normalize(word);
 
-  // OCR noise penalty
-  const noise = (part.match(/[OI]/g) || []).length;
-  score -= noise * 10;
+    if (!normalizedWord) continue;
 
-  return Math.max(score, 0);
-};
-const parseQuantity = (qty) => {
-  if (!qty) return null;
+    for (const dbPart of parts) {
+      const normalizedDBPart = normalize(dbPart);
 
-  let value = Number(qty.replace(/,/g, ""));
+      if (Math.abs(normalizedWord.length - normalizedDBPart.length) > 2) {
+        continue;
+      }
 
-  if (Number.isNaN(value)) return null;
+      const d = distance(normalizedWord, normalizedDBPart);
 
-  // OCR fix: 480000 -> 480, 628000 -> 628
-  if (value >= 100000) value = value / 1000;
-  else if (value >= 10000) value = value / 100;
+      if (d < bestDistance) {
+        bestDistance = d;
 
-  return value;
-};
+        bestPart = dbPart;
+      }
+    }
+  }
 
-const scoreQuantity = (qty) => {
-  if (qty == null) return 0;
+  if (bestPart && bestDistance <= 1) {
+    return {
+      original: bestPart,
+      distance: bestDistance,
+    };
+  }
 
-  let score = 20;
-
-  if (Number.isFinite(qty)) score += 20;
-
-  if (Number.isInteger(qty)) score += 10;
-
-  if (qty > 0) score += 10;
-
-  return Math.min(score, 40);
-};
-
-const parseUnit = (unit) => {
-  if (!unit) return null;
-
-  return unit.replace(/\./g, "").toUpperCase();
+  return null;
 };
 
-const scoreUnit = (unit) => {
-  if (!unit) return 0;
-
-  const valid = /^(EA|LB|LBS)$/i.test(unit);
-
-  return valid ? 20 : 10;
-};
-
-const extractParts = (text) => {
-  const partRegex = /\b(?:[A-Z]{1,4}\d{3,10}[A-Z0-9]*|\d{6,10})\b/g;
-
-  return [...new Set((text.match(partRegex) || []).map(normalizeOCR))];
-};
-
-export const parseProducts = (text) => {
-  const parts = extractParts(text);
-
-  const quantityMatches = text.match(/\b\d{3,}\b/g) || [];
-  const unitMatches = text.match(/\b(EA|LBS?|LB)\b/gi) || [];
+export const parseProducts = (text, parts) => {
+  const lines = String(text)
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
 
   const results = [];
 
-  for (let i = 0; i < parts.length; i++) {
-    const part = parts[i];
+  for (const line of lines) {
+    const quantityUnit = line.match(quantityUnitRegex);
 
-    const rawQty = quantityMatches[i] || null;
-    const rawUnit = unitMatches[i] || null;
+    if (!quantityUnit) {
+      continue;
+    }
 
-    const quantity = parseQuantity(rawQty);
-    const unit = parseUnit(rawUnit);
+    const quantity = quantityUnit[1].replace(/,/g, "");
 
-    const partScore = scorePartNumber(part);
-    const qtyScore = scoreQuantity(quantity);
-    const unitScore = scoreUnit(unit);
+    const unit = quantityUnit[2].toUpperCase();
 
-    const confidence = Math.round(
-      partScore * 0.5 + qtyScore * 0.3 + unitScore * 0.2,
+    const matchedPart = findPart(line, parts);
+
+    if (!matchedPart) {
+      continue;
+    }
+
+    const normalizedDBPart = normalize(matchedPart.original);
+
+    let cleanedLine = line;
+
+    const partRegex = new RegExp(
+      matchedPart.original
+        .split("")
+        .map((char) => char.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+        .join("[\\s\\-\\/]*"),
+      "i",
     );
 
+    if (partRegex.test(cleanedLine)) {
+      cleanedLine = cleanedLine.replace(partRegex, matchedPart.original);
+    } else {
+      const words = cleanedLine.split(/\s+/);
+
+      const index = words.findIndex((word) => {
+        const d = distance(normalize(word), normalizedDBPart);
+
+        return d <= 1;
+      });
+
+      if (index !== -1) {
+        words[index] = matchedPart.original;
+
+        cleanedLine = words.join(" ");
+      }
+    }
+
+    const canonicalIndex = cleanedLine
+      .toUpperCase()
+      .indexOf(matchedPart.original.toUpperCase());
+
+    const descriptionStart = canonicalIndex + matchedPart.original.length;
+
+    const quantityIndex = cleanedLine.search(
+      /\b\d+(?:,\d{3})?(?:\.\d+)?\s*(EA|EACH|PCS|PC|LB|LBS|FT|IN|YD|RL|BOX|BX|PK|SET|KG|M|MM|CM)\b/i,
+    );
+
+    let description = cleanedLine
+      .substring(descriptionStart, quantityIndex)
+      .trim();
+
+    description = description
+      .replace(/^[\s\-:|]+/, "")
+      .replace(/[\s\-:|]+$/, "");
+
     results.push({
-      partNumber: {
-        value: part,
-        confidence: partScore,
-      },
-      quantity: {
-        value: quantity,
-        confidence: qtyScore,
-      },
-      unit: {
-        value: unit,
-        confidence: unitScore,
-      },
-      confidence,
+      partNumber: matchedPart.original,
+
+      description,
+
+      quantity: Number(quantity),
+
+      unit,
+
+      sourceLine: cleanedLine,
     });
   }
-  const partsLibrary = [
-    "P1100672",
-    "P1100036",
-    "451303",
-    "PS451303X",
-    "PSC1500160X1",
-    "PSC1500160X",
-  ];
 
-  const cleanedResults = results
-    .map((result) => {
-      const value = String(result.partNumber.value);
+  return results;
+};
 
-      let bestMatch = null;
-      let bestDistance = Infinity;
-
-      for (const part of partsLibrary) {
-        const d = distance(value, part);
-
-        if (d < bestDistance) {
-          bestDistance = d;
-          bestMatch = part;
-        }
-      }
-
-      if (bestDistance > 2) return null;
-
-      return {
-        ...result,
-        partNumber: {
-          ...result.partNumber,
-          value: bestMatch,
-        },
-      };
-    })
+export const findProductLines = (text) => {
+  const lines = String(text)
+    .split(/\r?\n/)
+    .map((line) => line.trim())
     .filter(Boolean);
 
-  console.log(cleanedResults);
+  // Quantity + unit at the end of the line
+  const quantityUnitRegex =
+    /\b\d+(?:,\d{3})?(?:\.\d+)?\s*(EA|EACH|PCS|PC|LB|LBS|FT|IN|YD|RL|BOX|BX|PK|SET|KG|M|MM|CM)\b/i;
 
-  // console.log("Exit Products Regex");
-  return cleanedResults;
+  const productLines = lines.filter((line) => {
+    return quantityUnitRegex.test(line);
+  });
+
+  console.log("========== POSSIBLE PRODUCT LINES ==========");
+
+  productLines.forEach((line, index) => {
+    console.log(`${index + 1}: ${line}`);
+  });
+
+  console.log("Total possible product lines:", productLines.length);
+
+  return productLines;
+};
+
+export const findPartInLine = (line, parts) => {
+  const tokens = line.split(/\s+/).filter(Boolean);
+
+  let bestMatch = null;
+  let bestDistance = Infinity;
+
+  for (const token of tokens) {
+    console.log("TOKEN", token);
+    const normalizedToken = normalize(token);
+
+    if (normalizedToken.length < 5) {
+      continue;
+    }
+
+    for (const part of parts) {
+      const normalizedPart = normalize(part);
+
+      if (Math.abs(normalizedToken.length - normalizedPart.length) > 3) {
+        continue;
+      }
+
+      const d = distance(normalizedToken, normalizedPart);
+
+      if (d <= 3) {
+        console.log(`${normalizedToken} <-> ${normalizedPart} = ${d}`);
+      }
+
+      if (d < bestDistance) {
+        bestDistance = d;
+        bestMatch = part;
+      }
+    }
+  }
+
+  return {
+    partNumber: bestMatch,
+    distance: bestDistance,
+  };
+};
+export const findQuantity = (line) => {
+  const match = line.match(/(\d+(?:\.\d+)?)\s*EA\b/i);
+
+  // NEVER return null
+  if (!match) {
+    console.log("NO QUANTITY FOUND:", line);
+    return "";
+  }
+
+  const rawQuantity = match[1];
+
+  // Already has decimal
+  if (rawQuantity.includes(".")) {
+    return rawQuantity;
+  }
+
+  // Add decimal three places from right
+  if (rawQuantity.length > 3) {
+    return rawQuantity.slice(0, -3) + "." + rawQuantity.slice(-3);
+  }
+
+  return rawQuantity;
 };

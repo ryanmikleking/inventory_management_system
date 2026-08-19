@@ -2,7 +2,8 @@ import express from "express";
 import upload from "../middleware/upload.js";
 import {
   uploadPOImage,
-  getPurchaseOrderFiles,
+  getPurchaseOrderAttachments,
+  getAttachment,
 } from "../controllers/imageController.js";
 
 const router = express.Router();
@@ -10,7 +11,8 @@ const router = express.Router();
 // POST /api/files/upload
 router.post("/", upload.array("files"), uploadPOImage);
 
-// GET /api/files/signed/:key
-router.get("/:poId", getPurchaseOrderFiles);
+router.get("/:poId", getPurchaseOrderAttachments);
+
+router.get("/streams/:attachmentId", getAttachment);
 
 export default router;

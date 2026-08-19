@@ -33,3 +33,37 @@
   background-position: center;
   z-index: 1;
 }
+.device-too-small {
+  display: none;
+}
+
+@media (max-width: 800px) {
+  .device-too-small {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    position: fixed;
+    inset: 0;
+
+    padding: 2rem;
+    text-align: center;
+
+    background: #ffffff;
+    z-index: 9999;
+
+    h1 {
+      margin-bottom: 1rem;
+    }
+
+    p {
+      max-width: 400px;
+      line-height: 1.5;
+    }
+  }
+
+  .content-container {
+    display: none;
+  }
+}

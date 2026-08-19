@@ -1,0 +1,37 @@
+.purchase-order-image {
+  width: 300px;
+  height: auto;
+  display: block;
+  margin: 0.5rem;
+}
+.gallery-container {
+  display: flex;
+}
+@media print {
+  .purchase-order-image {
+    width: 100%;
+    height: auto;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .no-print {
+    display: none;
+  }
+}
+.ShowImages__btn {
+  width: 10rem;
+  height: 2rem;
+  text-align: center;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 2rem;
+  color: #ffff;
+  background-image: linear-gradient(
+    to left top,
+    #9ba0a5,
+    #b4b7bb,
+    #cdced1,
+    #e6e6e8
+  );
+}

@@ -5,8 +5,9 @@ dotenv.config({
 });
 import { updateImagesService } from "../services/updateImagesService.js";
 import { AppError } from "../middleware/errors/AppError.js";
-import { findByPurchaseOrderId } from "../services/attachmentRepository.js";
+import * as attachmentService from "../services/attachmentService.js";
 import { minioClient } from "../config/minio.js";
+import fs from "fs";
 
 export const uploadPOImage = async (req, res) => {
   try {
@@ -32,28 +33,70 @@ export const uploadPOImage = async (req, res) => {
     }
   }
 };
-export const getPurchaseOrderFiles = async (req, res) => {
-  try {
-    const { poId } = req.params;
+export const getPurchaseOrderAttachments = async (req, res) => {
+  const { poId } = req.params;
 
-    const bucket = process.env.MINIO_BUCKET;
+  const attachments = await attachmentService.getPurchaseOrderAttachments(poId);
 
-    const attachments = await findByPurchaseOrderId(poId);
+  res.json({
+    success: true,
 
-    const streams = await Promise.all(
-      attachments.map((file) => minioClient.getObject(bucket, file.file_path)),
-    );
-    res.setHeader("Content-Type", attachments.fileType || "image/jpeg");
-
-    stream.pipe(res);
-    res.json({
-      success: true,
-      files,
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      message: "Unable to retrieve purchase order attachments.",
-    });
-  }
+    attachments,
+  });
 };
+export const getAttachment = async (req, res) => {
+  const { attachmentId } = req.params;
+
+  const {
+    stream,
+
+    mimeType,
+
+    fileName,
+  } = await attachmentService.streamAttachment(attachmentId);
+
+  res.setHeader("Content-Type", mimeType);
+
+  res.setHeader("Content-Disposition", `inline; filename="${fileName}"`);
+
+  stream.pipe(res);
+};
+// export const getAttachment = async (req, res) => {
+//   try {
+//     const { attachmentId } = req.params;
+
+//     const { stream, mimeType, fileName } =
+//       await attachmentService.streamAttachment(attachmentId);
+
+//     console.log("mimeType:", mimeType);
+//     console.log("fileName:", fileName);
+//     console.log("stream pipe:", typeof stream.pipe);
+
+//     const outputPath = `/tmp/test-${fileName}`;
+
+//     const writeStream = fs.createWriteStream(outputPath);
+
+//     stream.pipe(writeStream);
+
+//     writeStream.on("finish", () => {
+//       console.log("Saved file:", outputPath);
+
+//       res.json({
+//         success: true,
+//         path: outputPath,
+//       });
+//     });
+
+//     writeStream.on("error", (err) => {
+//       console.error("Write error:", err);
+//       res.status(500).json({
+//         error: err.message,
+//       });
+//     });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({
+//       error: err.message,
+//     });
+//   }
+// };

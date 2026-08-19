@@ -16,14 +16,16 @@ const Form = () => {
   const [inputData, setInputData] = useState({
     company_name: "",
     purchase_order: "",
-    files: File,
+    file: null,
     notes: "",
     quality_check: false,
   });
+  const [extractFiles, setExtractFiles] = useState([]);
   const { uploadPurchaseOrder, extractLoading } = useExtractPurchaseOrder();
   const { createLoading, createOrder } = useCreatePurchaseOrderService();
   const navigate = useNavigate();
   const { images, handleImageChange, handleRemoveImage } = useImageUploader();
+  // const [files, setFiles] = useState([]);
   const [products, setProducts] = useState([
     {
       id: uuidv4(),
@@ -34,22 +36,36 @@ const Form = () => {
   ]);
 
   const handleFileChange = async (file) => {
-    console.log(file.size);
-    const data = await uploadPurchaseOrder(file);
-    console.log(data.data);
+    const updatedFiles = [...extractFiles, file];
+
+    setExtractFiles(updatedFiles);
+
+    const moreFiles = window.confirm(
+      "Are there more files to upload? If so, select OK. If not, hit Cancel to submit.",
+    );
+
+    if (moreFiles) return;
+
+    console.log("Files being submitted:", updatedFiles);
+
+    const data = await uploadPurchaseOrder(updatedFiles);
+
     if (!data) return;
 
+    console.log("Data:", data);
+
     setInputData({
-      company_name: data.data.companyName.name,
+      company_name: data.data.companyName,
       purchase_order: data.data.purchaseOrder.purchaseOrder,
-      files: [file],
+      file: updatedFiles,
     });
+
     setProducts(
       data.data.products.map((product) => ({
         id: uuidv4(),
-        product_name: product.partNumber.value,
-        quantity: product.quantity.value,
-        weight: product.unit.value,
+        product_name: product.partNo?.partNumber,
+        quantity: product.quantity,
+        weight: "",
       })),
     );
   };
@@ -92,20 +108,24 @@ const Form = () => {
       formData.append("purchase_order_number", inputData.purchase_order);
       formData.append("notes", inputData.notes);
       formData.append("quality_check", inputData.quality_check);
+
+      const pdfBlob = new Blob([inputData.file], { type: "application/pdf" });
+      console.log("this is what you WANT:", inputData.file);
       formData.append(
         "files",
-        new File([inputData.files.blob], `${inputData.purchase_order}.pdf`, {
+        new File([pdfBlob], `${inputData.purchase_order}.pdf`, {
           type: "application/pdf",
           lastModified: Date.now(),
         }),
       );
       let count = 0;
+
       images.forEach((file) => {
         count++;
-
+        const blob = new Blob([file.file], { type: file.file.type });
         formData.append(
           "files",
-          new File([file.blob], `${inputData.purchase_order}-${count}.jpg`, {
+          new File([blob], `${inputData.purchase_order}-${count}.jpg`, {
             type: `image/jpg`,
             lastModified: Date.now(),
           }),
@@ -115,7 +135,6 @@ const Form = () => {
       const response = await createOrder(formData);
       const userConfirmed = confirm("Submitted. Click Okay to continue...");
       if (userConfirmed) {
-        console.log("submitted");
         if (response.status === 201 || response.status === 200) {
           navigate("/");
         }

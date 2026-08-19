@@ -1,0 +1,298 @@
+.listView {
+  width: 100%;
+  height: 85vh;
+  padding: 1.5rem 2rem;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.listView__search {
+  width: 98%;
+  margin: 0 auto 1.5rem;
+}
+
+.listView__search form {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.listView__search input {
+  flex: 1;
+  height: 2.6rem;
+  padding: 0 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  outline: none;
+  font-size: 0.95rem;
+  background-color: #fff;
+  box-sizing: border-box;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.listView__search input::placeholder {
+  color: #9ca3af;
+}
+
+.listView__search input:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.15);
+}
+
+.listView__search button {
+  height: 2.6rem;
+  padding: 0 1.25rem;
+  border: none;
+  border-radius: 0.5rem;
+  background-color: #3b82f6;
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
+}
+
+.listView__search button:hover {
+  background-color: #2563eb;
+}
+
+.listView__search button:active {
+  transform: translateY(1px);
+}
+
+.listView > table {
+  width: 98%;
+  margin: 0 auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  background-color: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.6rem;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.listView th {
+  height: 3.25rem;
+  padding: 0 1rem;
+  background-image: linear-gradient(
+    to left top,
+    #6b7280,
+    #7d838c,
+    #92969d,
+    #a8abb1
+  );
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  text-align: center;
+  border: none;
+}
+
+.listView th:first-child {
+  border-top-left-radius: 0.6rem;
+}
+
+.listView th:last-child {
+  border-top-right-radius: 0.6rem;
+}
+
+.listView td {
+  height: 3rem;
+  padding: 0.25rem 0.75rem;
+  background-color: #fff;
+  border: none;
+  border-bottom: 1px solid #edf0f2;
+  color: #374151;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.listView tbody tr:not(.buttons-table-row):last-of-type td {
+  border-bottom: none;
+}
+.listView tbody tr:not(.buttons-table-row) {
+  transition: background-color 0.15s ease;
+}
+
+.listView tbody tr:not(.buttons-table-row):hover td {
+  background-color: #f8fafc;
+}
+
+.listView td:first-child {
+  color: #6b7280;
+  font-size: 0.8rem;
+  width: 5rem;
+}
+
+.listView td:nth-child(2) {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.listView td:nth-child(3) {
+  color: #4b5563;
+}
+
+.listView .edit-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.35rem;
+  height: 3rem;
+}
+
+.listView__addImgIcon,
+.listView__imgIcon,
+.listView__pdfIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2rem;
+  height: 2rem;
+  margin: 0;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.listView__addImgIcon:hover,
+.listView__imgIcon:hover,
+.listView__pdfIcon:hover {
+  transform: translateY(-1px);
+}
+
+.listView__pdfIcon {
+  color: #9a0404;
+}
+
+.listView__pdfIcon:hover {
+  background-color: #fef2f2;
+}
+
+.listView__addImgIcon {
+  color: #166534;
+}
+
+.listView__addImgIcon:hover {
+  background-color: #f0fdf4;
+}
+
+.listView__imgIcon {
+  color: #2563eb;
+}
+
+.listView__imgIcon:hover {
+  background-color: #eff6ff;
+}
+
+.listView .buttons-table-row td {
+  height: 4rem;
+  padding: 0;
+  border: none;
+  background-image: none;
+  background-color: #f8fafc;
+}
+
+.listView__pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.listView__pagination button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  border: 1px solid #d1d5db;
+  border-radius: 0.4rem;
+  background-color: #fff;
+  color: #374151;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.listView__pagination button:hover:not(:disabled) {
+  border-color: #60a5fa;
+  background-color: #eff6ff;
+  color: #2563eb;
+}
+
+.listView__pagination button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.listView__pagination span {
+  min-width: 7rem;
+  color: #4b5563;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.listView td[colspan="5"] {
+  height: 5rem;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.listView__error {
+  width: 98%;
+  margin: 0 auto 1rem;
+  padding: 0.75rem 1rem;
+  box-sizing: border-box;
+  border: 1px solid #fecaca;
+  border-radius: 0.5rem;
+  background-color: #fef2f2;
+  color: #b91c1c;
+  font-size: 0.875rem;
+}
+
+@media (max-width: 768px) {
+  .listView {
+    padding: 1rem;
+  }
+
+  .listView__search form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .listView__search input,
+  .listView__search button {
+    width: 100%;
+  }
+
+  .listView > table {
+    width: 100%;
+    font-size: 0.8rem;
+  }
+
+  .listView th,
+  .listView td {
+    padding: 0.5rem;
+  }
+
+  .listView td:nth-child(4) {
+    display: none;
+  }
+
+  .listView th:nth-child(4) {
+    display: none;
+  }
+}

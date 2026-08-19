@@ -13,16 +13,13 @@ export const ImageUpload = ({ setView, poId, setPoId }) => {
     let count = 0;
     const formData = new FormData();
     images.forEach((img) => {
+      const blob = new Blob([img], { type: img.type });
       formData.append(
         "files",
-        new File(
-          [img.blob],
-          `${poId.purchase_order_number}-update-${count}.jpg`,
-          {
-            type: `image/jpg`,
-            lastModified: Date.now(),
-          },
-        ),
+        new File([blob], `${poId.purchase_order_number}-update-${count}.jpg`, {
+          type: `image/jpg`,
+          lastModified: Date.now(),
+        }),
       );
     });
     formData.append("poId", poId.poId);

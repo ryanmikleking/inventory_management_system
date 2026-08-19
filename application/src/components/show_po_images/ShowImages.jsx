@@ -1,27 +1,46 @@
 import { useGetPurchaseOrderFiles } from "../../utility/api_services/purchaseOrdersService";
+import { Loading } from "../loading/Loading";
 import "./ShowImages.css";
 
 export const ShowImages = ({ setView, poId }) => {
   console.log(poId.poId);
-  const files = useGetPurchaseOrderFiles(poId.poId);
-  console.log(files);
+  const { files, fileLoading, error } = useGetPurchaseOrderFiles(poId.poId);
+  if (fileLoading) {
+    return <Loading message={"Loading files ..."} />;
+  }
+  if (error) {
+    return <h2>{error}</h2>;
+  }
+
   return (
-    <div>
-      <h1>Show Images</h1>
-      {files?.files?.map((file) => (
-        <img
-          key={file.file_name}
-          className="minio-images"
-          src={file.signedUrl}
-          alt={file.fileName}
-          onLoad={() => console.log("Loaded:", file.file_name)}
-          onError={(e) => {
-            console.log("Failed:", file.fileName);
-            console.log(e.currentTarget.src);
-          }}
-        />
-      ))}
-      <button onClick={() => setView("table")}>Go Back</button>
+    <div className="gallery">
+      <div className="gallery-container">
+        {files?.attachments?.map((file) => (
+          <div key={file.attachmentId}>
+            {file.file_type === "application/pdf" ? (
+              <iframe
+                src={`/api/file/streams/${file.attachment_id}`}
+                width="100%"
+                height="700"
+                title={file.fileName}
+              />
+            ) : (
+              <img
+                src={`/api/file/streams/${file.attachment_id}`}
+                width="100%"
+                height={150}
+                alt={file.fileName}
+                className="purchase-order-image"
+              />
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* <button onClick={() => setView("table")}>Go Back</button> */}
+      <div onClick={() => setView("table")} className="ShowImages__btn">
+        Go Back
+      </div>
     </div>
   );
 };

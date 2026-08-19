@@ -10,17 +10,16 @@ const UserInputTop = ({ inputData, handleInputChange, handleFileChange }) => {
         accept="image/*, application/pdf"
         id="poInput"
         name="files"
-        onChange={(e) => handleFileChange(e.target.files[0])}
+        multiple
+        onChange={(e) => handleFileChange(e.target.files)}
       />
-      <select>
-        <option>1</option>
-        <option>1</option>
-        <option>1</option>
-        <option>1</option>
-        <option>1</option>
-        <option>1</option>
-        <option>1</option>
-      </select>
+      {/* <select onChange={(e) => setNoInputFiles(Number(e.target.value))}>
+        <option value="">Select a number</option>
+        <option value={1}>1</option>
+        <option value={2}>2</option>
+        <option value={3}>3</option>
+        <option value={4}>4</option>
+      </select> */}
       <input
         type="text"
         id="purchaseOrder"

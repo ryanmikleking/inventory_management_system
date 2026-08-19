@@ -1,15 +1,43 @@
 import api from "./api";
 
-export const getPurchaseOrders = async () => {
+export const getPurchaseOrders = async ({
+  page = 1,
+  limit = 20,
+  search = "",
+} = {}) => {
   try {
-    const response = await api.get("/purchase-orders");
-
-    // Transforms object of objects into an array of objects
-    const dataArray = Object.values(response.data);
-    return dataArray;
+    const response = await api.get("/purchase-orders", {
+      params: {
+        page,
+        limit,
+        search,
+      },
+    });
+    console.log("RAW API RESPONSE:", response.data);
+    console.log("PURCHASE ORDERS:", response.data.purchase_orders);
+    console.log(
+      "PURCHASE ORDERS LENGTH:",
+      response.data.purchase_orders?.length,
+    );
+    return [true, response.data];
   } catch (error) {
-    console.error("Error fetching data:", error);
-    return []; // Return empty array on failure
+    console.error("Error fetching purchase orders:", error);
+
+    return [
+      false,
+      {
+        purchase_orders: [],
+        pagination: {
+          page,
+          limit,
+          totalItems: 0,
+          totalPages: 0,
+          hasNextPage: false,
+          hasPreviousPage: false,
+        },
+        error: error.response?.data?.error || "Failed to fetch purchase orders",
+      },
+    ];
   }
 };
 export const getSinglePurchaseOrder = async (id) => {
@@ -25,6 +53,7 @@ export const getSinglePurchaseOrder = async (id) => {
 export const extractPurchaseOrder = async (formData) => {
   try {
     const response = await api.post("/purchase-orders/extract", formData);
+    console.log(response);
     return { status: response.status, data: response.data };
   } catch (error) {
     console.error("Error processing pdf input", error);
@@ -36,7 +65,6 @@ export const createPurchaseOrder = async (data) => {
   // formData.append("po-data", data);
   try {
     const response = await api.post("/purchase-orders", data);
-    console.log(response);
     if (response) return response;
     else return "Purchase Order Failed!";
   } catch (error) {
@@ -56,7 +84,7 @@ export const purchaseOrderFiles = async (data) => {
   try {
     const response = await api.get(`/file/${data}`);
 
-    return response;
+    return [true, response];
   } catch (error) {
     console.error("Error processing image retrieval...", error);
   }

@@ -1,5 +1,6 @@
 import Header from "../components/header/Header";
 import Home from "../components/home_body/Home";
+import DeviceSmall from "../components/device_xsmall/DeviceSmall";
 import "../App.css";
 
 const HomeLayout = () => {
@@ -11,6 +12,7 @@ const HomeLayout = () => {
       <div className="content-container">
         <Home />
       </div>
+      <DeviceSmall />
     </div>
   );
 };

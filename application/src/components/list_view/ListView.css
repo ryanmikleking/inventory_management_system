@@ -53,8 +53,10 @@ td {
   background-color: #fff;
   height: 1.8rem;
 }
-.listView__addImgIcon, .listView__imgIcon, .listView__pdfIcon {
-  margin: 0 .5rem;
+.listView__addImgIcon,
+.listView__imgIcon,
+.listView__pdfIcon {
+  margin: 0 0.5rem;
 }
 .listView__imgIcon {
   color: #0f11b4;
@@ -69,15 +71,15 @@ td {
   cursor: pointer;
 }
 .next {
-  margin-left: .25rem;
+  margin-left: 0.25rem;
   cursor: pointer;
 }
 .prev {
-  margin-right: .25rem;
+  margin-right: 0.25rem;
   cursor: pointer;
 }
 
-.buttons-table-row td{
+.buttons-table-row td {
   border: none;
   background-image: linear-gradient(
     to left top,
@@ -87,5 +89,4 @@ td {
     #e6e6e8,
     #ffffff
   );
-  
 }

@@ -14,7 +14,7 @@ export const useUpdatePurchaseOrderImageService = () => {
     setUpdateLoading(true);
     try {
       const res = await updatePurchaseOrderImages(data);
-      console.log(res);
+
       return res;
     } catch (error) {
       console.error(error);
@@ -31,7 +31,7 @@ export const useCreatePurchaseOrderService = () => {
     setCreateLoading(true);
     try {
       const res = await createPurchaseOrder(formData);
-      console.log(res);
+
       return res;
     } catch (error) {
       console.error(error);
@@ -41,19 +41,54 @@ export const useCreatePurchaseOrderService = () => {
   };
   return { createLoading, createOrder };
 };
-export const useGetPurchaseOrdersService = () => {
+export const useGetPurchaseOrdersService = ({
+  page = 1,
+  limit = 20,
+  search = "",
+} = {}) => {
   const [purchaseOrders, setPurchaseOrders] = useState([]);
+  const [pagination, setPagination] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const [success, data] = await getPurchaseOrders();
-      setPurchaseOrders(data.purchase_orders);
-      console.log(success);
+      try {
+        setLoading(true);
+        setError(null);
+
+        const [success, data] = await getPurchaseOrders({
+          page,
+          limit,
+          search,
+        });
+        console.log("HOOK DATA:", data);
+        console.log("HOOK ORDERS:", data.purchase_orders);
+        if (!success) {
+          throw new Error("Failed to retrieve purchase orders");
+        }
+
+        setPurchaseOrders(data.purchase_orders);
+        setPagination(data.pagination);
+      } catch (err) {
+        console.error(err);
+        setError(err.message);
+        setPurchaseOrders([]);
+        setPagination(null);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchData();
-  }, []);
-  return purchaseOrders;
+  }, [page, limit, search]);
+
+  return {
+    purchaseOrders,
+    pagination,
+    loading,
+    error,
+  };
 };
 export const useSinglePurchaseOrderService = (poId) => {
   const [purchaseOrder, setPurchaseOrder] = useState(null);
@@ -78,23 +113,23 @@ export const useExtractPurchaseOrder = () => {
   const [extractLoading, setExtractLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const uploadPurchaseOrder = async (file) => {
+  const uploadPurchaseOrder = async (files) => {
     setExtractLoading(true);
     setError(null);
-    console.log(
-      "File passed to uploadPurchaseOrder: " + file,
-      file instanceof File,
-    );
+    console.log(files);
     try {
       const formData = new FormData();
-      formData.append("purchaseOrderFile", file);
+      files.forEach((fileList) => {
+        formData.append("purchaseOrderFile", fileList[0]);
+      });
+
       const { status, data } = await extractPurchaseOrder(formData);
       // console.log(status, data);
 
       if (status !== 200) {
         throw new Error("Purchase Order Submit Failed");
       }
-      console.log("this is hook data: " + data.data);
+
       return data;
     } catch (err) {
       setError(err.message);
@@ -111,18 +146,24 @@ export const useExtractPurchaseOrder = () => {
 };
 export const useGetPurchaseOrderFiles = (poId) => {
   const [files, setFiles] = useState([]);
+  const [fileLoading, setFileLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const getFilesFromRepo = async () => {
-      if (!poId) return;
-      const response = await purchaseOrderFiles(poId);
+    if (!poId) return;
+    const loadFiles = async () => {
+      setFileLoading(false);
+      const [success, data] = await purchaseOrderFiles(poId);
 
-      if (response) {
-        setFiles(response.data);
+      if (success) {
+        setFiles(data.data);
+      } else {
+        setError("Unable to process file retrieval");
       }
+      setFileLoading(false);
     };
-    getFilesFromRepo();
+    loadFiles();
   }, [poId]);
 
-  return files;
+  return { files, fileLoading, error };
 };

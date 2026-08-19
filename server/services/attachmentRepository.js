@@ -8,7 +8,6 @@ export const attachmentRepository = async ({
   file_size,
 }) => {
   try {
-    console.log("attachment query started");
     const query = `
         INSERT INTO purchase_order_attachments (
           po_id,
@@ -32,7 +31,6 @@ export const attachmentRepository = async ({
   }
 };
 export async function findByPurchaseOrderId(poId) {
-  console.log(poId);
   const { rows } = await pool.query(
     `
       SELECT
@@ -46,7 +44,20 @@ export async function findByPurchaseOrderId(poId) {
     `,
     [poId],
   );
-  console.log(rows);
-
+  rows.forEach((row) => {
+    console.log("AttachmentRepo:", row.file_type);
+  });
   return rows;
 }
+export const findById = async (attachmentId) => {
+  const result = await pool.query(
+    `
+      SELECT *
+      FROM purchase_order_attachments
+      WHERE attachment_id = $1
+    `,
+    [attachmentId],
+  );
+
+  return result.rows[0];
+};

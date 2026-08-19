@@ -83,7 +83,7 @@ export const createPurchaseOrderService = async (data, files) => {
         bucket: "po-attachments",
         file_path,
         file_name: file.originalname,
-        file_type: file.mimeType,
+        file_type: file.mimetype,
         file_size: file.size,
       });
     }
