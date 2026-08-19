@@ -64,10 +64,8 @@ const ListView = ({ setView, setPoId }) => {
         </form>
       </div>
 
-      {/* Error */}
       {error && <div className="listView__error">{error}</div>}
 
-      {/* Purchase Order Table */}
       <table>
         <thead>
           <tr>
@@ -80,35 +78,27 @@ const ListView = ({ setView, setPoId }) => {
         </thead>
 
         <tbody>
-          {/* Loading */}
           {loading ? (
             <tr>
               <td colSpan={5}>Loading...</td>
             </tr>
           ) : safeOrders.length === 0 ? (
-            /* No Results */
             <tr>
               <td colSpan={5}>No purchase orders found.</td>
             </tr>
           ) : (
-            /* Results */
             safeOrders.map((item, index) => (
               <tr key={item.po_id}>
                 {/* Entry Number */}
                 <td>{(page - 1) * limit + index + 1}</td>
 
-                {/* PO Number */}
                 <td>{item.purchase_order_number}</td>
 
-                {/* Company */}
                 <td>{item.company_name}</td>
 
-                {/* Date */}
                 <td>{dateFormatter(item.created_at)}</td>
 
-                {/* Actions */}
                 <td className="edit-icon">
-                  {/* Edit PDF */}
                   <div
                     className="listView__pdfIcon"
                     onClick={() => onClickHandler(item.po_id, "pdf-edit")}
@@ -116,7 +106,6 @@ const ListView = ({ setView, setPoId }) => {
                     <FaRegFilePdf />
                   </div>
 
-                  {/* Upload Image */}
                   <div
                     className="listView__addImgIcon"
                     onClick={() =>
@@ -132,7 +121,6 @@ const ListView = ({ setView, setPoId }) => {
                     <LuImagePlus />
                   </div>
 
-                  {/* View Images */}
                   <div
                     className="listView__imgIcon"
                     onClick={() =>
@@ -152,11 +140,9 @@ const ListView = ({ setView, setPoId }) => {
             ))
           )}
 
-          {/* Pagination */}
           <tr className="buttons-table-row">
             <td colSpan={5}>
               <div className="listView__pagination">
-                {/* Previous */}
                 <button
                   type="button"
                   className="prev"
@@ -166,13 +152,11 @@ const ListView = ({ setView, setPoId }) => {
                   <GrPrevious />
                 </button>
 
-                {/* Page Information */}
                 <span>
                   Page {pagination?.page || page} of{" "}
                   {pagination?.totalPages || 1}
                 </span>
 
-                {/* Next */}
                 <button
                   type="button"
                   className="next"
