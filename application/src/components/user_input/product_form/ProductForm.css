@@ -1,15 +1,51 @@
-.product__dynamic-item {
-  width: 33%;
-  border-radius: 5px;
-  margin: 0.25rem;
-}
-.remove-product {
-  background-color: red;
-  color: white;
-  cursor: pointer;
-}
 .product__dynamic-container {
-  width: 100%;
   display: flex;
   align-items: center;
+  width: 100%;
+  gap: 0.5rem;
+
+  box-sizing: border-box;
+}
+
+.product__dynamic-item {
+  flex: 1;
+  min-width: 0;
+
+  border-radius: 5px;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.remove-product {
+  flex: 0 0 2rem;
+
+  width: 2rem;
+  height: 2rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: none;
+  border-radius: 50%;
+
+  background-color: #dc2626;
+  color: #ffffff;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.remove-product:hover {
+  background-color: #b91c1c;
+  transform: scale(1.05);
+}
+
+.remove-product:active {
+  transform: scale(0.95);
 }

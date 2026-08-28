@@ -1,24 +1,132 @@
-.radio-input .radioLabel {
-  background-image: none;
-  color: #000;
-}
 .radio-input {
   display: flex;
-  width: 100%;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+
+  width: 100%;
+
+  gap: 1.5rem;
+
+  margin: 0.5rem 0;
 }
-.radioLabel {
-  margin: 0.5rem 2rem;
+
+.radio-input .radioLabel {
+  display: flex;
+  align-items: center;
+
+  gap: 0.5rem;
+
+  margin: 0;
+
+  padding: 0.4rem 0.75rem;
+
+  background-image: none;
+  background-color: transparent;
+
+  color: #374151;
+
+  font-size: 0.95rem;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  border-radius: 6px;
+
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
 }
+
+.radio-input .radioLabel:hover {
+  background-color: #f3f4f6;
+  color: #1f2937;
+}
+
+/* Radio buttons */
+.radio-input input[type="radio"] {
+  width: 1.1rem;
+  height: 1.1rem;
+
+  margin: 0;
+  padding: 0;
+
+  accent-color: #3b82f6;
+
+  cursor: pointer;
+
+  flex-shrink: 0;
+}
+
+.radio-input input[type="radio"]:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/* Notes */
 .notesInput {
+  width: 100%;
   height: 5rem;
-  resize: none;
-  border: solid 2px #000;
-  width: 100%;
-  border-radius: 5px;
-  margin: 0.25rem;
+
+  margin: 0.5rem 0;
+
+  padding: 0.7rem 0.85rem;
+
+  box-sizing: border-box;
+
+  resize: vertical;
+
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+
+  background-color: #ffffff;
+  color: #1f2937;
+
+  font-family: inherit;
+  font-size: 0.95rem;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
+
+.notesInput:focus {
+  border-color: #60a5fa;
+
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.15);
+}
+
+.notesInput::placeholder {
+  color: #9ca3af;
+}
+
+/* Bottom section */
 .UserInputBottom__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   width: 100%;
+
+  gap: 0.75rem;
+
+  margin-top: 1rem;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .radio-input {
+    justify-content: flex-start;
+
+    gap: 0.75rem;
+  }
+
+  .radio-input .radioLabel {
+    padding: 0.4rem 0.5rem;
+  }
+
+  .notesInput {
+    height: 6rem;
+  }
 }

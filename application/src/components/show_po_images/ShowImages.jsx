@@ -1,4 +1,5 @@
 import { useGetPurchaseOrderFiles } from "../../utility/api_services/purchaseOrdersService";
+import { printPurchaseOrderImages } from "../../utility/printPurchaseOrderImages";
 import { Loading } from "../loading/Loading";
 import "./ShowImages.css";
 
@@ -36,10 +37,20 @@ export const ShowImages = ({ setView, poId }) => {
           </div>
         ))}
       </div>
+      <div
+        onClick={() => printPurchaseOrderImages(files?.attachments)}
+        className="ShowImages__Btn ShowImages__Btn-Print"
+      >
+        🖨 Print Images
+      </div>
 
-      {/* <button onClick={() => setView("table")}>Go Back</button> */}
-      <div onClick={() => setView("table")} className="ShowImages__btn">
-        Go Back
+      <div className="ShowImages__Btn-container">
+        <div
+          onClick={() => setView("table")}
+          className="ShowImages__Btn ShowImages__Btn-Back"
+        >
+          ← Back to Purchase Orders
+        </div>
       </div>
     </div>
   );

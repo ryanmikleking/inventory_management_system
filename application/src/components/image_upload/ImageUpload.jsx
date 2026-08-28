@@ -37,6 +37,11 @@ export const ImageUpload = ({ setView, poId, setPoId }) => {
   if (updateLoading) return <Loading message={"Updating images ..."} />;
   return (
     <div className="ImageUpload__container">
+      <div className="ImageUpload__header">
+        <h2>Update Purchase Order</h2>
+
+        <p>Upload additional images for this purchase order.</p>
+      </div>
       <ImagePreview
         images={images}
         handleImageChange={handleImageChange}

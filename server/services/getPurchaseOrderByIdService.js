@@ -9,6 +9,7 @@ export const getPurchaseOrderByIdService = async (poId) => {
       SELECT
         po.po_id,
         po.purchase_order_number,
+        po.internal_po_number,
         po.notes,
         po.quality_check,
         po.created_at,

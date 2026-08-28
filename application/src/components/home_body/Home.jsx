@@ -5,11 +5,11 @@ import { Link } from "react-router-dom";
 const cardSelectors = [
   {
     key: 1,
-    name: "Submit",
+    name: "Create PO",
     path: "/NewPurchaseOrderLayout",
     url: "/Submit.png",
   },
-  { key: 2, name: "List", path: "/List", url: "/List.png" },
+  { key: 2, name: "Purchase Orders", path: "/List", url: "/List.png" },
 ];
 
 const Home = () => {

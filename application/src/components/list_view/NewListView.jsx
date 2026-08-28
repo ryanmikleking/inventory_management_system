@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./NewListView.css";
+import { FaSort, FaSortUp, FaSortDown } from "react-icons/fa";
 import { FaRegFilePdf } from "react-icons/fa6";
 import { LuImagePlus } from "react-icons/lu";
 import { IoImageOutline } from "react-icons/io5";
@@ -10,6 +11,8 @@ import { useGetPurchaseOrdersService } from "../../utility/api_services/purchase
 import { dateFormatter } from "../../utility/dateFormatter";
 
 const ListView = ({ setView, setPoId }) => {
+  const [sort, setSort] = useState("created_at");
+  const [order, setOrder] = useState("desc");
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
   const [search, setSearch] = useState("");
@@ -20,6 +23,8 @@ const ListView = ({ setView, setPoId }) => {
       page,
       limit,
       search,
+      sort,
+      order,
     });
 
   const safeOrders = Array.isArray(purchaseOrders) ? purchaseOrders : [];
@@ -47,6 +52,25 @@ const ListView = ({ setView, setPoId }) => {
     setPoId(poId);
     setView(view);
   };
+  const handleSort = (column) => {
+    if (sort === column) {
+      // Same column → toggle direction
+      setOrder((prev) => (prev === "asc" ? "desc" : "asc"));
+    } else {
+      // New column → start ascending
+      setSort(column);
+      setOrder("asc");
+    }
+
+    setPage(1);
+  };
+  const getSortIcon = (column) => {
+    if (sort !== column) {
+      return <FaSort />;
+    }
+
+    return order === "asc" ? <FaSortUp /> : <FaSortDown />;
+  };
 
   return (
     <div className="listView">
@@ -69,11 +93,58 @@ const ListView = ({ setView, setPoId }) => {
       <table>
         <thead>
           <tr>
-            <th>Entry No.</th>
-            <th>Purchase Order No.</th>
-            <th>Company Name</th>
-            <th>Entry Date</th>
-            <th>Edit/View</th>
+            <th>#</th>
+            <th
+              onClick={() => handleSort("purchase_order_number")}
+              className={`listView__sortable-header ${
+                sort === "purchase_order_number"
+                  ? "listView__sortable-header--active"
+                  : ""
+              }`}
+            >
+              <div className="listView__header-content">
+                <span>Vendor PO</span>
+                {getSortIcon("purchase_order_number")}
+              </div>
+            </th>
+            <th
+              onClick={() => handleSort("internal_po_number")}
+              className={`listView__sortable-header ${
+                sort === "internal_po_number"
+                  ? "listView__sortable-header--active"
+                  : ""
+              }`}
+            >
+              <div className="listView__header-content">
+                <span>Internal PO</span>
+                {getSortIcon("internal_po_number")}
+              </div>
+            </th>
+            <th
+              onClick={() => handleSort("company_name")}
+              className={`listView__sortable-header ${
+                sort === "company_name"
+                  ? "listView__sortable-header--active"
+                  : ""
+              }`}
+            >
+              <div className="listView__header-content">
+                <span>Company</span>
+                {getSortIcon("company_name")}
+              </div>
+            </th>
+            <th
+              onClick={() => handleSort("created_at")}
+              className={`listView__sortable-header ${
+                sort === "created_at" ? "listView__sortable-header--active" : ""
+              }`}
+            >
+              <div className="listView__header-content">
+                <span>Date</span>
+                {getSortIcon("created_at")}
+              </div>
+            </th>
+            <th>Actions</th>
           </tr>
         </thead>
 
@@ -93,7 +164,7 @@ const ListView = ({ setView, setPoId }) => {
                 <td>{(page - 1) * limit + index + 1}</td>
 
                 <td>{item.purchase_order_number}</td>
-
+                <td>{item.internal_po_number || "—"}</td>
                 <td>{item.company_name}</td>
 
                 <td>{dateFormatter(item.created_at)}</td>
@@ -141,7 +212,7 @@ const ListView = ({ setView, setPoId }) => {
           )}
 
           <tr className="buttons-table-row">
-            <td colSpan={5}>
+            <td colSpan={6}>
               <div className="listView__pagination">
                 <button
                   type="button"

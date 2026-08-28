@@ -1,4 +1,19 @@
 .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 10rem;
+  height: 2rem;
+
+  margin: 0.25rem;
+  padding: 0;
+
+  box-sizing: border-box;
+
+  border: 1px solid #d1d5db;
+  border-radius: 5px;
+
   background-image: linear-gradient(
     to left top,
     #9ba0a5,
@@ -6,18 +21,28 @@
     #cdced1,
     #e6e6e8
   );
-  color: #fff;
-  height: 2rem;
-  width: 10rem;
-  margin: 0.25rem;
+
+  color: #ffffff;
+
   text-align: center;
-  border-radius: 5px;
+
   cursor: pointer;
-  box-shadow: 4px 4px 10px #676666;
-  transition: all 0.2s;
-  margin: 0.5rem;
+
+  box-shadow: 3px 3px 8px rgba(103, 102, 102, 0.35);
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
+
+.btn:hover {
+  transform: translateY(-1px);
+
+  box-shadow: 3px 4px 10px rgba(103, 102, 102, 0.4);
+}
+
 .btn:active {
   transform: translateY(2px);
-  box-shadow: 0 0 5px #676666;
+
+  box-shadow: 0 0 5px rgba(103, 102, 102, 0.5);
 }

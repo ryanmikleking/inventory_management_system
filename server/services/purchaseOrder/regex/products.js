@@ -173,6 +173,17 @@ export const findProductLines = (text) => {
 
   return productLines;
 };
+export const findPartFromOrder = (line) => {
+  const tokens = line.trim().split(/\s+/);
+
+  const first = tokens[0];
+  const second = tokens[1];
+
+  if (/^\d+$/.test(first)) {
+    return second || "";
+  }
+  return first || "";
+};
 
 export const findPartInLine = (line, parts) => {
   const tokens = line.split(/\s+/).filter(Boolean);

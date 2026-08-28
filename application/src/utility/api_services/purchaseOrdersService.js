@@ -5,6 +5,7 @@ import {
   extractPurchaseOrder,
   createPurchaseOrder,
   updatePurchaseOrderImages,
+  updatePurchaseOrderRequest,
 } from "../../api/axiosPurchaseOrderServices";
 import { purchaseOrderFiles } from "../../api/axiosPurchaseOrderServices";
 
@@ -45,6 +46,8 @@ export const useGetPurchaseOrdersService = ({
   page = 1,
   limit = 20,
   search = "",
+  sort = "created_at",
+  order = "desc",
 } = {}) => {
   const [purchaseOrders, setPurchaseOrders] = useState([]);
   const [pagination, setPagination] = useState(null);
@@ -61,9 +64,10 @@ export const useGetPurchaseOrdersService = ({
           page,
           limit,
           search,
+          sort,
+          order,
         });
-        console.log("HOOK DATA:", data);
-        console.log("HOOK ORDERS:", data.purchase_orders);
+
         if (!success) {
           throw new Error("Failed to retrieve purchase orders");
         }
@@ -81,7 +85,7 @@ export const useGetPurchaseOrdersService = ({
     };
 
     fetchData();
-  }, [page, limit, search]);
+  }, [page, limit, search, sort, order]);
 
   return {
     purchaseOrders,
@@ -92,7 +96,7 @@ export const useGetPurchaseOrdersService = ({
 };
 export const useSinglePurchaseOrderService = (poId) => {
   const [purchaseOrder, setPurchaseOrder] = useState(null);
-
+  console.log(poId);
   useEffect(() => {
     if (!poId) return;
 
@@ -116,7 +120,6 @@ export const useExtractPurchaseOrder = () => {
   const uploadPurchaseOrder = async (files) => {
     setExtractLoading(true);
     setError(null);
-    console.log(files);
     try {
       const formData = new FormData();
       files.forEach((fileList) => {
@@ -166,4 +169,29 @@ export const useGetPurchaseOrderFiles = (poId) => {
   }, [poId]);
 
   return { files, fileLoading, error };
+};
+export const useUpdatePurchaseOrderService = () => {
+  const [updateLoading, setUpdateLoading] = useState(false);
+  const [updateError, setUpdateError] = useState(null);
+
+  const updatePurchaseOrder = async (poId, data) => {
+    setUpdateLoading(true);
+    setUpdateError(null);
+
+    const [success, result] = await updatePurchaseOrderRequest(poId, data);
+
+    setUpdateLoading(false);
+
+    if (!success) {
+      setUpdateError(result);
+    }
+
+    return [success, result];
+  };
+
+  return {
+    updatePurchaseOrder,
+    updateLoading,
+    updateError,
+  };
 };

@@ -3,27 +3,121 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 2rem;
-  border: 1px ridge rgba(195, 195, 195, 0.2);
-  border-radius: 15px;
-  box-shadow: 4px 4px 10px #676666;
 
-  width: 60%;
-  margin: 0.25 0;
-  z-index: 10;
-  background-color: #fff;
+  width: min(60%, 850px);
+
+  margin: 2rem auto;
+  padding: 2rem;
+
+  box-sizing: border-box;
+
+  background-color: #ffffff;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.06),
+    0 10px 25px rgba(0, 0, 0, 0.08);
+
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+  overflow: visible;
 }
+
+.form__container:hover {
+  box-shadow:
+    0 5px 12px rgba(0, 0, 0, 0.07),
+    0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
 .form__container form {
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-  width: 50%;
+  align-items: stretch;
+
+  width: 100%;
+  max-width: 650px;
+
+  gap: 1rem;
+  overflow: visible;
 }
 
 .form__button-container {
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  width: 100%;
+
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.form__container h2,
+.form__container h3 {
+  margin: 0 0 1.5rem;
+
+  color: #1f2937;
+
+  font-weight: 600;
+  text-align: center;
+}
+.form__container label {
+  color: #374151;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.form__container input,
+.form__container select,
+.form__container textarea {
+  width: 100%;
+
+  padding: 0.7rem 0.85rem;
+
+  box-sizing: border-box;
+
+  border: 1px solid #d1d5db;
+  border-radius: 7px;
+
+  background-color: #ffffff;
+  color: #1f2937;
+
+  font-size: 0.95rem;
+
+  outline: none;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.form__container input:focus,
+.form__container select:focus,
+.form__container textarea:focus {
+  border-color: #60a5fa;
+
+  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.15);
+}
+
+@media (max-width: 900px) {
+  .form__container {
+    width: 80%;
+  }
+}
+@media (max-width: 600px) {
+  .form__container {
+    width: calc(100% - 2rem);
+
+    margin: 1rem auto;
+    padding: 1.25rem;
+  }
+
+  .form__button-container {
+    flex-direction: column;
+  }
+
+  .form__button-container button {
+    width: 100%;
+  }
 }

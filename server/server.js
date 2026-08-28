@@ -6,7 +6,7 @@ dotenv.config({
 import { ensureBucket } from "./services/minioService.js";
 
 import app from "./app.js";
-import { pool } from "./config/db.js";
+import { pool, productDB } from "./config/db.js";
 
 const PORT = process.env.PORT || 3001;
 
@@ -23,7 +23,7 @@ async function startServer() {
     const result = await pool.query("SELECT NOW()");
     const minIOresult = await ensureBucket();
     console.log(
-      "✅ PostgreSQL connected:",
+      "✅ PostgreSQL MAIN connected:",
       result.rows[0],
       "\n✅ MinIO Bucket :",
       minIOresult,

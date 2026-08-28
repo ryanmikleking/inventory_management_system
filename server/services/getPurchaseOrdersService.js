@@ -62,6 +62,7 @@ export const getPurchaseOrdersService = async ({
         po.po_id,
         po.company_id,
         po.purchase_order_number,
+        po.internal_po_number,
         po.notes,
         po.quality_check,
         po.created_at,
@@ -79,6 +80,7 @@ export const getPurchaseOrdersService = async ({
       conditions.push(`
         (
           po.purchase_order_number ILIKE $${params.length}
+          OR po.internal_po_number ILIKE $${params.length}
           OR c.name ILIKE $${params.length}
           OR po.notes ILIKE $${params.length}
         )
@@ -115,6 +117,7 @@ export const getPurchaseOrdersService = async ({
     params.push(offset);
     query += ` OFFSET $${params.length}`;
     const result = await pool.query(query, params);
+    console.log("GET PO ROWS:", result.rows);
     let countQuery = `
       SELECT COUNT(*) AS total
       FROM purchase_orders po

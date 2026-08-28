@@ -16,7 +16,6 @@ const Form = () => {
   const [inputData, setInputData] = useState({
     company_name: "",
     purchase_order: "",
-    file: null,
     notes: "",
     quality_check: false,
   });
@@ -40,11 +39,13 @@ const Form = () => {
 
     setExtractFiles(updatedFiles);
 
-    const moreFiles = window.confirm(
-      "Are there more files to upload? If so, select OK. If not, hit Cancel to submit.",
-    );
+    // const moreFiles = window.confirm(
+    //   "Do you have another page or file for this Purchase Order?\n\n" +
+    //     "OK = Add another file\n" +
+    //     "Cancel = Finish and extract the Purchase Order",
+    // );
 
-    if (moreFiles) return;
+    // if (moreFiles) return;
 
     console.log("Files being submitted:", updatedFiles);
 
@@ -57,7 +58,8 @@ const Form = () => {
     setInputData({
       company_name: data.data.companyName,
       purchase_order: data.data.purchaseOrder.purchaseOrder,
-      file: updatedFiles,
+      notes: "",
+      quality_check: false,
     });
 
     setProducts(
@@ -102,6 +104,24 @@ const Form = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // const invalidProducts = products.filter(
+    //   (product) =>
+    //     !product.product_name?.trim() ||
+    //     product.quantity === "" ||
+    //     product.quantity == null ||
+    //     product.weight === "" ||
+    //     product.weight == null,
+    // );
+
+    // if (invalidProducts.length > 0) {
+    //   window.alert(
+    //     "One or more products are missing required information.\n\n" +
+    //       "Please enter a value for all product fields or remove the incomplete product before submitting.",
+    //   );
+
+    //   return;
+    // }
+
     try {
       const formData = new FormData();
       formData.append("company_name", inputData.company_name);
@@ -118,6 +138,15 @@ const Form = () => {
           lastModified: Date.now(),
         }),
       );
+      // extractFiles.forEach((file, index) => {
+      //   formData.append(
+      //     "files",
+      //     new File([file], `${inputData.purchase_order}-${index + 1}.pdf`, {
+      //       type: file.type || "application/pdf",
+      //       lastModified: Date.now(),
+      //     }),
+      //   );
+      // });
       let count = 0;
 
       images.forEach((file) => {
@@ -131,7 +160,13 @@ const Form = () => {
           }),
         );
       });
-      formData.append("products", JSON.stringify(products));
+      const cleanedProducts = products.map((product) => ({
+        ...product,
+        quantity: product.quantity === "" ? null : Number(product.quantity),
+        weight: product.weight === "" ? null : Number(product.weight),
+      }));
+
+      formData.append("products", JSON.stringify(cleanedProducts));
       const response = await createOrder(formData);
       const userConfirmed = confirm("Submitted. Click Okay to continue...");
       if (userConfirmed) {

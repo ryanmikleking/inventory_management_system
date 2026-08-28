@@ -14,3 +14,12 @@ export const pool = new pg.Pool({
   max: 10, // connection pool size
   idleTimeoutMillis: 30000,
 });
+export const productDB = new pg.Pool({
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT || 5432,
+  database: process.env.DB_PRODUCT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  max: 10, // connection pool size
+  idleTimeoutMillis: 30000,
+});

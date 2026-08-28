@@ -9,10 +9,7 @@ import DeviceSmall from "../components/device_xsmall/DeviceSmall";
 
 const ListLayout = () => {
   const [view, setView] = useState("table");
-  const [poId, setPoId] = useState({
-    poId: "",
-    purchase_order_number: "",
-  });
+  const [poId, setPoId] = useState();
 
   const viewChange = () => {
     switch (view) {

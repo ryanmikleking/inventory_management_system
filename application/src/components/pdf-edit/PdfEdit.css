@@ -1,130 +1,675 @@
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap");
+
 .PdfEdit__container {
+  min-height: 100vh;
   width: 100%;
+
+  background: #e5e7eb;
+
+  font-family: "Source Sans 3", sans-serif;
+}
+
+.PdfEdit__action-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  min-height: 4rem;
+
+  padding: 0 1.5rem;
+
+  box-sizing: border-box;
+
+  background: rgba(255, 255, 255, 0.96);
+
+  border-bottom: 1px solid #d1d5db;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  backdrop-filter: blur(8px);
+}
+
+.PdfEdit__action-bar h3 {
+  margin: 0;
+
+  color: #1f2937;
+
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.PdfEdit__icon-container {
+  display: flex;
+  align-items: center;
+
+  gap: 1.25rem;
+}
+
+.PdfEdit__icon-container svg {
+  font-size: 1.25rem;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.15s ease,
+    color 0.15s ease;
+}
+
+.PdfEdit__icon-container svg:hover {
+  transform: translateY(-1px);
+}
+
+.PdfEdit__icon-container .print-icon {
+  color: #6b7280;
+}
+
+.PdfEdit__icon-container .print-icon:hover {
+  color: #374151;
+}
+
+.PdfEdit__icon-container .edit-icon {
+  color: #16a34a;
+}
+
+.PdfEdit__icon-container .edit-icon:hover {
+  color: #15803d;
 }
 .PdfEdit__outer-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  padding: 2rem;
-}
-.PdfEdit__page-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
-  width: 40%;
-  border: 1px solid #000;
-  background-color: #fff;
 
-  font-family: "Source Sans 3", sans-serif;
-  padding: 2rem;
-  font-weight: 400;
-  font-style: normal;
+  justify-content: center;
+  align-items: flex-start;
+
+  width: 100%;
+  min-height: calc(100vh - 4rem);
+
+  padding: 2.5rem 1.5rem 4rem;
+
+  box-sizing: border-box;
 }
-.PdfEdit__img {
-  width: 14rem;
-  height: 10rem;
+
+.PdfEdit__page-container {
+  width: 100%;
+  max-width: 850px;
+
+  min-height: 1100px;
+
+  padding: 3.5rem;
+
+  box-sizing: border-box;
+
+  background: #ffffff;
+
+  border: 1px solid #d1d5db;
+
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.08),
+    0 12px 30px rgba(0, 0, 0, 0.12);
+
+  color: #111827;
 }
-.PdfEdit__Btn {
-  width: 5rem;
-  text-align: center;
-  border-radius: 15px;
-  cursor: pointer;
+
+.PdfEdit__document {
+  width: 100%;
 }
-.PdfEdit__Btn-Submit {
-  background-color: #16a34a;
-  color: #fff;
-}
-.PdfEdit__Btn-Cancel {
-  background-color: #b42323;
-  color: #fff;
-}
-.PdfEdit__ .PdfEdit__Btn-container {
-  width: 20rem;
+.PdfEdit__header {
   display: flex;
-  justify-content: space-around;
+
+  flex-direction: column;
+
   align-items: center;
+  justify-content: center;
+
+  width: 100%;
+
+  margin-bottom: 2.5rem;
+
+  text-align: center;
+}
+
+.PdfEdit__img {
+  display: block;
+
+  width: 14rem;
+  max-width: 100%;
+
+  height: auto;
+
+  margin: 0 auto 1.25rem;
+}
+
+.PdfEdit__page-heading {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  margin: 0;
+
+  color: #374151;
+
+  font-size: 0.95rem;
+
+  line-height: 1.5;
+
+  text-align: center;
 }
 .PdfEdit__data-return {
   width: 100%;
 }
-.PdfEdit__data-return p {
-  margin-top: 2rem;
-  margin-left: 3rem;
-}
-.PdfEdit__page-container .PdfEdit__page-heading {
-  display: flex;
-  flex-direction: column;
+
+.PdfEdit__company-name,
+.PdfEdit__purchase-order-no,
+.PdfEdit__created-at {
+  display: grid;
+
+  grid-template-columns: 220px minmax(0, 1fr);
+
   align-items: center;
-}
-.PdfEdit__action-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: sticky;
-  top: 0;
-  height: 4vh;
+
   width: 100%;
-  background-image: linear-gradient(
-    to right top,
-    #9ba0a5,
-    #b4b7bb,
-    #cdced1,
-    #e6e6e8,
-    #ffffff
-  );
-  border-bottom: 1px ridge #9ba0a5;
-  opacity: 95%;
+
+  min-height: 3rem;
+
+  margin: 0;
+
+  padding: 0.75rem 0;
+
+  box-sizing: border-box;
+
+  border-bottom: 1px solid #e5e7eb;
+
+  color: #111827;
+
+  font-size: 1rem;
 }
-.PdfEdit__action-bar h3 {
-  font-size: 1.5rem;
+
+.PdfEdit__company-name strong,
+.PdfEdit__purchase-order-no strong,
+.PdfEdit__created-at strong {
+  color: #374151;
+
   font-weight: 600;
-  text-shadow: 1px 1px 2px #000;
-  color: #fff;
-  margin-left: 2rem;
 }
-.PdfEdit__action-bar .PdfEdit__icon-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  width: 10rem;
+
+.PdfEdit__company-name span,
+.PdfEdit__purchase-order-no span,
+.PdfEdit__created-at span {
+  color: #111827;
+
+  overflow-wrap: anywhere;
 }
-.PdfEdit__action-bar .PdfEdit__icon-container .print-icon {
-  color: #6b7280;
-  cursor: pointer;
+
+.PdfEdit__company-name input,
+.PdfEdit__purchase-order-no input,
+.PdfEdit__created-at input {
+  width: 100%;
+
+  min-height: 2.25rem;
+
+  padding: 0.45rem 0.65rem;
+
+  box-sizing: border-box;
+
+  border: 1px solid #cbd5e1;
+
+  border-radius: 6px;
+
+  background: #ffffff;
+
+  color: #111827;
+
+  font-family: inherit;
+
+  font-size: 0.95rem;
+
+  outline: none;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
 }
-.PdfEdit__action-bar .PdfEdit__icon-container .download-icon {
-  color: #2563eb;
-  cursor: pointer;
-}
-.PdfEdit__action-bar .PdfEdit__icon-container .edit-icon {
-  cursor: pointer;
-  color: #16a34a;
+
+.PdfEdit__company-name input:focus,
+.PdfEdit__purchase-order-no input:focus,
+.PdfEdit__created-at input:focus {
+  border-color: #2563eb;
+
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
 }
 .PdfEdit__product-containers {
-  display: grid;
-  gap: 12px;
+  width: 100%;
+
+  margin-top: 2rem;
+
+  border: 1px solid #d1d5db;
+
+  border-radius: 8px;
+
+  overflow: hidden;
+
+  background: #ffffff;
 }
 
 .PdfEdit__product {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0.5rem;
+
+  grid-template-columns:
+    0.55fr
+    2fr
+    1fr
+    1fr;
+
+  gap: 1rem;
+
+  align-items: start;
+
+  width: 100%;
 
   padding: 1rem;
-  border-bottom: 1px solid #ccc;
+
+  box-sizing: border-box;
+
+  border-bottom: 1px solid #e5e7eb;
+
+  background: #ffffff;
 }
-.PdfEdit__page-container .PdfEdit__Approved {
-  color: #16a34a;
-  margin-top: 1rem;
+
+.PdfEdit__product:last-child {
+  border-bottom: none;
 }
-.PdfEdit__page-container .PdfEdit__Discrepancy {
-  color: #b42323;
-  margin-top: 1rem;
+
+.PdfEdit__product p {
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: flex-start;
+
+  align-items: flex-start;
+
+  min-width: 0;
+
+  margin: 0;
+
+  padding: 0;
+
+  color: #374151;
+
+  font-size: 0.9rem;
+
+  line-height: 1.4;
 }
+
+.PdfEdit__product p strong {
+  display: block;
+
+  min-height: 1.4rem;
+
+  margin-bottom: 0.35rem;
+
+  color: #1f2937;
+
+  font-size: 0.85rem;
+
+  font-weight: 600;
+
+  line-height: 1.4;
+}
+
+.PdfEdit__product input {
+  display: block;
+
+  width: 100%;
+
+  min-width: 0;
+
+  height: 2.25rem;
+
+  padding: 0.4rem 0.6rem;
+
+  box-sizing: border-box;
+
+  border: 1px solid #cbd5e1;
+
+  border-radius: 6px;
+
+  background: #ffffff;
+
+  color: #111827;
+
+  font-family: inherit;
+
+  font-size: 0.9rem;
+
+  line-height: 1.2;
+
+  outline: none;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.PdfEdit__product input:hover {
+  border-color: #94a3b8;
+}
+
+.PdfEdit__product input:focus {
+  border-color: #2563eb;
+
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.PdfEdit__Approved,
+.PdfEdit__Discrepancy {
+  margin: 2rem 0 0;
+
+  padding: 1rem;
+
+  border-radius: 8px;
+
+  text-align: center;
+
+  font-size: 1.25rem;
+
+  line-height: 1.4;
+}
+
+.PdfEdit__Approved {
+  color: #166534;
+
+  background: #f0fdf4;
+
+  border: 1px solid #bbf7d0;
+}
+
+.PdfEdit__Discrepancy {
+  color: #991b1b;
+
+  background: #fef2f2;
+
+  border: 1px solid #fecaca;
+}
+
+.PdfEdit__discrepancy-field {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 100%;
+
+  margin-top: 1.5rem;
+
+  padding: 1rem;
+
+  box-sizing: border-box;
+
+  border: 1px solid #fecaca;
+
+  border-radius: 8px;
+
+  background: #fef2f2;
+}
+
+.PdfEdit__discrepancy-field label {
+  display: flex;
+
+  align-items: center;
+
+  gap: 0.6rem;
+
+  color: #991b1b;
+
+  font-size: 0.95rem;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.PdfEdit__discrepancy-field input[type="checkbox"] {
+  width: 1.1rem;
+
+  height: 1.1rem;
+
+  margin: 0;
+
+  cursor: pointer;
+}
+
+.PdfEdit__Btn-container {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 1rem;
+
+  width: 100%;
+}
+
+.PdfEdit__Btn {
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  min-width: 6rem;
+
+  height: 2.5rem;
+
+  padding: 0 1rem;
+
+  box-sizing: border-box;
+
+  border-radius: 7px;
+
+  cursor: pointer;
+
+  font-size: 0.9rem;
+
+  font-weight: 600;
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.PdfEdit__Btn:hover {
+  transform: translateY(-1px);
+
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+.PdfEdit__Btn:active {
+  transform: translateY(0);
+}
+
+.PdfEdit__Btn-Submit {
+  color: #ffffff;
+
+  background: #16a34a;
+}
+
+.PdfEdit__Btn-Submit:hover {
+  background: #15803d;
+}
+
+.PdfEdit__Btn-Cancel {
+  color: #ffffff;
+
+  background: #b42323;
+}
+
+.PdfEdit__Btn-Cancel:hover {
+  background: #991b1b;
+}
+
+.PdfEdit__Btn-Back {
+  min-width: 18rem;
+
+  margin: 1.5rem;
+
+  color: #ffffff;
+
+  background-image: linear-gradient(
+    to left top,
+    #9ba0a5,
+    #b4b7bb,
+    #cdced1,
+    #e6e6e8
+  );
+
+  border: 1px solid #d1d5db;
+}
+
+.PdfEdit__Btn-Back:hover {
+  background-image: linear-gradient(
+    to left top,
+    #858a8f,
+    #a5a9ad,
+    #c0c2c5,
+    #dedee0
+  );
+}
+
+@media (max-width: 700px) {
+  .PdfEdit__action-bar {
+    min-height: 3.5rem;
+
+    padding: 0 1rem;
+  }
+
+  .PdfEdit__action-bar h3 {
+    font-size: 1rem;
+  }
+
+  .PdfEdit__icon-container {
+    gap: 0.9rem;
+  }
+
+  .PdfEdit__icon-container svg {
+    font-size: 1.1rem;
+  }
+  .PdfEdit__outer-container {
+    padding: 1rem 0 2rem;
+  }
+
+  .PdfEdit__page-container {
+    width: 100%;
+
+    min-height: auto;
+
+    padding: 2rem 1.25rem;
+
+    border-left: none;
+    border-right: none;
+
+    box-shadow: none;
+  }
+  .PdfEdit__img {
+    width: 11rem;
+  }
+  .PdfEdit__company-name,
+  .PdfEdit__purchase-order-no,
+  .PdfEdit__created-at {
+    grid-template-columns: 1fr;
+
+    gap: 0.35rem;
+
+    padding: 0.85rem 0;
+  }
+
+  .PdfEdit__product {
+    grid-template-columns: 1fr;
+
+    gap: 0.75rem;
+
+    padding: 1rem;
+  }
+
+  .PdfEdit__product p {
+    width: 100%;
+  }
+
+  .PdfEdit__product input {
+    width: 100%;
+  }
+  .PdfEdit__Btn-container {
+    gap: 0.75rem;
+
+    padding: 0 1rem;
+
+    box-sizing: border-box;
+  }
+
+  .PdfEdit__Btn {
+    flex: 1;
+
+    min-width: 0;
+  }
+
+  .PdfEdit__Btn-Back {
+    width: calc(100% - 2rem);
+
+    min-width: 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .PdfEdit__page-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .PdfEdit__img {
+    width: 9rem;
+  }
+
+  .PdfEdit__page-heading {
+    font-size: 0.85rem;
+  }
+
+  .PdfEdit__company-name,
+  .PdfEdit__purchase-order-no,
+  .PdfEdit__created-at {
+    font-size: 0.9rem;
+  }
+
+  .PdfEdit__Approved,
+  .PdfEdit__Discrepancy {
+    font-size: 1rem;
+  }
+}
+
 @media print {
+  @page {
+    size: Letter;
+    margin: 0.5in;
+  }
+
+  html,
+  body {
+    margin: 0;
+
+    padding: 0;
+
+    background: #ffffff;
+  }
+
   body * {
     visibility: hidden;
   }
@@ -136,8 +681,92 @@
 
   .PdfEdit__page-container {
     position: absolute;
-    left: 0;
+
     top: 0;
+    left: 0;
+
+    width: 100%;
+    max-width: none;
+
+    min-height: 0;
+
+    margin: 0;
+
+    padding: 0;
+
+    border: none;
+
+    box-shadow: none;
+
+    background: #ffffff;
+
+    box-sizing: border-box;
+  }
+
+  .PdfEdit__action-bar,
+  .PdfEdit__Btn-container {
+    display: none;
+  }
+
+  .PdfEdit__outer-container {
+    display: block;
+
+    width: 100%;
+
+    min-height: 0;
+
+    margin: 0;
+
+    padding: 0;
+  }
+
+  .PdfEdit__document {
     width: 100%;
   }
+
+  .PdfEdit__header {
+    break-inside: avoid;
+
+    page-break-inside: avoid;
+  }
+
+  .PdfEdit__product {
+    break-inside: avoid;
+
+    page-break-inside: avoid;
+  }
+
+  .PdfEdit__Approved,
+  .PdfEdit__Discrepancy {
+    break-inside: avoid;
+
+    page-break-inside: avoid;
+  }
+
+  .PdfEdit__discrepancy-field {
+    display: none;
+  }
+
+  .PdfEdit__product input,
+  .PdfEdit__company-name input,
+  .PdfEdit__purchase-order-no input,
+  .PdfEdit__created-at input {
+    border: none;
+
+    box-shadow: none;
+
+    padding: 0;
+
+    background: transparent;
+  }
+}
+.PdfEdit__error {
+  border: 1px solid #fecaca;
+  border-radius: 0.5rem;
+  background-color: #fef2f2;
+  color: #b91c1c;
+  font-size: 2rem;
+  font-weight: 500;
+  text-align: center;
+  margin: 0.5rem;
 }

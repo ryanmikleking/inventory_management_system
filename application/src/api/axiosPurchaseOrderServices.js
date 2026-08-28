@@ -4,6 +4,8 @@ export const getPurchaseOrders = async ({
   page = 1,
   limit = 20,
   search = "",
+  sort = "created_at",
+  order = "desc",
 } = {}) => {
   try {
     const response = await api.get("/purchase-orders", {
@@ -11,14 +13,11 @@ export const getPurchaseOrders = async ({
         page,
         limit,
         search,
+        sort,
+        order,
       },
     });
-    console.log("RAW API RESPONSE:", response.data);
-    console.log("PURCHASE ORDERS:", response.data.purchase_orders);
-    console.log(
-      "PURCHASE ORDERS LENGTH:",
-      response.data.purchase_orders?.length,
-    );
+
     return [true, response.data];
   } catch (error) {
     console.error("Error fetching purchase orders:", error);
@@ -71,6 +70,21 @@ export const createPurchaseOrder = async (data) => {
     console.error("Error processing purchase order submission", error);
   }
 };
+export const updatePurchaseOrderRequest = async (poId, data) => {
+  console.log("Axios:", poId);
+  try {
+    const response = await api.put(`/purchase-orders/${poId}`, data);
+
+    return [true, response.data];
+  } catch (error) {
+    console.error(
+      "Error updating purchase order:",
+      error.response?.data || error.message,
+    );
+
+    return [false, error.response?.data || error];
+  }
+};
 export const updatePurchaseOrderImages = async (data) => {
   try {
     const response = await api.post("/file", data);
@@ -79,7 +93,6 @@ export const updatePurchaseOrderImages = async (data) => {
     console.error("Error processing update images", error);
   }
 };
-
 export const purchaseOrderFiles = async (data) => {
   try {
     const response = await api.get(`/file/${data}`);

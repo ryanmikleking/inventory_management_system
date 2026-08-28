@@ -1,17 +1,138 @@
 .ImageUpload__container {
   display: flex;
   flex-direction: column;
+  align-items: center;
+
+  width: min(90%, 850px);
+
+  margin: 2rem auto;
+
+  padding: 2rem;
+
+  box-sizing: border-box;
+
+  background: #ffffff;
+
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.06),
+    0 12px 24px rgba(0, 0, 0, 0.08);
+
+  font-family: "Source Sans 3", sans-serif;
+}
+
+.ImageUpload__header {
+  width: 100%;
+
+  margin-bottom: 1.5rem;
+
+  padding-bottom: 1rem;
+
+  border-bottom: 1px solid #e5e7eb;
+
+  text-align: center;
+}
+
+.ImageUpload__header h2 {
+  margin: 0;
+
+  color: #1f2937;
+
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.ImageUpload__header p {
+  margin: 0.35rem 0 0;
+
+  color: #6b7280;
+
+  font-size: 0.9rem;
+}
+
+.ImageUpload__preview-container {
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+
+  gap: 1rem;
+
+  width: 100%;
+
+  margin-bottom: 1.5rem;
+}
+
+.ImageUpload__preview {
+  position: relative;
+
+  display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  width: 50%;
-  transform: translate(0%, -10%);
-  border: 0.5px ridge #b4b7bb;
+
+  min-height: 180px;
+
+  padding: 0.75rem;
+
+  box-sizing: border-box;
+
+  background: #f8fafc;
+
+  border: 1px solid #e5e7eb;
   border-radius: 10px;
-  box-shadow: 5px 5px 15px #b4b7bb;
-  padding: 2rem;
+
+  overflow: hidden;
+
+  transition:
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
 }
+
+.ImageUpload__preview:hover {
+  transform: translateY(-2px);
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
 .ImageUpload__btn-container {
   display: flex;
-  justify-content: space-around;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 1rem;
+
+  width: 100%;
+
+  margin-top: 1rem;
+
+  padding-top: 1.5rem;
+
+  border-top: 1px solid #e5e7eb;
+}
+
+@media (max-width: 700px) {
+  .ImageUpload__container {
+    width: 95%;
+
+    margin: 1rem auto;
+
+    padding: 1.25rem;
+  }
+
+  .ImageUpload__preview-container {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .ImageUpload__btn-container {
+    flex-direction: column;
+
+    gap: 0.75rem;
+  }
+}
+@media (max-width: 450px) {
+  .ImageUpload__preview-container {
+    grid-template-columns: 1fr;
+  }
 }
