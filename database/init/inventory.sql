@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict jXmwxC6HAbmzXf07lPMvHZJCCnZyXG2W6ejEDKh0dxvgdugwT8evrut3J0KEpP2
+\restrict AfRYaMajqtDJUuJPQOuNeoUSYKKQMBCVhwgWJd5KuQcTa43SG7i4ACwrfU7g1Dy
 
 -- Dumped from database version 18.4 (Homebrew)
 -- Dumped by pg_dump version 18.4 (Homebrew)
@@ -19,6 +19,59 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+ALTER TABLE IF EXISTS ONLY public.purchase_orders DROP CONSTRAINT IF EXISTS purchase_orders_company_id_fkey;
+ALTER TABLE IF EXISTS ONLY public.purchase_order_products DROP CONSTRAINT IF EXISTS purchase_order_products_po_id_fkey;
+ALTER TABLE IF EXISTS ONLY public.purchase_order_files DROP CONSTRAINT IF EXISTS purchase_order_files_po_id_fkey;
+ALTER TABLE IF EXISTS ONLY public.purchase_order_attachments DROP CONSTRAINT IF EXISTS purchase_order_attachments_po_id_fkey;
+ALTER TABLE IF EXISTS ONLY public.products DROP CONSTRAINT IF EXISTS products_company_id_fkey;
+ALTER TABLE IF EXISTS ONLY public.product_aliases DROP CONSTRAINT IF EXISTS product_aliases_product_id_fkey;
+DROP INDEX IF EXISTS public.idx_products_po_id;
+DROP INDEX IF EXISTS public.idx_products_outgoing_product_no;
+DROP INDEX IF EXISTS public.idx_products_incoming_product_no;
+DROP INDEX IF EXISTS public.idx_products_company;
+DROP INDEX IF EXISTS public.idx_po_number;
+DROP INDEX IF EXISTS public.idx_po_files_po_id;
+DROP INDEX IF EXISTS public.idx_po_created_at;
+DROP INDEX IF EXISTS public.idx_po_company_id;
+DROP INDEX IF EXISTS public.idx_po_company_created;
+DROP INDEX IF EXISTS public.idx_attachments_po_id;
+DROP INDEX IF EXISTS public.idx_aliases_product;
+DROP INDEX IF EXISTS public.idx_aliases_normalized;
+ALTER TABLE IF EXISTS ONLY public.purchase_orders DROP CONSTRAINT IF EXISTS purchase_orders_pkey;
+ALTER TABLE IF EXISTS ONLY public.purchase_orders DROP CONSTRAINT IF EXISTS purchase_orders_internal_po_number_unique;
+ALTER TABLE IF EXISTS ONLY public.purchase_order_products DROP CONSTRAINT IF EXISTS purchase_order_products_pkey;
+ALTER TABLE IF EXISTS ONLY public.purchase_orders DROP CONSTRAINT IF EXISTS purchase_order_number_unique;
+ALTER TABLE IF EXISTS ONLY public.purchase_order_files DROP CONSTRAINT IF EXISTS purchase_order_files_po_id_key;
+ALTER TABLE IF EXISTS ONLY public.purchase_order_files DROP CONSTRAINT IF EXISTS purchase_order_files_pkey;
+ALTER TABLE IF EXISTS ONLY public.purchase_order_attachments DROP CONSTRAINT IF EXISTS purchase_order_attachments_pkey;
+ALTER TABLE IF EXISTS ONLY public.products DROP CONSTRAINT IF EXISTS products_pkey;
+ALTER TABLE IF EXISTS ONLY public.products DROP CONSTRAINT IF EXISTS products_company_id_normalized_incoming_product_no_normaliz_key;
+ALTER TABLE IF EXISTS ONLY public.product_aliases DROP CONSTRAINT IF EXISTS product_aliases_product_id_normalized_alias_key;
+ALTER TABLE IF EXISTS ONLY public.product_aliases DROP CONSTRAINT IF EXISTS product_aliases_pkey;
+ALTER TABLE IF EXISTS ONLY public.companies DROP CONSTRAINT IF EXISTS companies_pkey;
+ALTER TABLE IF EXISTS ONLY public.companies DROP CONSTRAINT IF EXISTS companies_name_unique;
+ALTER TABLE IF EXISTS ONLY public.companies DROP CONSTRAINT IF EXISTS companies_name_key;
+ALTER TABLE IF EXISTS public.purchase_orders ALTER COLUMN po_id DROP DEFAULT;
+ALTER TABLE IF EXISTS public.purchase_order_products ALTER COLUMN product_id DROP DEFAULT;
+ALTER TABLE IF EXISTS public.purchase_order_files ALTER COLUMN po_file_id DROP DEFAULT;
+ALTER TABLE IF EXISTS public.purchase_order_attachments ALTER COLUMN attachment_id DROP DEFAULT;
+ALTER TABLE IF EXISTS public.products ALTER COLUMN product_id DROP DEFAULT;
+ALTER TABLE IF EXISTS public.product_aliases ALTER COLUMN alias_id DROP DEFAULT;
+ALTER TABLE IF EXISTS public.companies ALTER COLUMN company_id DROP DEFAULT;
+DROP SEQUENCE IF EXISTS public.purchase_orders_po_id_seq;
+DROP TABLE IF EXISTS public.purchase_orders;
+DROP SEQUENCE IF EXISTS public.purchase_order_products_product_id_seq;
+DROP TABLE IF EXISTS public.purchase_order_products;
+DROP SEQUENCE IF EXISTS public.purchase_order_files_po_file_id_seq;
+DROP TABLE IF EXISTS public.purchase_order_files;
+DROP SEQUENCE IF EXISTS public.purchase_order_attachments_attachment_id_seq;
+DROP TABLE IF EXISTS public.purchase_order_attachments;
+DROP SEQUENCE IF EXISTS public.products_product_id_seq;
+DROP TABLE IF EXISTS public.products;
+DROP SEQUENCE IF EXISTS public.product_aliases_alias_id_seq;
+DROP TABLE IF EXISTS public.product_aliases;
+DROP SEQUENCE IF EXISTS public.companies_company_id_seq;
+DROP TABLE IF EXISTS public.companies;
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -1694,8 +1747,6 @@ COPY public.products (product_id, company_id, incoming_product_no, normalized_in
 --
 
 COPY public.purchase_order_attachments (attachment_id, po_id, file_name, file_type, file_path, file_size, uploaded_at, bucket) FROM stdin;
-138	113	4507377457.pdf	application/pdf	po/113/1787596468827-4507377457.pdf	9	2026-08-24 13:34:28.871966	po-attachments
-137	113	4507377457-1.jpg	image/jpg	image/113/1787596468834-4507377457-1.jpg	6729958	2026-08-24 13:34:28.872081	po-attachments
 \.
 
 
@@ -1712,57 +1763,6 @@ COPY public.purchase_order_files (po_file_id, po_id, file_name, file_type, file_
 --
 
 COPY public.purchase_order_products (product_id, po_id, product_name, quantity, created_at, measurement) FROM stdin;
-4	5	Steel Bolts	100.00	2026-06-25 11:29:26.802052	\N
-5	6	Steel Bolts	100.00	2026-06-25 11:32:38.171413	\N
-6	6	Frames	79.00	2026-06-25 11:32:38.17297	\N
-7	8	Chair	853.00	2026-06-29 15:22:35.623364	\N
-8	8	Computer	936.00	2026-06-29 15:22:35.623364	\N
-9	9	Computer	521.00	2026-06-29 15:24:34.481666	\N
-10	9	Ball	874.00	2026-06-29 15:24:34.481666	\N
-11	10	Pants	773.00	2026-06-29 15:24:39.299752	\N
-12	10	Shirt	166.00	2026-06-29 15:24:39.299752	\N
-13	11	Bike	796.00	2026-06-29 15:24:40.348098	\N
-14	11	Chicken	652.00	2026-06-29 15:24:40.348098	\N
-15	12	Chicken	197.00	2026-06-29 15:24:41.206116	\N
-16	12	Tuna	324.00	2026-06-29 15:24:41.206116	\N
-17	13	Pizza	788.00	2026-06-29 15:24:41.883086	\N
-18	13	Table	737.00	2026-06-29 15:24:41.883086	\N
-19	14	Keyboard	957.00	2026-06-29 15:24:42.37468	\N
-20	14	Chair	921.00	2026-06-29 15:24:42.37468	\N
-21	15	Shirt	508.00	2026-06-29 15:24:45.496471	\N
-22	15	Pants	124.00	2026-06-29 15:24:45.496471	\N
-23	16	Hat	188.00	2026-06-29 15:24:46.114465	\N
-24	16	Ball	266.00	2026-06-29 15:24:46.114465	\N
-25	17	Towels	629.00	2026-06-29 15:24:46.682631	\N
-26	17	Keyboard	283.00	2026-06-29 15:24:46.682631	\N
-27	18	Sausages	773.00	2026-06-29 15:24:47.220647	\N
-28	18	Soap	20.00	2026-06-29 15:24:47.220647	\N
-29	19	Shoes	609.00	2026-06-29 15:24:47.789404	\N
-30	19	Computer	429.00	2026-06-29 15:24:47.789404	\N
-31	20	Ball	690.00	2026-06-29 15:24:48.230388	\N
-32	20	Tuna	419.00	2026-06-29 15:24:48.230388	\N
-33	21	Towels	502.00	2026-06-29 15:24:50.175132	\N
-34	21	Chair	716.00	2026-06-29 15:24:50.175132	\N
-35	22	Computer	28.00	2026-06-29 15:24:51.269074	\N
-36	22	Ball	331.00	2026-06-29 15:24:51.269074	\N
-37	23	Hat	274.00	2026-06-29 15:24:51.837499	\N
-38	23	Keyboard	58.00	2026-06-29 15:24:51.837499	\N
-39	24	Soap	833.00	2026-06-29 15:24:52.815382	\N
-40	24	Shirt	141.00	2026-06-29 15:24:52.815382	\N
-41	25	Shoes	125.00	2026-06-29 15:24:53.347029	\N
-42	25	Mouse	29.00	2026-06-29 15:24:53.347029	\N
-43	26	Ball	627.00	2026-06-29 15:24:54.017052	\N
-44	26	Chicken	249.00	2026-06-29 15:24:54.017052	\N
-45	27	Fish	514.00	2026-06-29 15:24:55.590526	\N
-46	27	Chicken	346.00	2026-06-29 15:24:55.590526	\N
-47	28	Ball	538.00	2026-06-29 15:24:57.103995	\N
-48	28	Computer	43.00	2026-06-29 15:24:57.103995	\N
-368	113	P1100698	430.00	2026-08-24 13:34:28.822747	\N
-369	113	P1100036	430.00	2026-08-24 13:34:28.822747	\N
-370	113	PS451303X	628.00	2026-08-24 13:34:28.822747	\N
-371	113	PS451303X	628.00	2026-08-24 13:34:28.822747	\N
-372	113	S14000	378.00	2026-08-24 13:34:28.822747	\N
-373	113	PSC1500160X	378.00	2026-08-24 13:34:28.822747	\N
 \.
 
 
@@ -2071,5 +2071,5 @@ ALTER TABLE ONLY public.purchase_orders
 -- PostgreSQL database dump complete
 --
 
-\unrestrict jXmwxC6HAbmzXf07lPMvHZJCCnZyXG2W6ejEDKh0dxvgdugwT8evrut3J0KEpP2
+\unrestrict AfRYaMajqtDJUuJPQOuNeoUSYKKQMBCVhwgWJd5KuQcTa43SG7i4ACwrfU7g1Dy
 
