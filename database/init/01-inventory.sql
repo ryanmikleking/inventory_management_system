@@ -317,29 +317,6 @@ ALTER TABLE ONLY public.purchase_orders ALTER COLUMN po_id SET DEFAULT nextval('
 --
 
 COPY public.companies (company_id, name, created_at) FROM stdin;
-1	Acme Manufacturing	2026-06-25 10:06:14.035794
-4	Hubbell Inc.	2026-06-25 11:32:38.169528
-5	Friesen - Littel	2026-06-29 15:22:35.623364
-6	Jast, Stoltenberg and MacGyver	2026-06-29 15:24:34.481666
-7	Schultz - Schmeler	2026-06-29 15:24:39.299752
-8	Barton and Sons	2026-06-29 15:24:40.348098
-9	Wyman - Reilly	2026-06-29 15:24:41.206116
-10	Bins, Bayer and Franecki	2026-06-29 15:24:41.883086
-11	Mann LLC	2026-06-29 15:24:42.37468
-12	Kuhic LLC	2026-06-29 15:24:45.496471
-13	Rutherford - Leannon	2026-06-29 15:24:46.114465
-14	Trantow, Larkin and Glover	2026-06-29 15:24:46.682631
-15	Dickens Group	2026-06-29 15:24:47.220647
-16	Bahringer Group	2026-06-29 15:24:47.789404
-17	Stokes - Cartwright	2026-06-29 15:24:48.230388
-18	Aufderhar, Labadie and Erdman	2026-06-29 15:24:50.175132
-19	Green, Greenholt and Wintheiser	2026-06-29 15:24:51.269074
-20	Hansen - Abernathy	2026-06-29 15:24:51.837499
-21	Donnelly - Williamson	2026-06-29 15:24:52.815382
-22	Roberts - Koch	2026-06-29 15:24:53.347029
-23	Greenholt - Hirthe	2026-06-29 15:24:54.017052
-24	Borer and Sons	2026-06-29 15:24:55.590526
-25	Nitzsche, McClure and Hackett	2026-06-29 15:24:57.103995
 41	Hubbell Power Systems Inc	2026-07-07 14:37:37.683594
 \.
 
@@ -1794,30 +1771,6 @@ COPY public.purchase_order_products (product_id, po_id, product_name, quantity, 
 --
 
 COPY public.purchase_orders (po_id, company_id, purchase_order_number, notes, quality_check, created_at, internal_po_number) FROM stdin;
-5	1	PO-1001	Truck delivery	t	2026-06-25 11:29:26.800475	\N
-6	4	PO-1003	Truck delivery	t	2026-06-25 11:32:38.170354	\N
-8	5	0	I'll quantify the solid state THX system, that should array the FTP hard drive!	t	2026-06-29 15:22:35.623364	\N
-9	6	6	The PCI sensor is down, calculate the 1080p bus so we can input the SMS alarm!	t	2026-06-29 15:24:34.481666	\N
-10	7	g	I'll generate the back-end HDD bandwidth, that should circuit the TCP matrix!	t	2026-06-29 15:24:39.299752	\N
-11	8	d	We need to quantify the wireless PCI monitor!	f	2026-06-29 15:24:40.348098	\N
-12	9	9	Try to connect the XSS system, maybe it will generate the back-end feed!	f	2026-06-29 15:24:41.206116	\N
-13	10	4	quantifying the array won't do anything, we need to generate the haptic RAM alarm!	t	2026-06-29 15:24:41.883086	\N
-14	11	r	If we hack the alarm, we can get to the FTP monitor through the haptic COM port!	t	2026-06-29 15:24:42.37468	\N
-15	12	5	navigating the sensor won't do anything, we need to generate the multi-byte PCI microchip!	f	2026-06-29 15:24:45.496471	\N
-16	13	z	If we bypass the application, we can get to the SDD protocol through the virtual SMS panel!	t	2026-06-29 15:24:46.114465	\N
-17	14	3	Try to transmit the SAS microchip, maybe it will index the wireless panel!	t	2026-06-29 15:24:46.682631	\N
-18	15	m	I'll parse the redundant XML sensor, that should transmitter the USB monitor!	f	2026-06-29 15:24:47.220647	\N
-19	16	1	I'll connect the redundant SCSI pixel, that should program the XML monitor!	f	2026-06-29 15:24:47.789404	\N
-20	17	e	You can't navigate the transmitter without transmitting the 1080p XML port!	t	2026-06-29 15:24:48.230388	\N
-21	18	s	Use the auxiliary FTP transmitter, then you can navigate the auxiliary circuit!	t	2026-06-29 15:24:50.175132	\N
-22	19	8	I'll reboot the virtual HDD alarm, that should port the XML bus!	f	2026-06-29 15:24:51.269074	\N
-23	20	a	The SMS port is down, back up the optical bandwidth so we can copy the PCI panel!	f	2026-06-29 15:24:51.837499	\N
-24	21	y	The COM program is down, parse the online driver so we can program the SMTP feed!	t	2026-06-29 15:24:52.815382	\N
-25	22	v	Try to connect the CSS pixel, maybe it will transmit the 1080p panel!	f	2026-06-29 15:24:53.347029	\N
-26	23	o	You can't program the hard drive without quantifying the mobile RAM application!	t	2026-06-29 15:24:54.017052	\N
-27	24	b	You can't navigate the pixel without indexing the wireless AGP monitor!	f	2026-06-29 15:24:55.590526	\N
-28	25	2	Use the redundant USB interface, then you can index the optical system!	f	2026-06-29 15:24:57.103995	\N
-113	41	4507377457	Here some notes	t	2026-08-24 13:34:28.822747	\N
 \.
 
 
