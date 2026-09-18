@@ -30,7 +30,8 @@ const Form = () => {
       id: uuidv4(),
       product_name: "",
       quantity: "",
-      weight: "",
+      unit_of_measurement: "",
+      quality: "",
     },
   ]);
 
@@ -38,14 +39,6 @@ const Form = () => {
     const updatedFiles = [...extractFiles, file];
 
     setExtractFiles(updatedFiles);
-
-    // const moreFiles = window.confirm(
-    //   "Do you have another page or file for this Purchase Order?\n\n" +
-    //     "OK = Add another file\n" +
-    //     "Cancel = Finish and extract the Purchase Order",
-    // );
-
-    // if (moreFiles) return;
 
     console.log("Files being submitted:", updatedFiles);
 
@@ -65,9 +58,10 @@ const Form = () => {
     setProducts(
       data.data.products.map((product) => ({
         id: uuidv4(),
-        product_name: product.partNo?.partNumber,
-        quantity: product.quantity,
-        weight: "",
+        product_name: product?.outgoing_product_no,
+        quantity: product?.quantity,
+        unit_of_measurement: product?.unit,
+        quality: product?.quality,
       })),
     );
   };

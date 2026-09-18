@@ -49,3 +49,6 @@
 .remove-product:active {
   transform: scale(0.95);
 }
+.product-match-warning {
+  background-color: #fdd550 !important;
+}

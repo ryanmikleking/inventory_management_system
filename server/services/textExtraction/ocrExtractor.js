@@ -15,7 +15,7 @@ export const extractImageText = async (pdfBuffer) => {
   let worker;
 
   try {
-    console.log(`OCR JOB START: ${jobId}`);
+    //console.log(`OCR JOB START: ${jobId}`);
 
     await fs.mkdir(tempDir, { recursive: true });
 
@@ -24,7 +24,7 @@ export const extractImageText = async (pdfBuffer) => {
     const pdfData = await pdfParse(pdfBuffer);
     const pageCount = pdfData.numpages || 1;
 
-    console.log(`PDF contains ${pageCount} page(s)`);
+    //console.log(`PDF contains ${pageCount} page(s)`);
     const converter = fromPath(tempPdfPath, {
       density: 300,
       saveFilename: "page",
@@ -44,7 +44,7 @@ export const extractImageText = async (pdfBuffer) => {
     let fullText = "";
 
     for (let page = 1; page <= pageCount; page++) {
-      console.log(`OCR ${jobId}: processing page ${page}/${pageCount}`);
+      //console.log(`OCR ${jobId}: processing page ${page}/${pageCount}`);
 
       const image = await converter(page);
 
@@ -52,7 +52,7 @@ export const extractImageText = async (pdfBuffer) => {
         throw new Error(`Failed converting page ${page}`);
       }
 
-      console.log(`Generated image: ${image.path}`);
+      //console.log(`Generated image: ${image.path}`);
 
       const processedPath = path.join(tempDir, `page-${page}-processed.png`);
 
@@ -68,13 +68,13 @@ export const extractImageText = async (pdfBuffer) => {
         .png()
         .toFile(processedPath);
 
-      console.log(`Preprocessed image: ${processedPath}`);
+      //console.log(`Preprocessed image: ${processedPath}`);
 
       const result = await worker.recognize(processedPath);
 
       const text = result?.data?.text || "";
 
-      console.log(`OCR page ${page} characters: ${text.length}`);
+      //console.log(`OCR page ${page} characters: ${text.length}`);
 
       fullText += `\n--- PAGE ${page} ---\n`;
       fullText += text;
@@ -103,6 +103,6 @@ export const extractImageText = async (pdfBuffer) => {
       })
       .catch(() => {});
 
-    console.log(`OCR JOB CLEANED: ${jobId}`);
+    //console.log(`OCR JOB CLEANED: ${jobId}`);
   }
 };

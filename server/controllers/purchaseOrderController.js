@@ -151,7 +151,7 @@ export const updatePurchaseOrder = async (req, res) => {
   }
 };
 export const extractPurchaseOrder = asyncHandler(async (req, res) => {
-  console.log("Controller Files:", req.files);
+  // console.log("Controller Files:", req.files);
   const purchaseOrder = await parsePurchaseOrder(req.files);
   res.status(200).json({ status: "success", data: purchaseOrder });
 });

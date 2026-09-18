@@ -6,7 +6,7 @@ dotenv.config({
 import { ensureBucket } from "./services/minioService.js";
 
 import app from "./app.js";
-import { pool, productDB } from "./config/db.js";
+import { pool } from "./config/db.js";
 
 const PORT = process.env.PORT || 3001;
 
