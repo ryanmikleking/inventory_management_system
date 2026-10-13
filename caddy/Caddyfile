@@ -1,0 +1,11 @@
+inventory.ad.monnigglobal.com {
+    tls /etc/caddy/certs/inventory.crt /etc/caddy/certs/inventory.key
+
+    handle /api/* {
+        reverse_proxy inventory_server:3001
+    }
+
+    handle {
+        reverse_proxy inventory_frontend:80
+    }
+}

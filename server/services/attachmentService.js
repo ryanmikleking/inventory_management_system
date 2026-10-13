@@ -18,19 +18,9 @@ export const streamAttachment = async (attachmentId) => {
 
   const stream = await minio.downloadFile(attachment.file_path);
 
-  const out = fs.createWriteStream("./test.jpg");
-
-  stream.pipe(out);
-
-  out.on("finish", () => {
-    console.log("Saved", attachment.file_type);
-  });
-
   return {
     stream,
-
     mimeType: attachment.file_type || "application/octet-stream",
-
     fileName: attachment.file_name,
   };
 };
