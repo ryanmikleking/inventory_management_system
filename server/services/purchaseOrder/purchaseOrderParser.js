@@ -9,10 +9,13 @@ import {
 import { getProductNumbers } from "./productsQuery.js";
 import { extractText } from "../textExtraction/textExtractor.js";
 
-export const parsePurchaseOrder = async (files) => {
-  const textResults = await Promise.all(files.map((file) => extractText(file)));
+export const parsePurchaseOrder = async (file) => {
+  if (!file) {
+    throw new Error("A single purchase order file is required.");
+  }
 
-  const combinedText = textResults.map((result) => result.text).join("\n");
+  const result = await extractText(file);
+  const combinedText = result.text;
 
   const companyMatch = findCompanyMatch(
     combinedText,
@@ -29,8 +32,8 @@ export const parsePurchaseOrder = async (files) => {
 
   console.log("Product Query:", productData);
   console.log("😎😎😎😎", combinedText);
-  const cleanedText = stripBeforeLineItems(combinedText);
 
+  const cleanedText = stripBeforeLineItems(combinedText);
   const productMap = new Map();
 
   try {
@@ -41,7 +44,9 @@ export const parsePurchaseOrder = async (files) => {
       const followingLines = item.followingLines || [];
 
       const product = findProductInLine(line, productData, followingLines);
+
       console.log("🗄️🗄️🗄️🗄️:", product);
+
       if (!product) {
         console.log("❌ No product match:", line);
         continue;
@@ -61,12 +66,9 @@ export const parsePurchaseOrder = async (files) => {
         quality: product.matchDistance,
         incoming_product_no: product.incoming_product_no,
         outgoing_product_no: product.outgoing_product_no,
-
         description: product.description,
-
         quantity: product.quantity,
         unit: product.unit,
-
         sourceLine: line,
       });
     }

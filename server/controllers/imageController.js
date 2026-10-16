@@ -6,31 +6,35 @@ dotenv.config({
 import { updateImagesService } from "../services/updateImagesService.js";
 import { AppError } from "../middleware/errors/AppError.js";
 import * as attachmentService from "../services/attachmentService.js";
-import { minioClient } from "../config/minio.js";
-import fs from "fs";
 
 export const uploadPOImage = async (req, res) => {
   try {
     const { poId, purchase_order_number } = req.body;
-    const files = req.files;
 
     const filePath = await updateImagesService(
       poId,
       purchase_order_number,
-      files,
+      req.files,
     );
 
-    res.json({
+    return res.json({
       success: true,
       filePath,
     });
   } catch (err) {
+    console.error("PO image upload failed:", err);
+
     if (err instanceof AppError) {
       return res.status(err.statusCode).json({
         success: false,
         error: err.message,
       });
     }
+
+    return res.status(500).json({
+      success: false,
+      error: "Failed to upload purchase order images.",
+    });
   }
 };
 export const getPurchaseOrderAttachments = async (req, res) => {
@@ -61,42 +65,3 @@ export const getAttachment = async (req, res) => {
 
   stream.pipe(res);
 };
-// export const getAttachment = async (req, res) => {
-//   try {
-//     const { attachmentId } = req.params;
-
-//     const { stream, mimeType, fileName } =
-//       await attachmentService.streamAttachment(attachmentId);
-
-//     console.log("mimeType:", mimeType);
-//     console.log("fileName:", fileName);
-//     console.log("stream pipe:", typeof stream.pipe);
-
-//     const outputPath = `/tmp/test-${fileName}`;
-
-//     const writeStream = fs.createWriteStream(outputPath);
-
-//     stream.pipe(writeStream);
-
-//     writeStream.on("finish", () => {
-//       console.log("Saved file:", outputPath);
-
-//       res.json({
-//         success: true,
-//         path: outputPath,
-//       });
-//     });
-
-//     writeStream.on("error", (err) => {
-//       console.error("Write error:", err);
-//       res.status(500).json({
-//         error: err.message,
-//       });
-//     });
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({
-//       error: err.message,
-//     });
-//   }
-// };

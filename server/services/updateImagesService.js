@@ -7,30 +7,50 @@ export const updateImagesService = async (
   purchase_order_number,
   files,
 ) => {
-  //console.log(poId, files[0]);
+  if (!files || files.length === 0) {
+    throw new Error("No image files were provided.");
+  }
+
   const client = await pool.connect();
+  const uploadedFiles = [];
+
   try {
     await client.query("BEGIN");
-    const uploadedFiles = [];
-    console.log(files);
+
     for (const file of files) {
-      console.log(file[0]);
+      console.log("Uploading image:", file.originalname);
+
+      console.log("Image received:", {
+        name: file.originalname,
+        mimetype: file.mimetype,
+        size: file.size,
+        bufferLength: file.buffer?.length,
+        bufferStart: file.buffer?.subarray(0, 8).toString("hex"),
+      });
+
       const objectKey = await uploadFile(file, poId);
 
-      if (!objectKey) return;
-      uploadedFiles.push({
+      if (!objectKey) {
+        throw new Error(`Image upload failed: ${file.originalname}`);
+      }
+
+      const attachment = {
         po_id: poId,
         bucket: "po-attachments",
         file_path: objectKey,
         file_name: file.originalname,
-        file_type: file.mimeType,
+        file_type: file.mimetype,
         file_size: file.size,
-      });
+      };
 
-      uploadedFiles.forEach(async (file) => await attachmentRepository(file));
+      await attachmentRepository(attachment);
 
-      await client.query("COMMIT");
+      uploadedFiles.push(attachment);
     }
+
+    await client.query("COMMIT");
+
+    return uploadedFiles;
   } catch (err) {
     await client.query("ROLLBACK");
     throw err;
