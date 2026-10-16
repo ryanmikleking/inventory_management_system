@@ -7,10 +7,11 @@ const UserInputTop = ({ inputData, handleInputChange, handleFileChange }) => {
       <Label isFor={"poInput"} name={"PO Input"} />
       <input
         type="file"
-        accept="image/*, application/pdf"
+        accept="application/pdf"
         id="poInput"
         name="files"
-        onChange={(e) => handleFileChange(e.target.files)}
+        multiple={false}
+        onChange={(e) => handleFileChange(e.target.files?.[0] ?? null)}
       />
       <input
         type="text"
@@ -18,7 +19,7 @@ const UserInputTop = ({ inputData, handleInputChange, handleFileChange }) => {
         name="purchaseOrder"
         maxLength="30"
         placeholder="purchase order #"
-        value={inputData.purchase_order}
+        value={inputData.purchase_order ?? ""}
         onChange={handleInputChange}
         required
       />

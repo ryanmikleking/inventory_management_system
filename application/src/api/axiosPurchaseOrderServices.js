@@ -52,7 +52,7 @@ export const getSinglePurchaseOrder = async (id) => {
 export const extractPurchaseOrder = async (formData) => {
   try {
     const response = await api.post("/purchase-orders/extract", formData);
-    console.log(response);
+
     return { status: response.status, data: response.data };
   } catch (error) {
     console.error("Error processing pdf input", error);
@@ -60,8 +60,6 @@ export const extractPurchaseOrder = async (formData) => {
   }
 };
 export const createPurchaseOrder = async (data) => {
-  // const formData = new FormData();
-  // formData.append("po-data", data);
   try {
     const response = await api.post("/purchase-orders", data);
     if (response) return response;

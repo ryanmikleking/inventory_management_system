@@ -117,17 +117,13 @@ export const useExtractPurchaseOrder = () => {
   const [extractLoading, setExtractLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const uploadPurchaseOrder = async (files) => {
+  const uploadPurchaseOrder = async (file) => {
     setExtractLoading(true);
     setError(null);
     try {
       const formData = new FormData();
-      files.forEach((fileList) => {
-        formData.append("purchaseOrderFile", fileList[0]);
-      });
-
+      formData.set("purchaseOrderFile", file);
       const { status, data } = await extractPurchaseOrder(formData);
-      // console.log(status, data);
 
       if (status !== 200) {
         throw new Error("Purchase Order Submit Failed");

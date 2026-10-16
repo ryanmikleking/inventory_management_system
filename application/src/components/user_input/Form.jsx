@@ -16,15 +16,14 @@ const Form = () => {
   const [inputData, setInputData] = useState({
     company_name: "",
     purchase_order: "",
+    po_file: File,
     notes: "",
     quality_check: false,
   });
-  const [extractFiles, setExtractFiles] = useState([]);
   const { uploadPurchaseOrder, extractLoading } = useExtractPurchaseOrder();
   const { createLoading, createOrder } = useCreatePurchaseOrderService();
   const navigate = useNavigate();
   const { images, handleImageChange, handleRemoveImage } = useImageUploader();
-  // const [files, setFiles] = useState([]);
   const [products, setProducts] = useState([
     {
       id: uuidv4(),
@@ -36,21 +35,19 @@ const Form = () => {
   ]);
 
   const handleFileChange = async (file) => {
-    const updatedFiles = [...extractFiles, file];
-
-    setExtractFiles(updatedFiles);
-
-    console.log("Files being submitted:", updatedFiles);
-
-    const data = await uploadPurchaseOrder(updatedFiles);
+    if (!file) {
+      console.log("No file selected");
+      return;
+    }
+    console.log("Sent to axios");
+    const data = await uploadPurchaseOrder(file);
 
     if (!data) return;
-
-    console.log("Data:", data);
 
     setInputData({
       company_name: data.data.companyName,
       purchase_order: data.data.purchaseOrder.purchaseOrder,
+      po_file: file,
       notes: "",
       quality_check: false,
     });
@@ -98,33 +95,16 @@ const Form = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // const invalidProducts = products.filter(
-    //   (product) =>
-    //     !product.product_name?.trim() ||
-    //     product.quantity === "" ||
-    //     product.quantity == null ||
-    //     product.weight === "" ||
-    //     product.weight == null,
-    // );
-
-    // if (invalidProducts.length > 0) {
-    //   window.alert(
-    //     "One or more products are missing required information.\n\n" +
-    //       "Please enter a value for all product fields or remove the incomplete product before submitting.",
-    //   );
-
-    //   return;
-    // }
-
     try {
       const formData = new FormData();
       formData.append("company_name", inputData.company_name);
       formData.append("purchase_order_number", inputData.purchase_order);
       formData.append("notes", inputData.notes);
       formData.append("quality_check", inputData.quality_check);
-
-      const pdfBlob = new Blob([inputData.file], { type: "application/pdf" });
-      console.log("this is what you WANT:", inputData.file);
+      console.log("This is the file:", inputData.po_file);
+      const pdfBlob = new Blob([inputData.po_file], {
+        type: "application/pdf",
+      });
       formData.append(
         "files",
         new File([pdfBlob], `${inputData.purchase_order}.pdf`, {
@@ -132,15 +112,7 @@ const Form = () => {
           lastModified: Date.now(),
         }),
       );
-      // extractFiles.forEach((file, index) => {
-      //   formData.append(
-      //     "files",
-      //     new File([file], `${inputData.purchase_order}-${index + 1}.pdf`, {
-      //       type: file.type || "application/pdf",
-      //       lastModified: Date.now(),
-      //     }),
-      //   );
-      // });
+
       let count = 0;
 
       images.forEach((file) => {

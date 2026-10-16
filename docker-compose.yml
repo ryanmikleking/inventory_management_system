@@ -31,7 +31,7 @@ services:
         condition: service_started
 
   minio:
-    image: quay.io/minio/minio
+    image: dappros/minio:RELEASE.2025-09-07T16-13-09Z
     container_name: inventory_minio
     ports:
       - "9000:9000"
@@ -39,7 +39,6 @@ services:
     environment:
       MINIO_ROOT_USER: admin
       MINIO_ROOT_PASSWORD: password123
-      MINIO_SERVER_URL: "http://localhost:9000"
     volumes:
       - minio_data:/data
     command: server /data --console-address ":9001"
@@ -51,7 +50,7 @@ services:
 
     environment:
       POSTGRES_DB: inventory
-      POSTGRES_USER: dev_user
+      POSTGRES_USER: inventory_user
       POSTGRES_PASSWORD: M0nG10b3INV
 
     volumes:
@@ -63,7 +62,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-  
+
   caddy:
     image: caddy:2
     container_name: inventory_caddy

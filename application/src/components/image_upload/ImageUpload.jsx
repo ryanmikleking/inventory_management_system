@@ -12,16 +12,24 @@ export const ImageUpload = ({ setView, poId, setPoId }) => {
   const submitHandler = async () => {
     let count = 0;
     const formData = new FormData();
-    images.forEach((img) => {
-      const blob = new Blob([img], { type: img.type });
+    images.forEach((file) => {
+      count++;
+      const blob = new Blob([file.file], { type: file.file.type });
       formData.append(
         "files",
-        new File([blob], `${poId.purchase_order_number}-update-${count}.jpg`, {
-          type: `image/jpg`,
-          lastModified: Date.now(),
-        }),
+        new File(
+          [blob],
+          `${poId.poId}-${new Date()
+            .toISOString()
+            .replace(/[:.]/g, "-")}-${count}.jpg`,
+          {
+            type: `image/jpg`,
+            lastModified: Date.now(),
+          },
+        ),
       );
     });
+
     formData.append("poId", poId.poId);
     formData.append("purchase_order_number", poId.purchase_order_number);
     const result = await updateImages(formData);
